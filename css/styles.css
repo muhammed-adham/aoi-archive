@@ -18,7 +18,7 @@
 
 /* Main slider container */
 .slider {
-  max-width: 1170px; /* Adjust the width as needed */
+  max-width: 1000px; /* Adjust the width as needed */
   /*height: 500px;*/
   margin: 0 auto;
   text-align: center;
@@ -309,7 +309,7 @@ header .darkModeButton {
   position: absolute;
   
   left: -80px;
-  top: 45px;
+  top: 25px;
 }
 header .darkModeButton .checkbox {
   opacity: 0;
@@ -497,7 +497,7 @@ header .darkModeButton-small-mobile .checkbox2:checked + .label2 {
 header .laguagesButton {
   position: absolute;
   right: -80px;
-  top: 45px;
+  top: 25px;
 }
 header .laguagesButton .checkboxlang {
   opacity: 0;
@@ -702,7 +702,7 @@ header {
           transform: translateX(-50%);
   background-color: white;
   z-index: 100;
-  margin-top: -92px;
+  margin-top: -72px;
   -webkit-transition: 0.4s;
   transition: 0.4s;
   padding: 0 20px;
@@ -939,7 +939,7 @@ header .container .button {
 
 @media (max-width: 767px) {
   header {
-    width: 95%;
+    width: 100%;
     margin-top: -80px;
   }
   header .container .logo {
@@ -1060,11 +1060,10 @@ header .container .button {
 .landing .container .photo {
   /*padding-left: 100px;*/
   width: 800px;
-     -webkit-transform: skewY(-6deg);
-            transform: skewY(-6deg);
+     /* -webkit-transform: skewY(-6deg);
+            transform: skewY(-6deg); */
     -webkit-transform-origin: top left;
             transform-origin: top left;
-            padding-top: 100px;
   /*height: -webkit-fit-content;*/
   /*height: -moz-fit-content;*/
   height: fit-content;
@@ -1090,8 +1089,8 @@ header .container .button {
   color: #2196f3;
   position: absolute;
   left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
+  /* -webkit-transform: translateX(-50%);
+          transform: translateX(-50%); */
   bottom: 60px;
   -webkit-animation: bouncing 1.5s infinite;
           animation: bouncing 1.5s infinite;
@@ -1108,8 +1107,8 @@ header .container .button {
   height: 100%;
   background-color: #e5dbdb;
   position: absolute;
-  -webkit-transform: skewY(-6deg);
-          transform: skewY(-6deg);
+  /* -webkit-transform: skewY(-6deg);
+          transform: skewY(-6deg); */
   -webkit-transform-origin: top left;
           transform-origin: top left;
   top: -60px;
@@ -1135,40 +1134,41 @@ header .container .button {
     width: 100%;
   }
   .landing .container .photo {
-    display: none;
+    /* display: none; */
   }
 }
 @media (max-width: 767px) and (min-width: 320px) {
-  .landing {
-    height: 91vh;
-    margin-top: 80px;
-  }
-  .landing .container .text {
-    display: -webkit-box;
-    display: -ms-flexbox;
+  .landing .container {
     display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    flex-direction: column;
+  }
+
+  .landing .container .photo {
+    display: block;
+    order: 0; /* photo first */
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .landing .container .text {
+    order: 1; /* text second */
     text-align: center;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
   }
+
   .landing .container .text h1 {
     font-size: 25px;
   }
+
   .landing .container .text p {
     font-size: 18px;
   }
-  .landing .container .photo {
-    display: none;
-  }
+
   .landing [href="#articles"] {
     left: 45%;
   }
@@ -1179,14 +1179,13 @@ header .container .button {
     height: 100%;
     background-color: #e5dbdb;
     position: absolute;
-    -webkit-transform: skewY(-6deg);
-            transform: skewY(-6deg);
-    -webkit-transform-origin: top left;
-            transform-origin: top left;
+    transform: skewY(-6deg);
+    transform-origin: top left;
     top: -50px;
     z-index: -1;
   }
 }
+
 #articles {
   /*padding: 100px 0;*/
 }

@@ -82,7 +82,7 @@
       <select id="daySelect">
         <option value="" data-i18n="all">All</option>
         <script>
-          document.write([...Array(31).keys()].map(i => <option value="${i + 1}">${i + 1}</option>).join(''));
+          document.write([...Array(31).keys()].map(i => `<option value="${i + 1}">${i + 1}</option>`).join(''));
         </script>
       </select>
     </div>
