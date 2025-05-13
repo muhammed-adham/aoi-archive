@@ -38,7 +38,7 @@
   </div>
   <div class="container" style="padding: 10px">
     <a class="logo" href="https://mohamed-waled.github.io/webSite/" >
-      <img src="images/3.png" width="80px" style="padding-top: 25px">
+      <img src="images/3.png" width="80px" >
     </a>
     <ul class="mainNav">
       <li><a href="index.html" class="headLinks" data-lang="home"></a></li>
@@ -82,7 +82,7 @@
       <select id="daySelect">
         <option value="" data-i18n="all">All</option>
         <script>
-          document.write([...Array(31).keys()].map(i => `<option value="${i + 1}">${i + 1}</option>`).join(''));
+          document.write([...Array(31).keys()].map(i => <option value="${i + 1}">${i + 1}</option>).join(''));
         </script>
       </select>
     </div>
@@ -115,10 +115,27 @@
         <option value="2025">2025</option>
       </select>
     </div>
+    <div class="filter-group">
+
+    <label>من تاريخ:
+      <input type="date" id="from-date">
+    </label>
+    </div>
+
+    <div class="filter-group">
+
+
+    <label>إلى تاريخ:
+      <input type="date" id="to-date">
+    </label>
+    </div>
 
     <div class="filter-group">
       <button id="filterButton" data-i18n="applyFilter">Apply Filter</button>
+      <button id="resetButton" data-i18n="resetFilter">Reset</button>
     </div>
+
+  
   </div>
 
 <div class="container">
@@ -673,18 +690,82 @@ window.addEventListener("DOMContentLoaded", () => {
 </script>
 
     <script>
-  document.querySelectorAll('.list li').forEach(item => {
-    item.addEventListener('click', () => {
-      const videoSrc = item.getAttribute('data-video');
-      const videoInfo = item.getAttribute('data-info');
+  document.getElementById('filterButton').addEventListener('click', () => {
+  const titleFilter = document.getElementById('titleFilter').value.trim().toLowerCase();
+  const selectedDay = document.getElementById('daySelect').value;
+  const selectedMonth = document.getElementById('monthSelect').value;
+  const selectedYear = document.getElementById('yearSelect').value;
+  const fromDateValue = document.getElementById('from-date').value;
+  const toDateValue = document.getElementById('to-date').value;
 
-      // تحديث الرابط داخل الـ iframe لعرض الفيديو الجديد
-      const player = document.getElementById('videoPlayer');
-      const info = document.getElementById('videoInfo');
+  // Convert from/to date values to actual Date objects, if valid.
+  const fromDate = fromDateValue ? new Date(fromDateValue) : null;
+  const toDate = toDateValue ? new Date(toDateValue) : null;
 
-      // تحديث مصدر الفيديو و النص التوضيحي
-      player.src = videoSrc;
-      info.textContent = videoInfo;
+  document.querySelectorAll('#articles .box').forEach(box => {
+    const title = box.getAttribute('data-title').toLowerCase();
+    const date = new Date(box.getAttribute('data-date')); // Assuming data-date is in a valid format (YYYY-MM-DD)
+
+    let match = true;
+
+    // Debugging: Check title and filter input
+    console.log('Title:', title);
+    console.log('Filter:', titleFilter);
+
+    // فلترة العنوان (Filter by title)
+    if (titleFilter && !title.includes(titleFilter)) {
+      match = false;
+    }
+
+    // Debugging: Check if the match is set to false due to title filter
+    if (!match) {
+      console.log('Title does not match:', title);
+    }
+
+    // فلترة اليوم (Filter by day)
+    if (selectedDay && date.getDate() !== parseInt(selectedDay)) {
+      match = false;
+    }
+
+    // فلترة الشهر (Filter by month)
+    if (selectedMonth && (date.getMonth() + 1) !== parseInt(selectedMonth)) {
+      match = false;
+    }
+
+    // فلترة السنة (Filter by year)
+    if (selectedYear && date.getFullYear() !== parseInt(selectedYear)) {
+      match = false;
+    }
+
+    // فلترة من تاريخ (Filter by from date)
+    if (fromDate && date < fromDate) {
+      match = false;
+    }
+
+    // فلترة إلى تاريخ (Filter by to date)
+    if (toDate && date > toDate) {
+      match = false;
+    }
+
+    // Apply the filter by displaying or hiding the box
+    box.style.display = match ? 'block' : 'none';
+  });
+});
+
+</script>
+<script>
+  document.getElementById('resetButton').addEventListener('click', function () {
+    // Clear all filter inputs
+    document.getElementById('titleFilter').value = '';
+    document.getElementById('daySelect').value = '';
+    document.getElementById('monthSelect').value = '';
+    document.getElementById('yearSelect').value = '';
+    document.getElementById('from-date').value = '';
+    document.getElementById('to-date').value = '';
+
+    // Show all articles again
+    document.querySelectorAll('.box').forEach(function (box) {
+      box.style.display = 'block';
     });
   });
 </script>
@@ -692,43 +773,61 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 <script>
-document.getElementById('filterButton').addEventListener('click', () => {
-  const titleFilter = document.getElementById('titleFilter').value.toLowerCase();
+  document.getElementById('filterButton').addEventListener('click', () => {
+  const titleFilter = document.getElementById('titleFilter').value.trim().toLowerCase();
   const selectedDay = document.getElementById('daySelect').value;
   const selectedMonth = document.getElementById('monthSelect').value;
   const selectedYear = document.getElementById('yearSelect').value;
+  const fromDateValue = document.getElementById('from-date').value;
+  const toDateValue = document.getElementById('to-date').value;
+
+  // Convert from/to date values to actual Date objects, if valid.
+  const fromDate = fromDateValue ? new Date(fromDateValue) : null;
+  const toDate = toDateValue ? new Date(toDateValue) : null;
 
   document.querySelectorAll('#articles .box').forEach(box => {
     const title = box.getAttribute('data-title').toLowerCase();
-    const date = new Date(box.getAttribute('data-date'));
+    const date = new Date(box.getAttribute('data-date')); // Assuming data-date is in a valid format (YYYY-MM-DD)
 
     let match = true;
 
-    // فلترة العنوان
+    // فلترة العنوان (Filter by title)
     if (titleFilter && !title.includes(titleFilter)) {
       match = false;
     }
 
-    // فلترة اليوم
-    if (selectedDay && date.getDate() != selectedDay) {
+    // فلترة اليوم (Filter by day)
+    if (selectedDay && date.getDate() !== parseInt(selectedDay)) {
       match = false;
     }
 
-    // فلترة الشهر
-    if (selectedMonth && (date.getMonth() + 1) != selectedMonth) {
+    // فلترة الشهر (Filter by month)
+    if (selectedMonth && (date.getMonth() + 1) !== parseInt(selectedMonth)) {
       match = false;
     }
 
-    // فلترة السنة
-    if (selectedYear && date.getFullYear() != selectedYear) {
+    // فلترة السنة (Filter by year)
+    if (selectedYear && date.getFullYear() !== parseInt(selectedYear)) {
       match = false;
     }
 
+    // فلترة من تاريخ (Filter by from date)
+    if (fromDate && date < fromDate) {
+      match = false;
+    }
+
+    // فلترة إلى تاريخ (Filter by to date)
+    if (toDate && date > toDate) {
+      match = false;
+    }
+
+    // Apply the filter by displaying or hiding the box
     box.style.display = match ? 'block' : 'none';
   });
 });
-</script>
 
+  </script>
+  
 
 <script>
   // Function to change the main image when a thumbnail is clicked
