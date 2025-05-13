@@ -23,20 +23,27 @@
       <!--Start Header-->
       <header>
         <div class="darkModeButton">
+          <div class="inner">
+
           <input type="checkbox" class="checkbox" id="chk" />
           <label class="label" for="chk">
               <i class="fas fa-moon moon"></i>
               <i class="fas fa-sun sun"></i>
               <div class="ball"></div>
           </label>
+          </div>
+
         </div>
         <div class="laguagesButton">
+          <div class="inner1">
+
           <input type="checkbox" class="checkboxlang" id="chklang" />
           <label class="labellang" for="chklang">
               <img src="images/eg.svg" alt="Egypt Flag" class="egFlag" />
               <img src="images/gb.svg" alt="United Kingdom Flag" class="gbFlag" />
               <div class="balllang"></div>
           </label>
+          </div>
         </div>
         <div class="container" style="padding: 10px">
           <a class="logo" href="https://mohamed-waled.github.io/webSite/" >
@@ -53,11 +60,20 @@
     <!--End Header-->
 
 <!--Start Articles-->
-<div id="articles" style="padding-top:100px ;">
+<div id="articles" style="padding-top:140px ;">
   <h2 class="mainTitle" data-lang="gallary"></h2>
-  <div class="container">
-    
-<div class="slider">
+  <div class="container-fluid">
+    <div class="image-description">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus ducimus explicabo reiciendis officia! Provident illo quas voluptas hic repudiandae repellendus molestias dolorum! Quia consectetur fuga voluptate at ratione, beatae illum.
+    </div>
+    <h2 class="mainTitle" data-lang="gallary" style="margin-top: 50px"></h2>
+<div class="container">
+  <div class="image-description1">
+    <h2 class="" data-lang="news_links"></h2>
+    <a href="">link1</a><br><a href="">link2</a><br><a href="">link3</a><br><a href="">link4</a><br><a href="">link5</a>
+
+  </div>
+<div class="slider ">
   <!-- Main Image -->
   <div class="main-image-container">
     <img id="mainImage" src="images/news/1.jpg" alt="Main Image" class="main-image">
@@ -85,7 +101,7 @@
 <!-- Add more thumbnails as needed -->
 </div>
 </div>
-
+</div>
 
   </div>
 
@@ -254,7 +270,7 @@
           // Header / Navigation
           home: "Home",
           news: "Achievments",
-          about: "about",
+          about: "information",
           features: "Features",
           "other links": "Other Links",
           gallary: "Gallary",
@@ -313,7 +329,8 @@
           article17Desc: "How AI is changing the way we work, communicate, and learn.",
           article18Title: "The Smart Traveler's Guide",
           article18Desc: "Smart tips for traveling on a budget while having an unforgettable experience.",
-      
+          news_links:" News Links",
+
           // Filters
           filterTitle: "Title:",
           filterDay: "Day:",
@@ -339,9 +356,9 @@
       
         ar: {
           // Header / Navigation
-          home: "الصفحة الرئيسية",
+          home: " الرئيسية",
           news: "الانجازات",
-          about: " عن الرئيس",
+          about: "  معلومات",
           features: "مميزات",
           "other links": "روابط أخرى",
           gallary: "معرض الصور",
@@ -400,6 +417,7 @@
           article17Desc: "كيف يغير الذكاء الاصطناعي الطريقة التي نعمل بها ونتواصل بها ونتعلم.",
           article18Title: "دليل المسافر الذكي",
           article18Desc: "نصائح ذكية للسفر بميزانية محدودة مع تجربة لا تُنسى.",
+          news_links:"لينكات الصحف",
       
           // Filters
           filterTitle: "العنوان:",

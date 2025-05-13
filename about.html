@@ -60,37 +60,44 @@ ul li {
 
 <body>
   <main>
-    <!--Start Header-->
-    <!--Start Header-->
-    <header>
-      <div class="darkModeButton">
-        <input type="checkbox" class="checkbox" id="chk" />
-        <label class="label" for="chk">
-            <i class="fas fa-moon moon"></i>
-            <i class="fas fa-sun sun"></i>
-            <div class="ball"></div>
-        </label>
-      </div>
-      <div class="laguagesButton">
-        <input type="checkbox" class="checkboxlang" id="chklang" />
-        <label class="labellang" for="chklang">
-            <img src="images/eg.svg" alt="Egypt Flag" class="egFlag" />
-            <img src="images/gb.svg" alt="United Kingdom Flag" class="gbFlag" />
-            <div class="balllang"></div>
-        </label>
-      </div>
-      <div class="container" style="padding: 10px">
-        <a class="logo" href="https://mohamed-waled.github.io/webSite/" >
-          <img src="images/3.png" width="80px" style="padding-top: 25px">
-        </a>
-        <ul class="mainNav">
-          <li><a href="index.html" class="headLinks" data-lang="home"></a></li>
-          <li><a href="details.html" class="headLinks" data-lang="news"></a></li>
-          <li><a href="about.html" class="headLinks" data-lang="about"></a></li>
-        
-        </ul>
-      </div>
-    </header>
+ <!--Start Header-->
+ <header>
+  <div class="darkModeButton">
+    <div class="inner">
+
+    <input type="checkbox" class="checkbox" id="chk" />
+    <label class="label" for="chk">
+        <i class="fas fa-moon moon"></i>
+        <i class="fas fa-sun sun"></i>
+        <div class="ball"></div>
+    </label>
+    </div>
+
+  </div>
+  <div class="laguagesButton">
+    <div class="inner1">
+
+    <input type="checkbox" class="checkboxlang" id="chklang" />
+    <label class="labellang" for="chklang">
+        <img src="images/eg.svg" alt="Egypt Flag" class="egFlag" />
+        <img src="images/gb.svg" alt="United Kingdom Flag" class="gbFlag" />
+        <div class="balllang"></div>
+    </label>
+    </div>
+  </div>
+  <div class="container" style="padding: 10px">
+    <a class="logo" href="https://mohamed-waled.github.io/webSite/" >
+      <img src="images/3.png" width="80px" style="padding-top: 25px">
+    </a>
+    <ul class="mainNav">
+      <li><a href="index.html" class="headLinks" data-lang="home"></a></li>
+      <li><a href="details.html" class="headLinks" data-lang="news"></a></li>
+      <li><a href="about.html" class="headLinks" data-lang="about"></a></li>
+    
+    </ul>
+  </div>
+</header>
+<!--End Header-->
 <div id="articles" style="padding-top: 100px">
  <main>
   <!-- About Section -->
@@ -195,17 +202,17 @@ ul li {
           // Header / Navigation
           home: "Home",
           news: "Achievments",
-          about: "about",
+          about: "information",
           features: "Features",
           "other links": "Other Links",
-          testimonials: "Testimonials",
+          gallary: "Gallary",
           "team members": "Team Members",
           services: "Services",
           "our skills": "Our Skills",
           "how it works": "How It Works",
           events: "Events",
           "pricing plans": "Pricing Plans",
-          "top videos": "Top Videos",
+          "videos": "Top Videos",
           stats: "Stats",
           "request a discount": "Request a Discount",
       
@@ -254,7 +261,8 @@ ul li {
           article17Desc: "How AI is changing the way we work, communicate, and learn.",
           article18Title: "The Smart Traveler's Guide",
           article18Desc: "Smart tips for traveling on a budget while having an unforgettable experience.",
-      
+          news_links:" News Links",
+
           // Filters
           filterTitle: "Title:",
           filterDay: "Day:",
@@ -280,19 +288,19 @@ ul li {
       
         ar: {
           // Header / Navigation
-          home: "الصفحة الرئيسية",
+          home: " الرئيسية",
           news: "الانجازات",
-          about: " عن الرئيس",
+          about: "  معلومات",
           features: "مميزات",
           "other links": "روابط أخرى",
-          testimonials: "آراء العملاء",
+          gallary: "معرض الصور",
           "team members": "أعضاء الفريق",
           services: "خدمات",
           "our skills": "مهاراتنا",
           "how it works": "كيف يعمل",
           events: "الأحداث",
           "pricing plans": "خطط الأسعار",
-          "top videos": "أفضل الفيديوهات",
+          "videos": "أفضل الفيديوهات",
           stats: "الإحصائيات",
           "request a discount": "طلب خصم",
       
@@ -341,6 +349,7 @@ ul li {
           article17Desc: "كيف يغير الذكاء الاصطناعي الطريقة التي نعمل بها ونتواصل بها ونتعلم.",
           article18Title: "دليل المسافر الذكي",
           article18Desc: "نصائح ذكية للسفر بميزانية محدودة مع تجربة لا تُنسى.",
+          news_links:"لينكات الصحف",
       
           // Filters
           filterTitle: "العنوان:",
