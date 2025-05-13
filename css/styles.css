@@ -1,3 +1,13 @@
+
+
+
+
+
+
+
+
+
+
 .image-description {
   margin: 50px 200px 0px 180px  ;
 
@@ -345,8 +355,8 @@ ul {
 header .darkModeButton {
   position: absolute;
   
-  left: -80px;
-  top: 45px;
+  left: -130px;
+  top: 30px;
 }
 header .darkModeButton .checkbox {
   opacity: 0;
@@ -530,11 +540,16 @@ header .darkModeButton-small-mobile .checkbox2:checked + .label2 {
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-
 header .laguagesButton {
   position: absolute;
-  right: -80px;
-  top: 45px;
+  top: 30px;
+  left: auto;
+  right: -130px;
+}
+
+.rtl header .laguagesButton {
+  right: auto !important;
+  left: -130px !important;
 }
 header .laguagesButton .checkboxlang {
   opacity: 0;
@@ -779,6 +794,7 @@ header .container .mainNav {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  align-items: baseline;
 }
 header .container .mainNav li .headLinks {
   display: -webkit-box;
@@ -979,7 +995,7 @@ header .container .button {
 @media (max-width: 767px) {
   header {
     width: 100%;
-    margin-top: -80px;
+    margin-top: -72px;
   }
   header .container .logo {
     width: 100%;
@@ -1045,33 +1061,37 @@ header .container .button {
 }
 @media (max-width: 1240px) {
   .darkModeButton {
-    display:contents ;
-  }
-  .inner{
-    margin-top: 30px;
-       float: left;
-
-  }
-  .inner1{
-    margin-top: 30px;
+    display: contents;
     float: right;
+    /* margin-top: 30px; */
   }
 
-  .darkModeButton-small {
-    display: block !important;
+  .rtl .inner1 {
+    float: right;
+    margin-right: 200px !important;
+  }
+
+  .inner1 {
+    margin: auto;
+    /* margin-left: 200px !important; */
+
   }
 
   .laguagesButton {
     display: contents;
+    float: right;
+    /* margin-top: 30px; */
   }
 
-  .laguagesButton-small {
-    display: block !important;
+  .rtl .laguagesButton {
+    float: left;
+    margin-right: 50px;
   }
 }
+
 .landing {
   /*background-color: #bec7d1;*/
-  margin-top: 82px;
+  margin-top: 100px;
   width: 100%;
   height: 80vh;
   position: relative;
@@ -2051,7 +2071,7 @@ height:225px;
           box-shadow: 0 0 10px #1f1f1f;
   background-color: #1f1f1f;
 }
-.dark-mode header .laguagesButton .labellang {
+.dark-mode header .laguagesButton .labellang nav {
   background-color: #1f1f1f;
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -2075,7 +2095,7 @@ height:225px;
 .dark-mode header .laguagesButton-small-mobile .balllang2 {
   background-color: #121212;
 }
-.dark-mode header .container .mainNav li .headLinks {
+.dark-mode header  nav ul li   {
   color: rgba(255, 255, 255, 0.85);
 }
 .dark-mode header .container .mainNav li .headLinks:hover {

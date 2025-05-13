@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/all.min.css" />
   <!--Link Font Awesome 6 Library-->
   <link rel="stylesheet" href="css/styles.css" />
@@ -19,44 +19,63 @@
 <body>
   <main>
     <!--Start Header-->
-  <!--Start Header-->
-  <header style="padding-top: 10px">
-    <div class="darkModeButton">
-      <div class="inner">
+<!-- Start Bootstrap Header -->
+<header class=" py-3">
+  <nav class="navbar navbar-expand-lg navbar-light container">
+    <!-- Logo -->
+    <a class="navbar-brand" href="https://mohamed-waled.github.io/webSite/">
+      <img src="images/3.png" width="80" alt="Logo">
+    </a>
 
-      <input type="checkbox" class="checkbox" id="chk" />
-      <label class="label" for="chk">
-          <i class="fas fa-moon moon"></i>
-          <i class="fas fa-sun sun"></i>
-          <div class="ball"></div>
-      </label>
-      </div>
+    <!-- Toggler button for mobile view -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+      aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-    </div>
-    <div class="laguagesButton">
-      <div class="inner1">
-
-      <input type="checkbox" class="checkboxlang" id="chklang" />
-      <label class="labellang" for="chklang">
-          <img src="images/eg.svg" alt="Egypt Flag" class="egFlag" />
-          <img src="images/gb.svg" alt="United Kingdom Flag" class="gbFlag" />
-          <div class="balllang"></div>
-      </label>
-      </div>
-    </div>
-    <div class="container" style="padding: 10px">
-      <a class="logo" href="https://mohamed-waled.github.io/webSite/" >
-        <img src="images/3.png" width="80px" >
-      </a>
-      <ul class="mainNav">
-        <li><a href="index.html" class="headLinks" data-lang="home"></a></li>
-        <li><a href="details.html" class="headLinks" data-lang="news"></a></li>
-        <li><a href="about.html" class="headLinks" data-lang="about"></a></li>
-      
+    <!-- Navbar links and utilities -->
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 mainNav ">
+        <li class="">
+          <a class=" headLinks" href="index.html" data-lang="home"></a>
+        </li>
+        <li class="">
+          <a class=" headLinks" href="details.html" data-lang="news"></a>
+        </li>
+        <li class="">
+          <a class=" headLinks" href="about.html" data-lang="about"></a>
+        </li>
       </ul>
+
+      <!-- Right Side Buttons -->
+      <div class="d-flex align-items-center">
+        <!-- Dark Mode Toggle -->
+        <div class="darkModeButton">
+          <input type="checkbox" class="checkbox" id="chk" />
+          <label class="label" for="chk">
+              <i class="fas fa-moon moon"></i>
+              <i class="fas fa-sun sun"></i>
+              <div class="ball"></div>
+          </label>
+        </div>
+
+        <!-- Language Switcher -->
+        <div class="laguagesButton ms-5" style="">
+          <div class="inner1">
+
+          <input type="checkbox" class="checkboxlang" id="chklang" />
+          <label class="labellang" for="chklang">
+              <img src="images/eg.svg" alt="Egypt Flag" class="egFlag" />
+              <img src="images/gb.svg" alt="United Kingdom Flag" class="gbFlag" />
+              <div class="balllang"></div>
+          </label>
+          </div>
+         </div>
+      </div>
     </div>
-  </header>
-<!--End Header-->
+  </nav>
+</header>
+<!-- End Bootstrap Header -->
 
 
     <!--Start Landing-->
@@ -444,6 +463,7 @@
       <!--End Footer-->
     </main>
     <div class="scrollToTop"><i class="fa-solid fa-arrow-up"></i></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/all.min.js"></script>
     <!--Link Font Awesome 6 Library-->
     <script src="js/main.js"></script>
