@@ -23,7 +23,7 @@
 <header class=" py-3">
   <nav class="navbar navbar-expand-lg navbar-light container">
     <!-- Logo -->
-    <a class="navbar-brand" href="https://mohamed-waled.github.io/webSite/">
+    <a class="navbar-brand" href="">
       <img src="images/3.png" width="80" alt="Logo">
     </a>
 
@@ -40,7 +40,7 @@
           <a class=" headLinks" href="index.html" data-lang="home"></a>
         </li>
         <li class="">
-          <a class=" headLinks" href="details.html" data-lang="news"></a>
+          <!-- <a class=" headLinks" href="details.html" data-lang="news"></a> -->
         </li>
         <li class="">
           <a class=" headLinks" href="about.html" data-lang="about"></a>
@@ -60,7 +60,7 @@
         </div>
 
         <!-- Language Switcher -->
-        <div class="laguagesButton ms-5" style="">
+        <div class="laguagesButton ms-5" >
           <div class="inner1">
 
           <input type="checkbox" class="checkboxlang" id="chklang" />
@@ -106,6 +106,21 @@
       <input type="text" id="titleFilter" placeholder="Search by title..." />
     </div>
 
+
+    <div class="filter-group">
+    <label> from date:
+      <input type="date" id="from-date">
+    </label>
+    </div>
+
+    <div class="filter-group">
+
+
+    <label> to date:
+      <input type="date" id="to-date">
+    </label>
+    </div>
+
     <div class="filter-group">
       <label for="daySelect" data-i18n="filterDay">Day:</label>
       <select id="daySelect">
@@ -144,20 +159,7 @@
         <option value="2025">2025</option>
       </select>
     </div>
-    <div class="filter-group">
-
-    <label>من تاريخ:
-      <input type="date" id="from-date">
-    </label>
-    </div>
-
-    <div class="filter-group">
-
-
-    <label>إلى تاريخ:
-      <input type="date" id="to-date">
-    </label>
-    </div>
+    
 
     <div class="filter-group">
       <button id="filterButton" data-i18n="applyFilter">Apply Filter</button>
@@ -453,11 +455,11 @@
 <div class="footer">
   <!--<div class="container">-->
     
-    <p class="copyright">
-      coded  by
-      <a href="#" >Eng: saad hossam</a
-            >.
-          </p>
+  <p class="copyright">
+    coded  by
+    <a href="#" >Eng: saad hossam</a
+          >.
+        </p>
       <!--</div>-->
 </div>
       <!--End Footer-->
@@ -510,7 +512,10 @@
           "pricing plans": "Pricing Plans",
           "videos": "Top Videos",
           stats: "Stats",
-          "request a discount": "Request a Discount",
+          requestadiscount: "Request a Discount",
+          dateFrom:"Date From",
+          dateTo:"Date To",
+
       
           // Landing
           landingTitle: "Major General Engineer/ Mokhtar Abdel Latif",
@@ -599,6 +604,9 @@
           "videos": "أفضل الفيديوهات",
           stats: "الإحصائيات",
           "request a discount": "طلب خصم",
+          dateFrom:"من تاريخ:",
+          dateTo:"الى تاريخ:",
+
       
           // Landing
           landingTitle: "اللواء مهندس / مختار عبد اللطيف",

@@ -6,7 +6,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
   <link rel="stylesheet" href="css/all.min.css" />
   <!--Link Font Awesome 6 Library-->
   <link rel="stylesheet" href="css/styles.css" />
@@ -15,57 +14,16 @@
   <!--Link Normalize-->
 
   <title>Website Title</title>
-  <style>
-.about-container {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-header h1 {
-    text-align: center;
-    font-size: 2.5em;
-    color: #0056b3;
-    margin-bottom: 20px;
-}
-
-.bio h2 {
-    font-size: 2em;
-    color: #333;
-    margin-top: 20px;
-    margin-bottom: 10px;
-}
-
-.bio p.intro {
-    font-size: 1.2em;
-    margin-bottom: 20px;
-}
-
-h3 {
-    font-size: 1.5em;
-    color: #555;
-    margin-top: 20px;
-    margin-bottom: 10px;
-}
-
-ul {
-    list-style-type: none;
-}
-
-ul li {
-    font-size: 1.1em;
-    margin-bottom: 8px;
-}
-  </style>
 </head>
 
 <body>
   <main>
+    <!--Start Header-->
 <!-- Start Bootstrap Header -->
 <header class=" py-3">
   <nav class="navbar navbar-expand-lg navbar-light container">
     <!-- Logo -->
-    <a class="navbar-brand" href="https://mohamed-waled.github.io/webSite/">
+    <a class="navbar-brand" href="">
       <img src="images/3.png" width="80" alt="Logo">
     </a>
 
@@ -82,7 +40,7 @@ ul li {
           <a class=" headLinks" href="index.html" data-lang="home"></a>
         </li>
         <li class="">
-          <a class=" headLinks" href="details.html" data-lang="news"></a>
+          <!-- <a class=" headLinks" href="details.html" data-lang="news"></a> -->
         </li>
         <li class="">
           <a class=" headLinks" href="about.html" data-lang="about"></a>
@@ -92,111 +50,85 @@ ul li {
       <!-- Right Side Buttons -->
       <div class="d-flex align-items-center">
         <!-- Dark Mode Toggle -->
-        <header class=" py-3">
-          <nav class="navbar navbar-expand-lg navbar-light container">
-            <!-- Logo -->
-            <a class="navbar-brand" href="https://mohamed-waled.github.io/webSite/">
-              <img src="images/3.png" width="80" alt="Logo">
-            </a>
-        
-            <!-- Toggler button for mobile view -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
-              aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-        
-            <!-- Navbar links and utilities -->
-            <div class="collapse navbar-collapse" id="mainNavbar">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0 mainNav ">
-                <li class="">
-                  <a class=" headLinks" href="index.html" data-lang="home"></a>
-                </li>
-                <li class="">
-                  <a class=" headLinks" href="details.html" data-lang="news"></a>
-                </li>
-                <li class="">
-                  <a class=" headLinks" href="about.html" data-lang="about"></a>
-                </li>
-              </ul>
-        
-              <!-- Right Side Buttons -->
-              <div class="d-flex align-items-center">
-                <!-- Dark Mode Toggle -->
-                <div class="darkModeButton">
-                  <input type="checkbox" class="checkbox" id="chk" />
-                  <label class="label" for="chk">
-                      <i class="fas fa-moon moon"></i>
-                      <i class="fas fa-sun sun"></i>
-                      <div class="ball"></div>
-                  </label>
-                </div>
-        
-                <!-- Language Switcher -->
-                <div class="laguagesButton ms-5" style="">
-                  <div class="inner1">
-        
-                  <input type="checkbox" class="checkboxlang" id="chklang" />
-                  <label class="labellang" for="chklang">
-                      <img src="images/eg.svg" alt="Egypt Flag" class="egFlag" />
-                      <img src="images/gb.svg" alt="United Kingdom Flag" class="gbFlag" />
-                      <div class="balllang"></div>
-                  </label>
-                  </div>
-                 </div>
-              </div>
-            </div>
-          </nav>
-        </header>
+        <div class="darkModeButton">
+          <input type="checkbox" class="checkbox" id="chk" />
+          <label class="label" for="chk">
+              <i class="fas fa-moon moon"></i>
+              <i class="fas fa-sun sun"></i>
+              <div class="ball"></div>
+          </label>
+        </div>
+
+        <!-- Language Switcher -->
+        <div class="laguagesButton ms-5" >
+          <div class="inner1">
+
+          <input type="checkbox" class="checkboxlang" id="chklang" />
+          <label class="labellang" for="chklang">
+              <img src="images/eg.svg" alt="Egypt Flag" class="egFlag" />
+              <img src="images/gb.svg" alt="United Kingdom Flag" class="gbFlag" />
+              <div class="balllang"></div>
+          </label>
+          </div>
+         </div>
+      </div>
+    </div>
+  </nav>
+</header>
 <!-- End Bootstrap Header -->
+<div class="container py-5 mt-5">
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <h2 class="card-title text-primary" data-lang="bioTitle">Major General Eng. Mokhtar Abdel Latif</h2>
+      <p class="lead" data-lang="bioIntro">
+        Major General Mokhtar Abdel Latif assumed the position of Chairman of the Arab Organization for Industrialization, succeeding General Abdel Moneim El-Terras in 2022.
+      </p>
+    </div>
+  </div>
 
-<div id="articles" style="padding-top: 100px">
- <main>
-  <!-- About Section -->
-<div class="about-container">
-  <section class="bio">
-    <h2>Major General Eng. Mokhtar Abdel Latif</h2>
-    <p class="intro">Major General Mokhtar Abdel Latif assumed the position of Chairman of the Arab Organization for Industrialization, succeeding General Abdel Moneim El-Terras in 2022.</p>
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <h3 class="card-title text-secondary" data-lang="militaryEduTitle">Military Education</h3>
+      <p data-lang="militaryEduDesc">
+        He received military education in Egypt and graduated from the Military Technical College with a specialization in Chemical and Nuclear Engineering (Class 14 and Military Class 66).
+      </p>
+    </div>
+  </div>
 
-    <h3>Military Education:</h3>
-    <p>He received military education in Egypt and graduated from the Military Technical College with a specialization in Chemical and Nuclear Engineering (Class 14 and Military Class 66).</p>
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <h3 class="card-title text-secondary" data-lang="positionsHeldTitle">Positions Held</h3>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" data-lang="pos1">Head of the Chemical Warfare Training Branch.</li>
+        <li class="list-group-item" data-lang="pos2">Commander of the 7th Missile Regiment.</li>
+        <li class="list-group-item" data-lang="pos3">Commander of the 1st Chemical Warfare Group.</li>
+        <li class="list-group-item" data-lang="pos4">Director of Safi Natural Water Factory in Siwa.</li>
+        <li class="list-group-item" data-lang="pos5">General Manager of the National Company for Intermediate Chemicals.</li>
+        <li class="list-group-item" data-lang="pos6">General Manager of Al-Nasr Company for Bottling Natural Water (Safi).</li>
+        <li class="list-group-item" data-lang="pos7">Director of Production Department at Al-Nasr Company for Intermediate Chemicals.</li>
+        <li class="list-group-item" data-lang="pos8">Chairman of Al-Nasr Company for Intermediate Chemicals.</li>
+        <li class="list-group-item" data-lang="pos9">Appointed Chairman of the Arab Organization for Industrialization in 2022.</li>
+      </ul>
+    </div>
+  </div>
 
-    <h3>Positions Held:</h3>
-    <ul>
-      <li>Head of the Chemical Warfare Training Branch.</li>
-      <li>Commander of the 7th Missile Regiment.</li>
-      <li>Commander of the 1st Chemical Warfare Group.</li>
-      <li>Director of Safi Natural Water Factory in Siwa.</li>
-      <li>General Manager of the National Company for Intermediate Chemicals.</li>
-      <li>General Manager of Al-Nasr Company for Bottling Natural Water (Safi).</li>
-      <li>Director of Production Department at Al-Nasr Company for Intermediate Chemicals.</li>
-      <li>Chairman of Al-Nasr Company for Intermediate Chemicals.</li>
-      <li>He was appointed as Chairman of the Arab Organization for Industrialization in 2022, succeeding General Abdel Moneim El-Terras.</li>
-    </ul>
-
-    <h3>Medals and Decorations:</h3>
-    <ul>
-      <li>Long Service and Good Conduct Medal.</li>
-      <li>Silver Jubilee Medal for the Liberation of Sinai – April 25.</li>
-      <li>Silver Jubilee Medal for the October 1973 Victory.</li>
-      <li>50th Anniversary Medal for the July 23, 1952 Revolution.</li>
-      <li>January 25 Revolution Medal.</li>
-      <li>June 30, 2013 Medal.</li>
-      <li>Second Class Military Duty Decoration.</li>
-      <li>Excellent Service Decoration.</li>
-      <li>Order of the Republic – Second Class.</li>
-    </ul>
-  </section>
+  <div class="card shadow">
+    <div class="card-body">
+      <h3 class="card-title text-secondary" data-lang="medalsTitle">Medals and Decorations</h3>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" data-lang="medal1">Long Service and Good Conduct Medal.</li>
+        <li class="list-group-item" data-lang="medal2">Silver Jubilee Medal for the Liberation of Sinai – April 25.</li>
+        <li class="list-group-item" data-lang="medal3">Silver Jubilee Medal for the October 1973 Victory.</li>
+        <li class="list-group-item" data-lang="medal4">50th Anniversary Medal for the July 23, 1952 Revolution.</li>
+        <li class="list-group-item" data-lang="medal5">January 25 Revolution Medal.</li>
+        <li class="list-group-item" data-lang="medal6">June 30, 2013 Medal.</li>
+        <li class="list-group-item" data-lang="medal7">Second Class Military Duty Decoration.</li>
+        <li class="list-group-item" data-lang="medal8">Excellent Service Decoration.</li>
+        <li class="list-group-item" data-lang="medal9">Order of the Republic – Second Class.</li>
+      </ul>
+    </div>
+  </div>
 </div>
-
-</main>
-
-<!-- Footer -->
-
-
-</div>
-
-
-
 
 
 
@@ -248,7 +180,7 @@ ul li {
         }
       });
       
-         </script>
+</script>
       <script>
       const translations = {
         en: {
@@ -336,7 +268,35 @@ ul li {
           month9: "September",
           month10: "October",
           month11: "November",
-          month12: "December"
+          month12: "December",
+
+          bioTitle: "Major General Eng. Mokhtar Abdel Latif",
+bioIntro: "Major General Mokhtar Abdel Latif assumed the position of Chairman of the Arab Organization for Industrialization, succeeding General Abdel Moneim El-Terras in 2022.",
+militaryEduTitle: "Military Education",
+militaryEduDesc: "He received military education in Egypt and graduated from the Military Technical College with a specialization in Chemical and Nuclear Engineering (Class 14 and Military Class 66).",
+positionsHeldTitle: "Positions Held",
+pos1: "Head of the Chemical Warfare Training Branch.",
+pos2: "Commander of the 7th Missile Regiment.",
+pos3: "Commander of the 1st Chemical Warfare Group.",
+pos4: "Director of Safi Natural Water Factory in Siwa.",
+pos5: "General Manager of the National Company for Intermediate Chemicals.",
+pos6: "General Manager of Al-Nasr Company for Bottling Natural Water (Safi).",
+pos7: "Director of Production Department at Al-Nasr Company for Intermediate Chemicals.",
+pos8: "Chairman of Al-Nasr Company for Intermediate Chemicals.",
+pos9: "Appointed Chairman of the Arab Organization for Industrialization in 2022.",
+medalsTitle: "Medals and Decorations",
+medal1: "Long Service and Good Conduct Medal.",
+medal2: "Silver Jubilee Medal for the Liberation of Sinai – April 25.",
+medal3: "Silver Jubilee Medal for the October 1973 Victory.",
+medal4: "50th Anniversary Medal for the July 23, 1952 Revolution.",
+medal5: "January 25 Revolution Medal.",
+medal6: "June 30, 2013 Medal.",
+medal7: "Second Class Military Duty Decoration.",
+medal8: "Excellent Service Decoration.",
+medal9: "Order of the Republic – Second Class.",
+
+
+
         },
       
         ar: {
@@ -424,7 +384,32 @@ ul li {
           month9: "سبتمبر",
           month10: "أكتوبر",
           month11: "نوفمبر",
-          month12: "ديسمبر"
+          month12: "ديسمبر",
+          bioTitle: "اللواء مهندس مختار عبد اللطيف",
+bioIntro: "تولى اللواء مختار عبد اللطيف منصب رئيس مجلس إدارة الهيئة العربية للتصنيع خلفًا للواء عبد المنعم التراس عام 2022.",
+militaryEduTitle: "التعليم العسكري",
+militaryEduDesc: "تلقى تعليمه العسكري في مصر وتخرج من الكلية الفنية العسكرية بتخصص الهندسة الكيميائية والنووية (الدفعة 14 العسكرية و66 الكلية).",
+positionsHeldTitle: "المناصب التي شغلها",
+pos1: "رئيس فرع تدريب الحرب الكيميائية.",
+pos2: "قائد الكتيبة السابعة صواريخ.",
+pos3: "قائد المجموعة الأولى للحرب الكيميائية.",
+pos4: "مدير مصنع مياه صافي بسيوة.",
+pos5: "المدير العام للشركة الوطنية للكيماويات الوسيطة.",
+pos6: "المدير العام لشركة النصر لتعبئة المياه الطبيعية (صافي).",
+pos7: "مدير إدارة الإنتاج بشركة النصر للكيماويات الوسيطة.",
+pos8: "رئيس مجلس إدارة شركة النصر للكيماويات الوسيطة.",
+pos9: "تم تعيينه رئيسًا للهيئة العربية للتصنيع عام 2022.",
+medalsTitle: "الأوسمة والنياشين",
+medal1: "ميدالية الخدمة الطويلة والقدوة الحسنة.",
+medal2: "ميدالية اليوبيل الفضي لتحرير سيناء – 25 أبريل.",
+medal3: "ميدالية اليوبيل الفضي لنصر أكتوبر 1973.",
+medal4: "ميدالية اليوبيل الذهبي لثورة 23 يوليو 1952.",
+medal5: "ميدالية ثورة 25 يناير.",
+medal6: "ميدالية 30 يونيو 2013.",
+medal7: "نوط الواجب العسكري من الطبقة الثانية.",
+medal8: "نوط الخدمة الممتازة.",
+medal9: "وسام الجمهورية من الطبقة الثانية.",
+
         }
       };
       
