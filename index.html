@@ -12,6 +12,10 @@
   <!--Link Styles Sheet-->
   <link rel="stylesheet" href="css/normalize.css" />
   <!--Link Normalize-->
+  <link rel="stylesheet" href="css/date-range-picker.css" />
+  <!--Link Date Range Picker CSS-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <!--Link Font Awesome CDN-->
 
   <title>Website Title</title>
 </head>
@@ -19,877 +23,1096 @@
 <body>
   <main>
     <!--Start Header-->
-<!-- Start Bootstrap Header -->
-<header class=" py-3">
-  <nav class="navbar navbar-expand-lg navbar-light container">
-    <!-- Logo -->
-    <a class="navbar-brand" href="">
-      <img src="images/3.png" width="80" alt="Logo">
-    </a>
+    <!-- Start Bootstrap Header -->
+    <header class=" py-3">
+      <nav class="navbar navbar-expand-lg navbar-light container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="">
+          <img src="images/3.png" width="80" alt="Logo">
+        </a>
 
-    <!-- Toggler button for mobile view -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
-      aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+        <!-- Toggler button for mobile view -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+          aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <!-- Navbar links and utilities -->
-    <div class="collapse navbar-collapse" id="mainNavbar">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 mainNav ">
-        <li class="">
-          <a class=" headLinks" href="index.html" data-lang="home"></a>
-        </li>
-        <li class="">
-          <!-- <a class=" headLinks" href="details.html" data-lang="news"></a> -->
-        </li>
-        <li class="">
-          <a class=" headLinks" href="about.html" data-lang="about"></a>
-        </li>
-      </ul>
+        <!-- Navbar links and utilities -->
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 mainNav ">
+            <li class="">
+              <a class=" headLinks" href="index.html" data-lang="home"></a>
+            </li>
+            <li class="">
+              <!-- <a class=" headLinks" href="details.html" data-lang="news"></a> -->
+            </li>
+            <li class="">
+              <a class=" headLinks" href="about.html" data-lang="about"></a>
+            </li>
+          </ul>
 
-      <!-- Right Side Buttons -->
-      <div class="d-flex align-items-center">
-        <!-- Dark Mode Toggle -->
-        <div class="darkModeButton">
-          <input type="checkbox" class="checkbox" id="chk" />
-          <label class="label" for="chk">
+        </div>
+        <!-- Right Side Buttons -->
+        <div class="toggle-btn">
+          <!-- Dark Mode Toggle -->
+          <div class="darkModeButton">
+            <input type="checkbox" class="checkbox" id="chk" />
+            <label class="label" for="chk">
               <i class="fas fa-moon moon"></i>
               <i class="fas fa-sun sun"></i>
               <div class="ball"></div>
-          </label>
-        </div>
-
-        <!-- Language Switcher -->
-        <div class="laguagesButton ms-5" >
-          <div class="inner1">
-
-          <input type="checkbox" class="checkboxlang" id="chklang" />
-          <label class="labellang" for="chklang">
-              <img src="images/eg.svg" alt="Egypt Flag" class="egFlag" />
-              <img src="images/gb.svg" alt="United Kingdom Flag" class="gbFlag" />
-              <div class="balllang"></div>
-          </label>
+            </label>
           </div>
-         </div>
-      </div>
-    </div>
-  </nav>
-</header>
-<!-- End Bootstrap Header -->
+
+          <!-- Language Switcher -->
+          <div class="laguagesButton">
+            <div class="inner1">
+              <input type="checkbox" class="checkboxlang" id="chklang" aria-label="Toggle language between English and Arabic" />
+              <label class="labellang" for="chklang">
+                <span>Ar</span>
+                <span>En</span>
+                <!-- <img src="images/gb.svg" alt="English" class="gbFlag" />
+                <img src="images/eg.svg" alt="Arabic" class="egFlag" /> -->
+                <div class="balllang"></div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- End Bootstrap Header -->
 
 
     <!--Start Landing-->
-<div class="landing">
-  <div class="container">
-    <div class="text">
-      <h1 id="landing-title" data-lang="landingTitle"></h1>
-      <p id="landing-paragraph" data-lang="landingParagraph"></p>
-    </div>
-    <div class="photo">
-      <img src="images/1.jpeg" alt="landing-image"  />
-    </div>
-  </div>
-  <a href="#articles">
-    <i class="fas fa-angle-double-down fa-2x"></i>
-  </a>
-</div>
-
-     <!--End Landing-->
-
-<!-- Start Articles -->
-<div id="articles" style="margin:20px;">
-  <h2 class="mainTitle" data-i18n="latestArticles">Latest Articles</h2>
-
-  <div class="filters" style="margin-bottom: 20px;">
-    <div class="filter-group">
-      <label for="titleFilter" data-i18n="filterTitle">Title:</label>
-      <input type="text" id="titleFilter" placeholder="Search by title..." />
+    <div class="landing">
+      <div class="container">
+        <div class="text">
+          <h3 id="landing-title" data-lang="landingTitle1"></h3>
+          <h1 id="landing-title" data-lang="landingTitle2"></h1>
+          <p id="landing-paragraph" data-lang="landingParagraph"></p>
+        </div>
+        <div class="photo">
+          <img src="images/1.jpeg" alt="landing-image" />
+        </div>
+      </div>
+      <a href="#articles">
+        <i class="fas fa-angle-double-down fa-2x"></i>
+      </a>
     </div>
 
+    <!--End Landing-->
 
-    <div class="filter-group">
-    <label> from date:
-      <input type="date" id="from-date">
-    </label>
-    </div>
+    <!-- Start Articles -->
+    <div id="articles" style="margin:20px;">
+      <h2 class="mainTitle" data-i18n="latestArticles">Latest Articles</h2>
 
-    <div class="filter-group">
-
-
-    <label> to date:
-      <input type="date" id="to-date">
-    </label>
-    </div>
-
-    <div class="filter-group">
-      <label for="daySelect" data-i18n="filterDay">Day:</label>
-      <select id="daySelect">
-        <option value="" data-i18n="all">All</option>
-        <script>
-          document.write([...Array(31).keys()].map(i => `<option value="${i + 1}">${i + 1}</option>`).join(''));
-        </script>
-      </select>
-    </div>
-
-    <div class="filter-group">
-      <label for="monthSelect" data-i18n="filterMonth">Month:</label>
-      <select id="monthSelect">
-        <option value="" data-i18n="all">All</option>
-        <option value="1" data-i18n="month1">January</option>
-        <option value="2" data-i18n="month2">February</option>
-        <option value="3" data-i18n="month3">March</option>
-        <option value="4" data-i18n="month4">April</option>
-        <option value="5" data-i18n="month5">May</option>
-        <option value="6" data-i18n="month6">June</option>
-        <option value="7" data-i18n="month7">July</option>
-        <option value="8" data-i18n="month8">August</option>
-        <option value="9" data-i18n="month9">September</option>
-        <option value="10" data-i18n="month10">October</option>
-        <option value="11" data-i18n="month11">November</option>
-        <option value="12" data-i18n="month12">December</option>
-      </select>
-    </div>
-
-    <div class="filter-group">
-      <label for="yearSelect" data-i18n="filterYear">Year:</label>
-      <select id="yearSelect">
-        <option value="" data-i18n="all">All</option>
-        <option value="2023">2023</option>
-        <option value="2024">2024</option>
-        <option value="2025">2025</option>
-      </select>
-    </div>
-    
-
-    <div class="filter-group">
-      <button id="filterButton" data-i18n="applyFilter">Apply Filter</button>
-      <button id="resetButton" data-i18n="resetFilter">Reset</button>
-    </div>
-
-  
-  </div>
-
-<div class="container">
-  <!-- Article 1 -->
-  <div class="box" data-title="Exploring the Desert" data-date="2023-12-10">
-    <div class="coverPhoto">
-      <img src="images/news/1.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article1Title">Exploring the Desert</h3>
-      <p data-i18n="article1Desc">Discover the secrets of the world’s driest regions and how life adapts to survive.</p>
-      <small class="article-date">2023-12-10</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
-  <!-- Article 2 -->
-  <div class="box" data-title="Cat Behavior Explained" data-date="2024-01-05">
-    <div class="coverPhoto">
-      <img src="images/news/2.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article2Title">Cat Behavior Explained</h3>
-      <p data-i18n="article2Desc">Understand your feline friend better by learning the reasons behind common behaviors.</p>
-      <small class="article-date">2024-01-05</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
-  <!-- Article 3 -->
-  <div class="box" data-title="Ocean Depths Revealed" data-date="2024-02-14">
-    <div class="coverPhoto">
-      <img src="images/news/3.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article3Title">Ocean Depths Revealed</h3>
-      <p data-i18n="article3Desc">Dive into the unknown as we explore the hidden wonders of the ocean floor.</p>
-      <small class="article-date">2024-02-14</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
-  <!-- Article 4 -->
-  <div class="box" data-title="The Art of Night Photography" data-date="2024-03-02">
-    <div class="coverPhoto">
-      <img src="images/news/4.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article4Title">The Art of Night Photography</h3>
-      <p data-i18n="article4Desc">Learn how to capture stunning images in the dark using simple settings.</p>
-      <small class="article-date">2024-03-02</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
-  <!-- Article 5 -->
-  <div class="box" data-title="Journey in the Alps" data-date="2024-03-15">
-    <div class="coverPhoto">
-      <img src="images/news/5.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article5Title">Journey in the Alps</h3>
-      <p data-i18n="article5Desc">Enjoy the breathtaking beauty of the snow-covered mountain peaks.</p>
-      <small class="article-date">2024-03-15</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
-  <!-- Article 6 -->
-  <div class="box" data-title="Future Technology" data-date="2024-04-01">
-    <div class="coverPhoto">
-      <img src="images/news/6.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article6Title">Future Technology</h3>
-      <p data-i18n="article6Desc">Learn about the latest innovations that will change our lives in the coming years.</p>
-      <small class="article-date">2024-04-01</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
-  <!-- Article 7 -->
-  <div class="box" data-title="Life in the Arctic" data-date="2024-04-18">
-    <div class="coverPhoto">
-      <img src="images/news/7.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article7Title">Life in the Arctic</h3>
-      <p data-i18n="article7Desc">Discover how animals and humans survive in the harshest environment on Earth.</p>
-      <small class="article-date">2024-04-18</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
-  <!-- Article 8 -->
-  <div class="box" data-title="Beginner's Guide to Farming" data-date="2024-05-01">
-    <div class="coverPhoto">
-      <img src="images/news/8.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article8Title">Beginner's Guide to Farming</h3>
-      <p data-i18n="article8Desc">Start your own home farming journey and learn the best practices for success.</p>
-      <small class="article-date">2024-05-01</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
-  <!-- Article 9 -->
-  <div class="box" data-title="Rainforests: Nature's Treasures" data-date="2024-05-10">
-    <div class="coverPhoto">
-      <img src="images/news/9.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article9Title">Rainforests: Nature's Treasures</h3>
-      <p data-i18n="article9Desc">Learn about the incredible biodiversity of rainforests and their importance.</p>
-      <small class="article-date">2024-05-10</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
-  <!-- Article 10 -->
-  <div class="box" data-title="Astronomy for Beginners" data-date="2024-05-20">
-    <div class="coverPhoto">
-      <img src="images/news/10.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article10Title">Astronomy for Beginners</h3>
-      <p data-i18n="article10Desc">Start your journey into astronomy and learn about planets, stars, and galaxies.</p>
-      <small class="article-date">2024-05-20</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
-  <!-- Article 11 -->
-  <div class="box" data-title="How to Care for Your Houseplants" data-date="2024-06-01">
-    <div class="coverPhoto">
-      <img src="images/news/11.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article11Title">How to Care for Your Houseplants</h3>
-      <p data-i18n="article11Desc">Your daily guide to keeping your plants healthy throughout the seasons.</p>
-      <small class="article-date">2024-06-01</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
-  <!-- Article 12 -->
-  <div class="box" data-title="Artificial Intelligence in Our Lives" data-date="2024-06-15">
-    <div class="coverPhoto">
-      <img src="images/news/12.jpeg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article12Title">Artificial Intelligence in Our Lives</h3>
-      <p data-i18n="article12Desc">How AI is changing the way we work, communicate, and learn.</p>
-      <small class="article-date">2024-06-15</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
-  <!-- Article 13 -->
-  <div class="box" data-title="The Smart Traveler's Guide" data-date="2024-07-01">
-    <div class="coverPhoto">
-      <img src="images/news/13.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article13Title">The Smart Traveler's Guide</h3>
-      <p data-i18n="article13Desc">Smart tips for traveling on a budget while having an unforgettable experience.</p>
-      <small class="article-date">2024-07-01</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
-  <!-- Article 14 -->
-  <div class="box" data-title="World Cuisine: A Culinary Journey" data-date="2024-07-12">
-    <div class="coverPhoto">
-      <img src="images/news/14.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article14Title">World Cuisine: A Culinary Journey</h3>
-      <p data-i18n="article14Desc">Explore famous dishes from different cultures around the world.</p>
-      <small class="article-date">2024-07-12</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
-  <!-- Article 15 -->
- 
- <div class="box" data-title="World Cuisine: A Culinary Journey" data-date="2024-07-12">
-    <div class="coverPhoto">
-      <img src="images/news/15.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article15Title">World Cuisine: A Culinary Journey</h3>
-      <p data-i18n="article15Desc">Explore famous dishes from different cultures around the world.</p>
-      <small class="article-date">2024-03-02</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
+      <!-- <div class="filters" style="margin-bottom: 20px;">
+        <div class="filter-group">
+          <label for="titleFilter" data-i18n="filterTitle">Title:</label>
+          <input type="text" id="titleFilter" placeholder="Search by title..." />
+        </div>
 
 
- <div class="box" data-title="World Cuisine: A Culinary Journey" data-date="2024-07-12">
-    <div class="coverPhoto">
-      <img src="images/news/16.jpeg" alt="Desert" />
+        <div class="filter-group">
+          <label> from date:
+            <input type="date" id="from-date">
+          </label>
+        </div>
+
+        <div class="filter-group">
+
+
+          <label> to date:
+            <input type="date" id="to-date">
+          </label>
+        </div>
+
+        <div class="filter-group">
+          <label for="daySelect" data-i18n="filterDay">Day:</label>
+          <select id="daySelect">
+            <option value="" data-i18n="all">All</option>
+            <script>
+              document.write([...Array(31).keys()].map(i => `<option value="${i + 1}">${i + 1}</option>`).join(''));
+            </script>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="monthSelect" data-i18n="filterMonth">Month:</label>
+          <select id="monthSelect">
+            <option value="" data-i18n="all">All</option>
+            <option value="1" data-i18n="month1">January</option>
+            <option value="2" data-i18n="month2">February</option>
+            <option value="3" data-i18n="month3">March</option>
+            <option value="4" data-i18n="month4">April</option>
+            <option value="5" data-i18n="month5">May</option>
+            <option value="6" data-i18n="month6">June</option>
+            <option value="7" data-i18n="month7">July</option>
+            <option value="8" data-i18n="month8">August</option>
+            <option value="9" data-i18n="month9">September</option>
+            <option value="10" data-i18n="month10">October</option>
+            <option value="11" data-i18n="month11">November</option>
+            <option value="12" data-i18n="month12">December</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="yearSelect" data-i18n="filterYear">Year:</label>
+          <select id="yearSelect">
+            <option value="" data-i18n="all">All</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+          </select>
+        </div>
+
+
+        <div class="filter-group">
+          <button id="filterButton" data-i18n="applyFilter">Apply Filter</button>
+          <button id="resetButton" data-i18n="resetFilter">Reset</button>
+        </div>
+
+
+      </div> -->
+
+      <!-- Search Container Start -->
+      <div class="search-container">
+        <div class="search-box" role="search">
+          <label for="search-input" class="sr-only">Search events</label>
+          <input type="text" id="search-input" placeholder="Search achievements..." data-lang="searchPlaceholder" aria-label="Search achievements">
+          <button id="voice-search" aria-label="Search by voice" tabindex="0"><i class="fas fa-microphone" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <!-- Search Container End -->
+
+      <!-- Filter Start -->
+      <section class="filter-section" aria-label="Event Filters">
+        <div class="filter-container">
+          <div class="filter-group">
+            <!-- <label for="category-filter">Category:</label> -->
+            <select id="category-filter" class="category-filter">
+              <option value="" data-lang="allCategories">All Categories</option>
+              <option value="military" data-lang="military">Military</option>
+              <option value="defense" data-lang="defense">Defense</option>
+              <option value="industry" data-lang="industry">Industry</option>
+              <option value="technology" data-lang="technology">Technology</option>
+              <option value="international" data-lang="international">International Relations</option>
+              <option value="development" data-lang="development">Development</option>
+              <option value="security" data-lang="security">Security</option>
+              <option value="leadership" data-lang="leadership">Leadership</option>
+            </select>
+          </div>
+          <!-- <div class="filter-group">
+            <label for="location-filter">Location:</label>
+            <select id="location-filter" aria-label="Filter by location">
+              <option value="">All Locations</option>
+            </select>
+          </div> -->
+          <div class="filter-group date-filter">
+            <label for="date-range" data-lang="dateRange">Date Range:</label>
+            <div class="date-picker-container">
+              <!-- The date range picker will be initialized by JavaScript -->
+            </div>
+            <input type="hidden" id="start-date">
+            <input type="hidden" id="end-date">
+          </div>
+          <div class="filter-group">
+            <!-- <label for="sort-by">Sort By:</label> -->
+            <select id="sort-by" class="sort-filter" aria-label="Sort events">
+              <option value="date-desc" selected data-lang="dateNewest">Date (Newest First)</option>
+              <option value="date-asc" data-lang="dateOldest">Date (Oldest First)</option>
+              <option value="title-asc" data-lang="titleAZ">Title (A-Z)</option>
+              <option value="title-desc" data-lang="titleZA">Title (Z-A)</option>
+            </select>
+          </div>
+          <button class="clear-filters-btn" id="clear-filters" disabled aria-label="Clear all filters" tabindex="0">
+            <i class="fas fa-times" aria-hidden="true"></i> <span data-lang="clearFilters">Clear All Filters</span>
+          </button>
+        </div>
+      </section>
+      <!-- Filter End -->
+
+      <!-- Article Counter -->
+      <div class="article-counter-container">
+        <div class="article-counter">
+          <i class="fas fa-filter" aria-hidden="true"></i>
+          <strong id="article-count">18</strong>
+          <span data-lang="eventsFound">Events Found</span>
+        </div>
+      </div>
+      <!-- Article Counter End -->
+
+      <div class="container">
+        <!-- Article 1 -->
+        <div class="box" data-category="military" data-title="Exploring the Desert" data-date="2023-12-10">
+          <div class="coverPhoto">
+            <img src="images/news/1.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2023-12-10</small>
+            <h3 data-i18n="article1Title">Exploring the Desert</h3>
+            <p data-i18n="article1Desc">Discover the secrets of the world's most arid regions and how life adapts to
+              survive.</p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 2 -->
+        <div class="box" data-category="defense" data-title="Cat Behavior Explained" data-date="2024-01-05">
+          <div class="coverPhoto">
+            <img src="images/news/2.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-01-05</small>
+            <h3 data-i18n="article2Title">Cat Behavior Explained</h3>
+            <p data-i18n="article2Desc">Understand your feline friend better by learning the reasons behind common
+              behaviors.</p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 3 -->
+        <div class="box" data-category="military" data-title="Ocean Depths Revealed" data-date="2024-02-14">
+          <div class="coverPhoto">
+            <img src="images/news/3.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-02-14</small>
+            <h3 data-i18n="article3Title">Ocean Depths Revealed</h3>
+            <p data-i18n="article3Desc">Dive into the unknown as we explore the hidden wonders of the ocean floor.</p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 4 -->
+        <div class="box" data-category="technology" data-title="The Art of Night Photography" data-date="2024-03-02">
+          <div class="coverPhoto">
+            <img src="images/news/4.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-03-02</small>
+            <h3 data-i18n="article4Title">The Art of Night Photography</h3>
+            <p data-i18n="article4Desc">Learn how to capture stunning images in the dark using simple settings.</p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 5 -->
+        <div class="box" data-category="international" data-title="Journey in the Alps" data-date="2024-03-15">
+          <div class="coverPhoto">
+            <img src="images/news/5.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-03-15</small>
+            <h3 data-i18n="article5Title">Journey in the Alps</h3>
+            <p data-i18n="article5Desc">Enjoy the breathtaking beauty of the snow-covered mountain peaks.</p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 6 -->
+        <div class="box" data-category="technology" data-title="Future Technology" data-date="2024-04-01">
+          <div class="coverPhoto">
+            <img src="images/news/6.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-04-01</small>
+            <h3 data-i18n="article6Title">Future Technology</h3>
+            <p data-i18n="article6Desc">Learn about the latest innovations that will change our lives in the coming
+              years.</p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 7 -->
+        <div class="box" data-category="security" data-title="Life in the Arctic" data-date="2024-04-18">
+          <div class="coverPhoto">
+            <img src="images/news/7.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-04-18</small>
+            <h3 data-i18n="article7Title">Life in the Arctic</h3>
+            <p data-i18n="article7Desc">Discover how animals and humans survive in the harshest environment on Earth.
+            </p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 8 -->
+        <div class="box" data-category="development" data-title="Beginner's Guide to Farming" data-date="2024-05-01">
+          <div class="coverPhoto">
+            <img src="images/news/8.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-05-01</small>
+            <h3 data-i18n="article8Title">Beginner's Guide to Farming</h3>
+            <p data-i18n="article8Desc">Start your own home farming journey and learn the best practices for success.
+            </p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 9 -->
+        <div class="box" data-category="industry" data-title="Rainforests: Nature's Treasures" data-date="2024-05-10">
+          <div class="coverPhoto">
+            <img src="images/news/9.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-05-10</small>
+            <h3 data-i18n="article9Title">Rainforests: Nature's Treasures</h3>
+            <p data-i18n="article9Desc">Learn about the incredible biodiversity of rainforests and their importance.</p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 10 -->
+        <div class="box" data-category="technology" data-title="Astronomy for Beginners" data-date="2024-05-20">
+          <div class="coverPhoto">
+            <img src="images/news/10.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-05-20</small>
+            <h3 data-i18n="article10Title">Astronomy for Beginners</h3>
+            <p data-i18n="article10Desc">Start your journey into astronomy and learn about planets, stars, and galaxies.
+            </p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 11 -->
+        <div class="box" data-category="development" data-title="How to Care for Your Houseplants"
+          data-date="2024-06-01">
+          <div class="coverPhoto">
+            <img src="images/news/11.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-06-01</small>
+            <h3 data-i18n="article11Title">How to Care for Your Houseplants</h3>
+            <p data-i18n="article11Desc">Your daily guide to keeping your plants healthy throughout the seasons.</p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 12 -->
+        <div class="box" data-category="technology" data-title="Artificial Intelligence in Our Lives"
+          data-date="2024-06-15">
+          <div class="coverPhoto">
+            <img src="images/news/12.jpeg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-06-15</small>
+            <h3 data-i18n="article12Title">Artificial Intelligence in Our Lives</h3>
+            <p data-i18n="article12Desc">How AI is changing the way we work, communicate, and learn.</p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 13 -->
+        <div class="box" data-category="international" data-title="The Smart Traveler's Guide" data-date="2024-07-01">
+          <div class="coverPhoto">
+            <img src="images/news/13.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-07-01</small>
+            <h3 data-i18n="article13Title">The Smart Traveler's Guide</h3>
+            <p data-i18n="article13Desc">Smart tips for traveling on a budget while having an unforgettable experience.
+            </p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 14 -->
+        <div class="box" data-category="leadership" data-title="World Cuisine: A Culinary Journey"
+          data-date="2024-07-12">
+          <div class="coverPhoto">
+            <img src="images/news/14.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-07-12</small>
+            <h3 data-i18n="article14Title">World Cuisine: A Culinary Journey</h3>
+            <p data-i18n="article14Desc">Explore famous dishes from different cultures around the world.</p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 15 -->
+        <div class="box" data-category="leadership" data-title="World Cuisine: A Culinary Journey"
+          data-date="2024-07-12">
+          <div class="coverPhoto">
+            <img src="images/news/15.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-07-12</small>
+            <h3 data-i18n="article15Title">World Cuisine: A Culinary Journey</h3>
+            <p data-i18n="article15Desc">Explore famous dishes from different cultures around the world.</p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 16 -->
+        <div class="box" data-category="leadership" data-title="World Cuisine: A Culinary Journey"
+          data-date="2024-07-12">
+          <div class="coverPhoto">
+            <img src="images/news/16.jpeg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-07-12</small>
+            <h3 data-i18n="article16Title">World Cuisine: A Culinary Journey</h3>
+            <p data-i18n="article16Desc">Explore famous dishes from different cultures around the world.</p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 17 -->
+        <div class="box" data-category="leadership" data-title="World Cuisine: A Culinary Journey"
+          data-date="2024-07-12">
+          <div class="coverPhoto">
+            <img src="images/news/17.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-07-12</small>
+            <h3 data-i18n="article17Title">World Cuisine: A Culinary Journey</h3>
+            <p data-i18n="article17Desc">Explore famous dishes from different cultures around the world.</p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- Article 18 -->
+        <div class="box" data-category="leadership" data-title="World Cuisine: A Culinary Journey"
+          data-date="2024-07-12">
+          <div class="coverPhoto">
+            <img src="images/news/18.jpg" alt="Desert" />
+          </div>
+          <div class="cardText">
+            <small class="article-date">2024-07-12</small>
+            <h3 data-i18n="article18Title">World Cuisine: A Culinary Journey</h3>
+            <p data-i18n="article18Desc">Explore famous dishes from different cultures around the world.</p>
+          </div>
+          <div class="cardFooter">
+            <a href="details.html" data-i18n="readMore">Read More</a>
+          </div>
+        </div>
+
+        <!-- No results message -->
+        <div id="no-results-message" style="display: none; text-align: center; padding: 40px; width: 100%;">
+          <i class="fas fa-search" style="font-size: 48px; color: #ccc; margin-bottom: 20px;"></i>
+          <h3 data-lang="noResultsTitle">No Results Found</h3>
+          <p data-lang="noResultsDesc">Try adjusting your filters or search criteria.</p>
+        </div>
+      </div>
+      <div class="spikes"></div>
     </div>
-    <div class="cardText">
-      <h3 data-i18n="article16Title">World Cuisine: A Culinary Journey</h3>
-      <p data-i18n="article16Desc">Explore famous dishes from different cultures around the world.</p>
-      <small class="article-date">2024-07-12</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
+    <!--Start Footer-->
+    <div class="footer">
+      <!--<div class="container">-->
 
-
-<div class="box" data-title="World Cuisine: A Culinary Journey" data-date="2024-14-12">
-    <div class="coverPhoto">
-      <img src="images/news/17.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article17Title">World Cuisine: A Culinary Journey</h3>
-      <p data-i18n="article17Desc">Explore famous dishes from different cultures around the world.</p>
-      <small class="article-date">2024-07-12</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
- <div class="box" data-title="World Cuisine: A Culinary Journey" data-date="2024-010-12">
-    <div class="coverPhoto">
-      <img src="images/news/18.jpg" alt="Desert" />
-    </div>
-    <div class="cardText">
-      <h3 data-i18n="article18Title">World Cuisine: A Culinary Journey</h3>
-      <p data-i18n="article18Desc">Explore famous dishes from different cultures around the world.</p>
-      <small class="article-date">2024-07-12</small>
-    </div>
-    <div class="cardFooter">
-      <a href="details.html" data-i18n="readMore">Read More</a>
-    </div>
-  </div>
-
-
-</div>
-<div class="spikes"></div>
-
-
-
-
-
-
-
-<!--Start Our Awesome Stats-->
-<!--Start Footer-->
-<div class="footer">
-  <!--<div class="container">-->
-    
-  <p class="copyright">
-    coded  by
-    <a href="#" >Eng: saad hossam</a
-          >.
-        </p>
+      <p class="copyright">
+        coded by
+        <a href="#">Eng: saad hossam</a>.
+      </p>
       <!--</div>-->
-</div>
-      <!--End Footer-->
-    </main>
-    <div class="scrollToTop"><i class="fa-solid fa-arrow-up"></i></div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/all.min.js"></script>
-    <!--Link Font Awesome 6 Library-->
-    <script src="js/main.js"></script>
-    <script>
+    </div>
+    <!--End Footer-->
+
+    <!--Start Our Awesome Stats-->
+  </main>
+  <div class="scrollToTop"><i class="fa-solid fa-arrow-up"></i></div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/all.min.js"></script>
+  <!--Link Font Awesome 6 Library-->
+  <script src="js/main.js"></script>
+  <script src="js/date-range-picker.js"></script>
+  <script src="js/voice-search.js"></script>
+  <!--Link Date Range Picker JS-->
+  <script>
 
 
-      // Get references to the checkbox and body
-      const darkModeToggle = document.getElementById('chk');
-      const body = document.body;
-      
-      // Check if dark mode is saved in local storage
-      if (localStorage.getItem('darkMode') === 'enabled') {
+    // Get references to the checkbox and body
+    const darkModeToggle = document.getElementById('chk');
+    const body = document.body;
+
+    // Check if dark mode is saved in local storage
+    if (localStorage.getItem('darkMode') === 'enabled') {
+      body.classList.add('dark-mode');
+      darkModeToggle.checked = true;
+    }
+
+    // Event listener for toggle
+    darkModeToggle.addEventListener('change', () => {
+      if (darkModeToggle.checked) {
         body.classList.add('dark-mode');
-        darkModeToggle.checked = true;
+        localStorage.setItem('darkMode', 'enabled');  // Save preference in local storage
+      } else {
+        body.classList.remove('dark-mode');
+        localStorage.setItem('darkMode', 'disabled');
       }
-      
-      // Event listener for toggle
-      darkModeToggle.addEventListener('change', () => {
-        if (darkModeToggle.checked) {
-          body.classList.add('dark-mode');
-          localStorage.setItem('darkMode', 'enabled');  // Save preference in local storage
-        } else {
-          body.classList.remove('dark-mode');
-          localStorage.setItem('darkMode', 'disabled');
-        }
-      });
-      
-         </script>
-      <script>
-      const translations = {
-        en: {
-          // Header / Navigation
-          home: "Home",
-          news: "Achievments",
-          about: "information",
-          features: "Features",
-          "other links": "Other Links",
-          gallary: "Gallary",
-          "team members": "Team Members",
-          services: "Services",
-          "our skills": "Our Skills",
-          "how it works": "How It Works",
-          events: "Events",
-          "pricing plans": "Pricing Plans",
-          "videos": "Top Videos",
-          stats: "Stats",
-          requestadiscount: "Request a Discount",
-          dateFrom:"Date From",
-          dateTo:"Date To",
-
-      
-          // Landing
-          landingTitle: "Major General Engineer/ Mokhtar Abdel Latif",
-          landingParagraph: "Chairman of the Board of Directors of the Arab Organization for Industrialization",
-      
-          // Articles Section
-          latestArticles: " Achievments",
-          readMore: "Read More",
-      
-          // Article Titles and Descriptions
-          article1Title: "Exploring the Desert",
-          article1Desc: "Discover the secrets of the world's most arid regions and how life adapts to survive.",
-          article2Title: "Cat Behavior Explained",
-          article2Desc: "Understand your feline friend better by learning the reasons behind common behaviors.",
-          article3Title: "Wildlife in the City",
-          article3Desc: "A look at how urban environments are home to surprising wildlife species.",
-          article4Title: "The Science of Sleep",
-          article4Desc: "Why do we sleep? Dive into the fascinating biology of rest and recovery.",
-          article5Title: "Ocean Wonders",
-          article5Desc: "Explore the mysterious depths of the ocean and the creatures that live within.",
-          article6Title: "Adventures in the Forest",
-          article6Desc: "Join us on a journey through lush forests full of beauty and biodiversity.",
-          article7Title: "Technology and Nature",
-          article7Desc: "How modern innovations are helping to preserve the natural world.",
-          article8Title: "Photographing Wildlife",
-          article8Desc: "Tips and techniques for capturing stunning wildlife photos in any environment.",
-          article9Title: "The Art of Night Photography",
-          article9Desc: "Learn how to capture stunning images in the dark using simple settings.",
-          article10Title: "Journey in the Alps",
-          article10Desc: "Enjoy the breathtaking beauty of the snow-covered mountain peaks.",
-          article11Title: "Future Technology",
-          article11Desc: "Learn about the latest innovations that will change our lives in the coming years.",
-          article12Title: "Life in the Arctic",
-          article12Desc: "Discover how animals and humans survive in the harshest environment on Earth.",
-          article13Title: "Beginner's Guide to Farming",
-          article13Desc: "Start your own home farming journey and learn the best practices for success.",
-          article14Title: "Rainforests: Nature's Treasures",
-          article14Desc: "Learn about the incredible biodiversity of rainforests and their importance.",
-          article15Title: "Astronomy for Beginners",
-          article15Desc: "Start your journey into astronomy and learn about planets, stars, and galaxies.",
-          article16Title: "How to Care for Your Houseplants",
-          article16Desc: "Your daily guide to keeping your plants healthy throughout the seasons.",
-          article17Title: "Artificial Intelligence in Our Lives",
-          article17Desc: "How AI is changing the way we work, communicate, and learn.",
-          article18Title: "The Smart Traveler's Guide",
-          article18Desc: "Smart tips for traveling on a budget while having an unforgettable experience.",
-          news_links:" News Links",
-
-          // Filters
-          filterTitle: "Title:",
-          filterDay: "Day:",
-          filterMonth: "Month:",
-          filterYear: "Year:",
-          applyFilter: "Apply Filter",
-          all: "All",
-      
-          // Months
-          month1: "January",
-          month2: "February",
-          month3: "March",
-          month4: "April",
-          month5: "May",
-          month6: "June",
-          month7: "July",
-          month8: "August",
-          month9: "September",
-          month10: "October",
-          month11: "November",
-          month12: "December"
-        },
-      
-        ar: {
-          // Header / Navigation
-          home: " الرئيسية",
-          news: "الانجازات",
-          about: "  معلومات",
-          features: "مميزات",
-          "other links": "روابط أخرى",
-          gallary: "معرض الصور",
-          "team members": "أعضاء الفريق",
-          services: "خدمات",
-          "our skills": "مهاراتنا",
-          "how it works": "كيف يعمل",
-          events: "الأحداث",
-          "pricing plans": "خطط الأسعار",
-          "videos": "أفضل الفيديوهات",
-          stats: "الإحصائيات",
-          "request a discount": "طلب خصم",
-          dateFrom:"من تاريخ:",
-          dateTo:"الى تاريخ:",
-
-      
-          // Landing
-          landingTitle: "اللواء مهندس / مختار عبد اللطيف",
-          landingParagraph: "رئيس مجلس إدارة الهيئة العربية للتصنيع",
-      
-          // Articles Section
-          latestArticles: " الانجازات ",
-          readMore: "اقرأ المزيد",
-      
-          // Article Titles and Descriptions
-          article1Title: "استكشاف الصحراء",
-          article1Desc: "اكتشف أسرار المناطق الأكثر جفافًا في العالم وكيف تتكيف الحياة للبقاء.",
-          article2Title: "شرح سلوك القطط",
-          article2Desc: "افهم صديقك القط بشكل أفضل من خلال التعرف على أسباب السلوكيات الشائعة.",
-          article3Title: "الحياة البرية في المدينة",
-          article3Desc: "نظرة على كيف أن البيئات الحضرية تأوي أنواعًا مدهشة من الحياة البرية.",
-          article4Title: "علم النوم",
-          article4Desc: "لماذا ننام؟ استكشف البيولوجيا المدهشة للراحة والتعافي.",
-          article5Title: "عجائب المحيط",
-          article5Desc: "استكشف أعماق المحيط الغامضة والمخلوقات التي تعيش فيها.",
-          article6Title: "مغامرات في الغابة",
-          article6Desc: "انضم إلينا في رحلة عبر الغابات المورقة المليئة بالجمال والتنوع البيولوجي.",
-          article7Title: "التكنولوجيا والطبيعة",
-          article7Desc: "كيف تساعد الابتكارات الحديثة في الحفاظ على العالم الطبيعي.",
-          article8Title: "تصوير الحياة البرية",
-          article8Desc: "نصائح وتقنيات لالتقاط صور مذهلة للحياة البرية في أي بيئة.",
-          article9Title: "فن التصوير الليلي",
-          article9Desc: "تعلم كيفية التقاط صور رائعة في الظلام باستخدام الإعدادات البسيطة.",
-          article10Title: "رحلة إلى جبال الألب",
-          article10Desc: "استمتع بجمال قمم الجبال المغطاة بالثلوج.",
-          article11Title: "تكنولوجيا المستقبل",
-          article11Desc: "تعرف على أحدث الابتكارات التي ستغير حياتنا في السنوات القادمة.",
-          article12Title: "الحياة في القطب الشمالي",
-          article12Desc: "اكتشف كيف ينجو الحيوانات والبشر في أقسى بيئة على وجه الأرض.",
-          article13Title: "دليل المبتدئين في الزراعة",
-          article13Desc: "ابدأ رحلتك الزراعية في المنزل وتعلم أفضل الممارسات للنجاح.",
-          article14Title: "الغابات المطيرة: كنوز الطبيعة",
-          article14Desc: "تعرف على التنوع البيولوجي المدهش للغابات المطيرة وأهميتها.",
-          article15Title: "الفلك للمبتدئين",
-          article15Desc: "ابدأ رحلتك في علم الفلك وتعلم عن الكواكب والنجوم والمجرات.",
-          article16Title: "كيفية العناية بالنباتات المنزلية",
-          article16Desc: "دليلك اليومي للحفاظ على صحة نباتاتك طوال الفصول.",
-          article17Title: "الذكاء الاصطناعي في حياتنا",
-          article17Desc: "كيف يغير الذكاء الاصطناعي الطريقة التي نعمل بها ونتواصل بها ونتعلم.",
-          article18Title: "دليل المسافر الذكي",
-          article18Desc: "نصائح ذكية للسفر بميزانية محدودة مع تجربة لا تُنسى.",
-          news_links:"لينكات الصحف",
-      
-          // Filters
-          filterTitle: "العنوان:",
-          filterDay: "اليوم:",
-          filterMonth: "الشهر:",
-          filterYear: "السنة:",
-          applyFilter: "تطبيق الفلتر",
-          all: "الكل",
-      
-          // Months
-          month1: "يناير",
-          month2: "فبراير",
-          month3: "مارس",
-          month4: "أبريل",
-          month5: "مايو",
-          month6: "يونيو",
-          month7: "يوليو",
-          month8: "أغسطس",
-          month9: "سبتمبر",
-          month10: "أكتوبر",
-          month11: "نوفمبر",
-          month12: "ديسمبر"
-        }
-      };
-      
-      
-      function typeText(element, text, speed, callback) {
-        element.textContent = '';
-        let index = 0;
-        function type() {
-          if (index < text.length) {
-            element.textContent += text.charAt(index);
-            index++;
-            setTimeout(type, speed);
-          } else if (callback) {
-            callback();
-          }
-        }
-        type();
-      }
-      
-      function updateLanguage(language) {
-        const elements = document.querySelectorAll('[data-lang], [data-i18n]');
-        elements.forEach(element => {
-          const key = element.getAttribute('data-lang') || element.getAttribute('data-i18n');
-          const translation = translations[language][key];
-          if (!translation) return;
-      
-          if (element.id === "landing-title") {
-            typeText(element, translation, 75);
-          } else if (element.id === "landing-paragraph") {
-            typeText(element, translation, 40);
-          } else if (element.tagName === 'OPTION') {
-            element.textContent = translation;
-          } else {
-            element.textContent = translation;
-          }
-        });
-      
-        document.body.setAttribute('dir', language === 'ar' ? 'rtl' : 'ltr');
-      }
-      
-      window.addEventListener("DOMContentLoaded", () => {
-        updateLanguage("en");
-      
-        const langToggle = document.getElementById("chklang");
-        if (langToggle) {
-          langToggle.addEventListener("change", function () {
-            const selectedLanguage = this.checked ? "ar" : "en";
-            updateLanguage(selectedLanguage);
-          });
-        }
-      });
-      </script>
-
-    <script>
-  document.getElementById('filterButton').addEventListener('click', () => {
-  const titleFilter = document.getElementById('titleFilter').value.trim().toLowerCase();
-  const selectedDay = document.getElementById('daySelect').value;
-  const selectedMonth = document.getElementById('monthSelect').value;
-  const selectedYear = document.getElementById('yearSelect').value;
-  const fromDateValue = document.getElementById('from-date').value;
-  const toDateValue = document.getElementById('to-date').value;
-
-  // Convert from/to date values to actual Date objects, if valid.
-  const fromDate = fromDateValue ? new Date(fromDateValue) : null;
-  const toDate = toDateValue ? new Date(toDateValue) : null;
-
-  document.querySelectorAll('#articles .box').forEach(box => {
-    const title = box.getAttribute('data-title').toLowerCase();
-    const date = new Date(box.getAttribute('data-date')); // Assuming data-date is in a valid format (YYYY-MM-DD)
-
-    let match = true;
-
-    // Debugging: Check title and filter input
-    console.log('Title:', title);
-    console.log('Filter:', titleFilter);
-
-    // فلترة العنوان (Filter by title)
-    if (titleFilter && !title.includes(titleFilter)) {
-      match = false;
-    }
-
-    // Debugging: Check if the match is set to false due to title filter
-    if (!match) {
-      console.log('Title does not match:', title);
-    }
-
-    // فلترة اليوم (Filter by day)
-    if (selectedDay && date.getDate() !== parseInt(selectedDay)) {
-      match = false;
-    }
-
-    // فلترة الشهر (Filter by month)
-    if (selectedMonth && (date.getMonth() + 1) !== parseInt(selectedMonth)) {
-      match = false;
-    }
-
-    // فلترة السنة (Filter by year)
-    if (selectedYear && date.getFullYear() !== parseInt(selectedYear)) {
-      match = false;
-    }
-
-    // فلترة من تاريخ (Filter by from date)
-    if (fromDate && date < fromDate) {
-      match = false;
-    }
-
-    // فلترة إلى تاريخ (Filter by to date)
-    if (toDate && date > toDate) {
-      match = false;
-    }
-
-    // Apply the filter by displaying or hiding the box
-    box.style.display = match ? 'block' : 'none';
-  });
-});
-
-</script>
-<script>
-  document.getElementById('resetButton').addEventListener('click', function () {
-    // Clear all filter inputs
-    document.getElementById('titleFilter').value = '';
-    document.getElementById('daySelect').value = '';
-    document.getElementById('monthSelect').value = '';
-    document.getElementById('yearSelect').value = '';
-    document.getElementById('from-date').value = '';
-    document.getElementById('to-date').value = '';
-
-    // Show all articles again
-    document.querySelectorAll('.box').forEach(function (box) {
-      box.style.display = 'block';
     });
-  });
-</script>
-
-
-
-<script>
-  document.getElementById('filterButton').addEventListener('click', () => {
-  const titleFilter = document.getElementById('titleFilter').value.trim().toLowerCase();
-  const selectedDay = document.getElementById('daySelect').value;
-  const selectedMonth = document.getElementById('monthSelect').value;
-  const selectedYear = document.getElementById('yearSelect').value;
-  const fromDateValue = document.getElementById('from-date').value;
-  const toDateValue = document.getElementById('to-date').value;
-
-  // Convert from/to date values to actual Date objects, if valid.
-  const fromDate = fromDateValue ? new Date(fromDateValue) : null;
-  const toDate = toDateValue ? new Date(toDateValue) : null;
-
-  document.querySelectorAll('#articles .box').forEach(box => {
-    const title = box.getAttribute('data-title').toLowerCase();
-    const date = new Date(box.getAttribute('data-date')); // Assuming data-date is in a valid format (YYYY-MM-DD)
-
-    let match = true;
-
-    // فلترة العنوان (Filter by title)
-    if (titleFilter && !title.includes(titleFilter)) {
-      match = false;
-    }
-
-    // فلترة اليوم (Filter by day)
-    if (selectedDay && date.getDate() !== parseInt(selectedDay)) {
-      match = false;
-    }
-
-    // فلترة الشهر (Filter by month)
-    if (selectedMonth && (date.getMonth() + 1) !== parseInt(selectedMonth)) {
-      match = false;
-    }
-
-    // فلترة السنة (Filter by year)
-    if (selectedYear && date.getFullYear() !== parseInt(selectedYear)) {
-      match = false;
-    }
-
-    // فلترة من تاريخ (Filter by from date)
-    if (fromDate && date < fromDate) {
-      match = false;
-    }
-
-    // فلترة إلى تاريخ (Filter by to date)
-    if (toDate && date > toDate) {
-      match = false;
-    }
-
-    // Apply the filter by displaying or hiding the box
-    box.style.display = match ? 'block' : 'none';
-  });
-});
 
   </script>
-  
+  <script>
+    const translations = {
+      en: {
+        // Header / Navigation
+        home: "Home",
+        news: "Achievments",
+        about: "information",
+        features: "Features",
+        "other links": "Other Links",
+        gallary: "Gallary",
+        "team members": "Team Members",
+        services: "Services",
+        "our skills": "Our Skills",
+        "how it works": "How It Works",
+        events: "Events",
+        "pricing plans": "Pricing Plans",
+        "videos": "Top Videos",
+        stats: "Stats",
+        requestadiscount: "Request a Discount",
+        dateFrom: "Date From",
+        dateTo: "Date To",
+        
+        // Filter Elements
+        searchPlaceholder: "Search achievements...",
+        category: "Category",
+        allCategories: "All Categories",
+        military: "Military",
+        defense: "Defense",
+        industry: "Industry",
+        technology: "Technology",
+        international: "International Relations",
+        development: "Development",
+        security: "Security",
+        leadership: "Leadership",
+        dateRange: "Date Range",
+        sortBy: "Sort By",
+        dateNewest: "Date (Newest First)",
+        dateOldest: "Date (Oldest First)",
+        titleAZ: "Title (A-Z)",
+        titleZA: "Title (Z-A)",
+        clearFilters: "Clear All Filters",
+        noResultsTitle: "No Results Found",
+        noResultsDesc: "Try adjusting your filters or search criteria.",
+        showingArticles: "Showing",
+        ofArticles: "of",
+        articles: "articles",
+        eventsFound: "Events Found",
 
-<script>
-  // Function to change the main image when a thumbnail is clicked
-  function changeImage(src) {
-    // Change the main image
-    document.getElementById('mainImage').src = src;
 
-    // Optional: Highlight the selected thumbnail
-    const thumbnails = document.querySelectorAll('.thumbnail');
-    thumbnails.forEach(thumb => {
-      thumb.classList.remove('selected');
+        // Landing
+        landingTitle1: "Major General Engineer",
+        landingTitle2: "Mokhtar Abdel Latif",
+        landingParagraph: "Chairman of the Board of Directors of the Arab Organization for Industrialization",
+
+        // Articles Section
+        latestArticles: " Achievments",
+        readMore: "Read More",
+
+        // Article Titles and Descriptions
+        article1Title: "Exploring the Desert",
+        article1Desc: "Discover the secrets of the world's most arid regions and how life adapts to survive.",
+        article2Title: "Cat Behavior Explained",
+        article2Desc: "Understand your feline friend better by learning the reasons behind common behaviors.",
+        article3Title: "Wildlife in the City",
+        article3Desc: "A look at how urban environments are home to surprising wildlife species.",
+        article4Title: "The Science of Sleep",
+        article4Desc: "Why do we sleep? Dive into the fascinating biology of rest and recovery.",
+        article5Title: "Ocean Wonders",
+        article5Desc: "Explore the mysterious depths of the ocean and the creatures that live within.",
+        article6Title: "Adventures in the Forest",
+        article6Desc: "Join us on a journey through lush forests full of beauty and biodiversity.",
+        article7Title: "Technology and Nature",
+        article7Desc: "How modern innovations are helping to preserve the natural world.",
+        article8Title: "Photographing Wildlife",
+        article8Desc: "Tips and techniques for capturing stunning wildlife photos in any environment.",
+        article9Title: "The Art of Night Photography",
+        article9Desc: "Learn how to capture stunning images in the dark using simple settings.",
+        article10Title: "Journey in the Alps",
+        article10Desc: "Enjoy the breathtaking beauty of the snow-covered mountain peaks.",
+        article11Title: "Future Technology",
+        article11Desc: "Learn about the latest innovations that will change our lives in the coming years.",
+        article12Title: "Life in the Arctic",
+        article12Desc: "Discover how animals and humans survive in the harshest environment on Earth.",
+        article13Title: "Beginner's Guide to Farming",
+        article13Desc: "Start your own home farming journey and learn the best practices for success.",
+        article14Title: "Rainforests: Nature's Treasures",
+        article14Desc: "Learn about the incredible biodiversity of rainforests and their importance.",
+        article15Title: "Astronomy for Beginners",
+        article15Desc: "Start your journey into astronomy and learn about planets, stars, and galaxies.",
+        article16Title: "How to Care for Your Houseplants",
+        article16Desc: "Your daily guide to keeping your plants healthy throughout the seasons.",
+        article17Title: "Artificial Intelligence in Our Lives",
+        article17Desc: "How AI is changing the way we work, communicate, and learn.",
+        article18Title: "The Smart Traveler's Guide",
+        article18Desc: "Smart tips for traveling on a budget while having an unforgettable experience.",
+        news_links: " News Links",
+
+        // Filters
+        filterTitle: "Title:",
+        filterDay: "Day:",
+        filterMonth: "Month:",
+        filterYear: "Year:",
+        applyFilter: "Apply Filter",
+        all: "All",
+
+        // Months
+        month1: "January",
+        month2: "February",
+        month3: "March",
+        month4: "April",
+        month5: "May",
+        month6: "June",
+        month7: "July",
+        month8: "August",
+        month9: "September",
+        month10: "October",
+        month11: "November",
+        month12: "December"
+      },
+
+      ar: {
+        // Header / Navigation
+        home: " الرئيسية",
+        news: "الانجازات",
+        about: "  معلومات",
+        features: "مميزات",
+        "other links": "روابط أخرى",
+        gallary: "معرض الصور",
+        "team members": "أعضاء الفريق",
+        services: "خدمات",
+        "our skills": "مهاراتنا",
+        "how it works": "كيف يعمل",
+        events: "الأحداث",
+        "pricing plans": "خطط الأسعار",
+        "videos": "أفضل الفيديوهات",
+        stats: "الإحصائيات",
+        "request a discount": "طلب خصم",
+        dateFrom: "من تاريخ:",
+        dateTo: "الى تاريخ:",
+        
+        // Filter Elements
+        searchPlaceholder: "البحث في الإنجازات...",
+        category: "التصنيف",
+        allCategories: "كل التصنيفات",
+        military: "عسكري",
+        defense: "دفاع",
+        industry: "صناعة",
+        technology: "تكنولوجيا",
+        international: "علاقات دولية",
+        development: "تطوير",
+        security: "أمن",
+        leadership: "قيادة",
+        dateRange: "النطاق الزمني",
+        sortBy: "ترتيب حسب",
+        dateNewest: "التاريخ (الأحدث أولاً)",
+        dateOldest: "التاريخ (الأقدم أولاً)",
+        titleAZ: "العنوان (أ-ي)",
+        titleZA: "العنوان (ي-أ)",
+        clearFilters: "مسح الفلاتر",
+        noResultsTitle: "لم يتم العثور على نتائج",
+        noResultsDesc: "حاول تعديل المرشحات أو معايير البحث.",
+        showingArticles: "إظهار",
+        ofArticles: "من",
+        articles: "المقالات",
+        eventsFound: "فعالية تم العثور عليها",
+
+
+        // Landing
+        landingTitle1: "اللواء مهندس",
+        landingTitle2: "مختار عبد اللطيف",
+        landingParagraph: "رئيس مجلس إدارة الهيئة العربية للتصنيع",
+
+        // Articles Section
+        latestArticles: " الانجازات ",
+        readMore: "اقرأ المزيد",
+
+        // Article Titles and Descriptions
+        article1Title: "استكشاف الصحراء",
+        article1Desc: "اكتشف أسرار المناطق الأكثر جفافًا في العالم وكيف تتكيف الحياة للبقاء.",
+        article2Title: "شرح سلوك القطط",
+        article2Desc: "افهم صديقك القط بشكل أفضل من خلال التعرف على أسباب السلوكيات الشائعة.",
+        article3Title: "الحياة البرية في المدينة",
+        article3Desc: "نظرة على كيف أن البيئات الحضرية تأوي أنواعًا مدهشة من الحياة البرية.",
+        article4Title: "علم النوم",
+        article4Desc: "لماذا ننام؟ استكشف البيولوجيا المدهشة للراحة والتعافي.",
+        article5Title: "عجائب المحيط",
+        article5Desc: "استكشف أعماق المحيط الغامضة والمخلوقات التي تعيش فيها.",
+        article6Title: "مغامرات في الغابة",
+        article6Desc: "انضم إلينا في رحلة عبر الغابات المورقة المليئة بالجمال والتنوع البيولوجي.",
+        article7Title: "التكنولوجيا والطبيعة",
+        article7Desc: "كيف تساعد الابتكارات الحديثة في الحفاظ على العالم الطبيعي.",
+        article8Title: "تصوير الحياة البرية",
+        article8Desc: "نصائح وتقنيات لالتقاط صور مذهلة للحياة البرية في أي بيئة.",
+        article9Title: "فن التصوير الليلي",
+        article9Desc: "تعلم كيفية التقاط صور رائعة في الظلام باستخدام الإعدادات البسيطة.",
+        article10Title: "رحلة إلى جبال الألب",
+        article10Desc: "استمتع بجمال قمم الجبال المغطاة بالثلوج.",
+        article11Title: "تكنولوجيا المستقبل",
+        article11Desc: "تعرف على أحدث الابتكارات التي ستغير حياتنا في السنوات القادمة.",
+        article12Title: "الحياة في القطب الشمالي",
+        article12Desc: "اكتشف كيف ينجو الحيوانات والبشر في أقسى بيئة على وجه الأرض.",
+        article13Title: "دليل المبتدئين في الزراعة",
+        article13Desc: "ابدأ رحلتك الزراعية في المنزل وتعلم أفضل الممارسات للنجاح.",
+        article14Title: "الغابات المطيرة: كنوز الطبيعة",
+        article14Desc: "تعرف على التنوع البيولوجي المدهش للغابات المطيرة وأهميتها.",
+        article15Title: "الفلك للمبتدئين",
+        article15Desc: "ابدأ رحلتك في علم الفلك وتعلم عن الكواكب والنجوم والمجرات.",
+        article16Title: "كيفية العناية بالنباتات المنزلية",
+        article16Desc: "دليلك اليومي للحفاظ على صحة نباتاتك طوال الفصول.",
+        article17Title: "الذكاء الاصطناعي في حياتنا",
+        article17Desc: "كيف يغير الذكاء الاصطناعي الطريقة التي نعمل بها ونتواصل بها ونتعلم.",
+        article18Title: "دليل المسافر الذكي",
+        article18Desc: "نصائح ذكية للسفر بميزانية محدودة مع تجربة لا تُنسى.",
+        news_links: "لينكات الصحف",
+
+        // Filters
+        filterTitle: "العنوان:",
+        filterDay: "اليوم:",
+        filterMonth: "الشهر:",
+        filterYear: "السنة:",
+        applyFilter: "تطبيق الفلتر",
+        all: "الكل",
+
+        // Months
+        month1: "يناير",
+        month2: "فبراير",
+        month3: "مارس",
+        month4: "أبريل",
+        month5: "مايو",
+        month6: "يونيو",
+        month7: "يوليو",
+        month8: "أغسطس",
+        month9: "سبتمبر",
+        month10: "أكتوبر",
+        month11: "نوفمبر",
+        month12: "ديسمبر"
+      }
+    };
+
+
+    function typeText(element, text, speed, callback) {
+      element.textContent = '';
+      let index = 0;
+      function type() {
+        if (index < text.length) {
+          element.textContent += text.charAt(index);
+          index++;
+          setTimeout(type, speed);
+        } else if (callback) {
+          callback();
+        }
+      }
+      type();
+    }
+
+    function updateLanguage(language) {
+      const elements = document.querySelectorAll('[data-lang], [data-i18n]');
+      
+      // First, immediately update all article content and regular elements
+      elements.forEach(element => {
+        const key = element.getAttribute('data-lang') || element.getAttribute('data-i18n');
+        const translation = translations[language][key];
+        if (!translation) return;
+
+        // For articles and regular elements - update immediately without animation
+        if (element.closest('.box') || element.tagName === 'OPTION' || 
+            !element.id || (element.id !== "landing-title" && element.id !== "landing-paragraph")) {
+          element.textContent = translation;
+        }
+      });
+      
+      // Only animate landing page elements with typewriter effect
+      const landingTitle = document.getElementById("landing-title");
+      const landingParagraph = document.getElementById("landing-paragraph");
+      
+      if (landingTitle) {
+        const titleKey = landingTitle.getAttribute('data-lang') || landingTitle.getAttribute('data-i18n');
+        const titleTranslation = translations[language][titleKey];
+        if (titleTranslation) {
+          typeText(landingTitle, titleTranslation, 20);
+        }
+      }
+      
+      if (landingParagraph) {
+        const paraKey = landingParagraph.getAttribute('data-lang') || landingParagraph.getAttribute('data-i18n');
+        const paraTranslation = translations[language][paraKey];
+        if (paraTranslation) {
+          setTimeout(() => {
+            typeText(landingParagraph, paraTranslation, 10);
+          }, 500); // Small delay after title
+        }
+      }
+      
+      // Update navigation links
+      elements.forEach(element => {
+        if (element.classList.contains('headLinks')) {
+          const key = element.getAttribute('data-lang') || element.getAttribute('data-i18n');
+          const translation = translations[language][key];
+          if (translation) {
+            element.textContent = translation;
+          }
+        }
+      });
+
+      document.body.setAttribute('dir', language === 'ar' ? 'rtl' : 'ltr');
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      // Check for saved language preference
+      const savedLanguage = localStorage.getItem('language') || 'en';
+      const langToggle = document.getElementById("chklang");
+
+      // Set initial state based on saved preference
+      if (savedLanguage === 'ar') {
+        langToggle.checked = true;
+      }
+
+      // Store translations globally for other scripts to access
+      window.translations = translations;
+      
+      // Make sure translations are fully initialized before filters are created
+      document.dispatchEvent(new CustomEvent('translationsLoaded', { 
+        detail: { language: savedLanguage }
+      }));
+      
+      // Update language on page load
+      updateLanguage(savedLanguage);
+
+      // Add change event listener
+      if (langToggle) {
+        langToggle.addEventListener("change", function () {
+          const selectedLanguage = this.checked ? "ar" : "en";
+          
+          // Save language preference
+          localStorage.setItem('language', selectedLanguage);
+          
+          // Reload the page to apply all language changes fully
+          window.location.reload();
+          
+          // Note: The code below won't run because of the reload, but we'll keep it
+          // in case the reload approach is changed later
+          
+          // Update language
+          updateLanguage(selectedLanguage);
+          
+          // Update filter dropdowns if function exists
+          if (typeof window.updateFilterDropdowns === 'function') {
+            window.updateFilterDropdowns(selectedLanguage);
+          }
+          
+          // Apply translations without page reload
+          updateLanguage(selectedLanguage);
+          
+          // Update filter dropdowns if function exists
+          if (typeof window.updateFilterDropdowns === 'function') {
+            window.updateFilterDropdowns(selectedLanguage);
+          }
+          
+          // Update date range picker if function exists
+          if (typeof window.updateDateRangePicker === 'function') {
+            window.updateDateRangePicker(selectedLanguage);
+          }
+        });
+      }
+    });
+  </script>
+
+  <script>
+    document.getElementById('filterButton').addEventListener('click', () => {
+      const titleFilter = document.getElementById('titleFilter').value.trim().toLowerCase();
+      const selectedDay = document.getElementById('daySelect').value;
+      const selectedMonth = document.getElementById('monthSelect').value;
+      const selectedYear = document.getElementById('yearSelect').value;
+      const fromDateValue = document.getElementById('from-date').value;
+      const toDateValue = document.getElementById('to-date').value;
+
+      // Convert from/to date values to actual Date objects, if valid.
+      const fromDate = fromDateValue ? new Date(fromDateValue) : null;
+      const toDate = toDateValue ? new Date(toDateValue) : null;
+
+      document.querySelectorAll('#articles .box').forEach(box => {
+        const title = box.getAttribute('data-title').toLowerCase();
+        const date = new Date(box.getAttribute('data-date')); // Assuming data-date is in a valid format (YYYY-MM-DD)
+
+        let match = true;
+
+        // Debugging: Check title and filter input
+        console.log('Title:', title);
+        console.log('Filter:', titleFilter);
+
+        // فلترة العنوان (Filter by title)
+        if (titleFilter && !title.includes(titleFilter)) {
+          match = false;
+        }
+
+        // Debugging: Check if the match is set to false due to title filter
+        if (!match) {
+          console.log('Title does not match:', title);
+        }
+
+        // فلترة اليوم (Filter by day)
+        if (selectedDay && date.getDate() !== parseInt(selectedDay)) {
+          match = false;
+        }
+
+        // فلترة الشهر (Filter by month)
+        if (selectedMonth && (date.getMonth() + 1) !== parseInt(selectedMonth)) {
+          match = false;
+        }
+
+        // فلترة السنة (Filter by year)
+        if (selectedYear && date.getFullYear() !== parseInt(selectedYear)) {
+          match = false;
+        }
+
+        // فلترة من تاريخ (Filter by from date)
+        if (fromDate && date < fromDate) {
+          match = false;
+        }
+
+        // فلترة إلى تاريخ (Filter by to date)
+        if (toDate && date > toDate) {
+          match = false;
+        }
+
+        // Apply the filter by displaying or hiding the box
+        box.style.display = match ? 'block' : 'none';
+      });
     });
 
-    const selectedThumbnail = Array.from(thumbnails).find(thumb => thumb.src.includes(src));
-    if (selectedThumbnail) {
-      selectedThumbnail.classList.add('selected');
+  </script>
+  <script>
+    document.getElementById('resetButton').addEventListener('click', function () {
+      // Clear all filter inputs
+      document.getElementById('titleFilter').value = '';
+      document.getElementById('daySelect').value = '';
+      document.getElementById('monthSelect').value = '';
+      document.getElementById('yearSelect').value = '';
+      document.getElementById('from-date').value = '';
+      document.getElementById('to-date').value = '';
+
+      // Show all articles again
+      document.querySelectorAll('.box').forEach(function (box) {
+        box.style.display = 'block';
+      });
+    });
+  </script>
+
+
+
+  <script>
+    document.getElementById('filterButton').addEventListener('click', () => {
+      const titleFilter = document.getElementById('titleFilter').value.trim().toLowerCase();
+      const selectedDay = document.getElementById('daySelect').value;
+      const selectedMonth = document.getElementById('monthSelect').value;
+      const selectedYear = document.getElementById('yearSelect').value;
+      const fromDateValue = document.getElementById('from-date').value;
+      const toDateValue = document.getElementById('to-date').value;
+
+      // Convert from/to date values to actual Date objects, if valid.
+      const fromDate = fromDateValue ? new Date(fromDateValue) : null;
+      const toDate = toDateValue ? new Date(toDateValue) : null;
+
+      document.querySelectorAll('#articles .box').forEach(box => {
+        const title = box.getAttribute('data-title').toLowerCase();
+        const date = new Date(box.getAttribute('data-date')); // Assuming data-date is in a valid format (YYYY-MM-DD)
+
+        let match = true;
+
+        // فلترة العنوان (Filter by title)
+        if (titleFilter && !title.includes(titleFilter)) {
+          match = false;
+        }
+
+        // فلترة اليوم (Filter by day)
+        if (selectedDay && date.getDate() !== parseInt(selectedDay)) {
+          match = false;
+        }
+
+        // فلترة الشهر (Filter by month)
+        if (selectedMonth && (date.getMonth() + 1) !== parseInt(selectedMonth)) {
+          match = false;
+        }
+
+        // فلترة السنة (Filter by year)
+        if (selectedYear && date.getFullYear() !== parseInt(selectedYear)) {
+          match = false;
+        }
+
+        // فلترة من تاريخ (Filter by from date)
+        if (fromDate && date < fromDate) {
+          match = false;
+        }
+
+        // فلترة إلى تاريخ (Filter by to date)
+        if (toDate && date > toDate) {
+          match = false;
+        }
+
+        // Apply the filter by displaying or hiding the box
+        box.style.display = match ? 'block' : 'none';
+      });
+    });
+
+  </script>
+
+
+  <script>
+    // Function to change the main image when a thumbnail is clicked
+    function changeImage(src) {
+      // Change the main image
+      document.getElementById('mainImage').src = src;
+
+      // Optional: Highlight the selected thumbnail
+      const thumbnails = document.querySelectorAll('.thumbnail');
+      thumbnails.forEach(thumb => {
+        thumb.classList.remove('selected');
+      });
+
+      const selectedThumbnail = Array.from(thumbnails).find(thumb => thumb.src.includes(src));
+      if (selectedThumbnail) {
+        selectedThumbnail.classList.add('selected');
+      }
     }
-  }
 
-</script>
+  </script>
 
-<!--Main JS App File-->
+  <!--Main JS App File-->
+  <script src="js/filters.js"></script>
+  <script src="js/filter-dropdowns.js"></script>
 </body>
 
 </html>

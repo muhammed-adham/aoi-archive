@@ -26,10 +26,8 @@ function onLoad() {
 
 // On Load Languages
 function onLoadLanguages() {
-  let isArabic = window.localStorage.getItem("isArabic?");
-  let checkBoxlang = document.querySelector(".checkboxlang");
-  let checkBoxlang1 = document.querySelector(".checkboxlang1");
-  let checkBoxlang2 = document.querySelector(".checkboxlang2");
+  const savedLanguage = localStorage.getItem('language') || 'en';
+  const checkBoxlang = document.querySelector('.checkboxlang');
   let body = document.querySelector("body");
 
   let email = document.querySelector(".email1");
@@ -41,46 +39,48 @@ function onLoadLanguages() {
   let submit = document.querySelector(".sendd");
   let copyright = document.querySelector(".copyright");
 
-  window.addEventListener("load", () => {
-    if (isArabic === "true") {
-      translate("ar");
-      body.classList.add("rtl");
-      body.setAttribute("dir", "rtl");
-      checkBoxlang.checked = true;
-      checkBoxlang1.checked = true;
-      checkBoxlang2.checked = true;
-      email.setAttribute("placeholder", "ادخل بريدك الإلكترونى");
-      subscribe.setAttribute("value", "اشترك");
-      submit.setAttribute("value", "ارسل");
-      name.setAttribute("placeholder", "ادخل أسمك");
-      email1.setAttribute("placeholder", "ادخل بريدك الالكترونى");
-      mobile.setAttribute("placeholder", "ادخل رقم هاتفك");
-      message.setAttribute("placeholder", "ادخل رسالتك");
-      copyright.innerHTML = `تمت برمجتها بكل ال ❤ بواسطة
-      <a href="https://github.com/Mohamed-Waled" target="_blank"
-        >م : محمد وليد</a
-      >.`;
+  // Set initial state
+  if (savedLanguage === 'ar') {
+    checkBoxlang.checked = true;
+    body.classList.add('rtl');
+    body.setAttribute('dir', 'rtl');
+  } else {
+    checkBoxlang.checked = false;
+    body.classList.remove('rtl');
+    body.removeAttribute('dir');
+  }
+
+  // Update language switch
+  checkBoxlang.addEventListener('change', function() {
+    const newLanguage = this.checked ? 'ar' : 'en';
+    localStorage.setItem('language', newLanguage);
+    
+    // Add transition class
+    body.classList.add('language-transition');
+    
+    // Update UI
+    if (newLanguage === 'ar') {
+      body.classList.add('rtl');
+      body.setAttribute('dir', 'rtl');
     } else {
-      translate("en");
-      body.classList.remove("rtl");
-      body.removeAttribute("dir", "rtl");
-      checkBoxlang.checked = false;
-      checkBoxlang1.checked = false;
-      checkBoxlang2.checked = false;
-      email.setAttribute("placeholder", "Enter Your Email");
-      subscribe.setAttribute("value", "Subscribe");
-      submit.setAttribute("value", "Send");
-      name.setAttribute("placeholder", "Your Name");
-      email1.setAttribute("placeholder", "Your Email");
-      mobile.setAttribute("placeholder", "Your Phone");
-      message.setAttribute("placeholder", "Tell Us About Your Needs");
-      copyright.innerHTML = `coded with ❤ by
-      <a href="https://github.com/Mohamed-Waled" target="_blank"
-        >Eng: mohamed waled</a
-      >.`;
+      body.classList.remove('rtl');
+      body.removeAttribute('dir');
     }
+    
+    // Update content
+    translate(newLanguage);
+    
+    // Remove transition class after animation
+    setTimeout(() => {
+      body.classList.remove('language-transition');
+    }, 300);
   });
 }
+
+// Initialize language switcher
+document.addEventListener('DOMContentLoaded', () => {
+  onLoadLanguages();
+});
 
 // Events Count Down
 function countDown() {
@@ -563,6 +563,56 @@ function addLanguagetoLocalStorage() {
     }
   });
 }
+
+// Search functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('search-input');
+  
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase().trim();
+      const boxes = document.querySelectorAll('#articles .box');
+      
+      boxes.forEach(box => {
+        const title = box.querySelector('h3').textContent.toLowerCase();
+        const description = box.querySelector('p').textContent.toLowerCase();
+        const category = box.getAttribute('data-category').toLowerCase();
+        
+        // Check if any of the content matches the search term
+        if (title.includes(searchTerm) || 
+            description.includes(searchTerm) || 
+            category.includes(searchTerm)) {
+          box.style.display = 'block';
+        } else {
+          box.style.display = 'none';
+        }
+      });
+      
+      // Show a message if no results found
+      const visibleBoxes = document.querySelectorAll('#articles .box[style="display: block"]');
+      const noResultsMsg = document.getElementById('no-results-message');
+
+      
+      
+      if (visibleBoxes.length === 0 && searchTerm !== '') {
+        // Create message if it doesn't exist
+        if (!noResultsMsg) {
+          const message = document.createElement('p');
+          message.id = 'no-results-message';
+          message.className = 'no-results';
+          message.textContent = 'No results found. Please try a different search term.';
+          
+          const container = document.querySelector('#articles .container');
+          container.appendChild(message);
+        } else {
+          noResultsMsg.style.display = 'block';
+        }
+      } else if (noResultsMsg) {
+        noResultsMsg.style.display = 'none';
+      }
+    });
+  }
+});
 
 countDown();
 skillsWidth();
