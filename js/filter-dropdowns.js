@@ -129,12 +129,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Update the hidden select element value
                     const hiddenSelect = document.getElementById(originalId);
                     const optionValue = optionBtn.dataset.value; // Get value from dataset
-                    console.log('Updating hidden select:', originalId, 'to value:', optionValue);
                     
                     if (hiddenSelect) {
                         hiddenSelect.value = optionValue;
-                        console.log('Hidden select value now:', hiddenSelect.value);
-                        console.log('Dispatching change event');
                         hiddenSelect.dispatchEvent(new Event('change', { bubbles: true }));
                     } else {
                         console.error('Hidden select not found:', originalId);
@@ -198,7 +195,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 dropdown, 
                 hiddenSelect,
                 updateValue: function(value) {
-                    console.log(`Updating dropdown ${originalId} to value: ${value}`);
                     
                     // Update hidden select first
                     if (hiddenSelect.value !== value) {
@@ -209,7 +205,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             .find(opt => opt.dataset.value === value);
                         
                         if (selectedOption) {
-                            console.log('Found matching option:', selectedOption.textContent);
                             btn.textContent = selectedOption.textContent;
                             
                             menu.querySelectorAll('.filter-option').forEach(opt => {
@@ -217,7 +212,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             });
                             selectedOption.classList.add('selected');
                         } else {
-                            console.log('No matching option found for value:', value);
                             // If no option found, set to first option (often "All")
                             const firstOption = menu.querySelector('.filter-option');
                             if (firstOption) {
@@ -230,7 +224,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                         
                         // Trigger change event on the hidden select
-                        console.log('Dispatching change event on hidden select');
                         hiddenSelect.dispatchEvent(new Event('change', {bubbles: true}));
                     }
                 }
@@ -332,22 +325,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Initialize dropdowns with a slight delay to ensure everything is ready
         setTimeout(() => {
-            console.log("Setting up initial filter state now that dropdowns are ready");
             
             // Reset initial values
             if (dropdowns.category) {
-                console.log("Initializing category dropdown");
                 dropdowns.category.updateValue('');
             }
             
             if (dropdowns.sort) {
-                console.log("Initializing sort dropdown");
                 dropdowns.sort.updateValue('date-desc');
             }
             
             // Manually call filterArticles to ensure initial state is correct
             if (typeof filterArticles === 'function') {
-                console.log("Calling filterArticles() from filter-dropdowns.js");
                 filterArticles();
             } else {
                 console.warn("filterArticles function not found - filter functionality may not be available yet");

@@ -1,6 +1,5 @@
 // Initialize filters when the document is ready
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Initializing filters.js");
     
     // Wait a brief moment to ensure custom dropdowns have initialized
     setTimeout(() => {
@@ -11,49 +10,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const endDateInput = document.getElementById('end-date');
         const clearFiltersBtn = document.getElementById('clear-filters');
         
-        console.log("Filter elements found:", {
-            categoryFilter: categoryFilter?.id,
-            sortByFilter: sortByFilter?.id,
-            startDateInput: startDateInput?.id,
-            endDateInput: endDateInput?.id,
-            clearFiltersBtn: clearFiltersBtn?.id
-        });
+
 
         // Add event listeners to all filter inputs
         if (categoryFilter) {
-            console.log("Adding change listener to category filter");
             categoryFilter.addEventListener('change', function() {
-                console.log("Category filter changed to:", this.value);
                 filterArticles();
             });
         }
         
         if (sortByFilter) {
-            console.log("Adding change listener to sort filter");
             sortByFilter.addEventListener('change', function() {
-                console.log("Sort filter changed to:", this.value);
                 filterArticles();
             });
         }
         
         if (startDateInput) {
-            console.log("Adding change listener to start date input");
             startDateInput.addEventListener('change', filterArticles);
         }
         
         if (endDateInput) {
-            console.log("Adding change listener to end date input");
             endDateInput.addEventListener('change', filterArticles);
         }
 
         // Add event listener to clear filters button
         if (clearFiltersBtn) {
-            console.log("Adding click listener to clear filters button");
             clearFiltersBtn.addEventListener('click', clearFilters);
         }
 
         // Initial filter state
-        console.log("Setting initial filter state");
         updateFilterButtonState();
         
         // Run initial filter
@@ -75,14 +60,7 @@ function filterArticles() {
     const startDate = startDateInput ? startDateInput.value : '';
     const endDate = endDateInput ? endDateInput.value : '';
     
-    console.log('Filtering with:', { 
-        category, 
-        sortBy, 
-        startDate, 
-        endDate,
-        categoryElement: categoryFilter,
-        categoryOptions: categoryFilter ? Array.from(categoryFilter.options).map(opt => ({ value: opt.value, text: opt.text })) : []
-    });
+
 
     // Get all article elements
     const articles = document.querySelectorAll('#articles .box');
@@ -95,13 +73,11 @@ function filterArticles() {
         const articleDate = new Date(article.dataset.date);
         const articleCategory = article.dataset.category;
         
-        console.log(`Article category: "${articleCategory}", selected category: "${category}"`);
         
         let showArticle = true;
 
         // Filter by category - only hide if category is selected and doesn't match
         if (category && category !== '' && category !== 'all' && articleCategory !== category) {
-            console.log(`Hiding article with category ${articleCategory} because it doesn't match ${category}`);
             showArticle = false;
         }
 
@@ -119,7 +95,6 @@ function filterArticles() {
     });
 
     // Log visible count
-    console.log(`Filtered results: ${visibleCount} articles visible out of ${totalCount}`);
 
     // Sort articles
     const visibleArticles = articlesArray.filter(article => article.style.display !== 'none');

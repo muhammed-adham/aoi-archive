@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/all.min.css" />
+    <!--Link Font Awesome 6 Library-->
+    <link rel="stylesheet" href="css/styles.css" />
+    <!--Link Styles Sheet-->
+    <link rel="stylesheet" href="css/normalize.css" />
+    <!--Link Normalize-->
+    <link rel="stylesheet" href="css/date-range-picker.css" />
+    <!--Link Date Range Picker CSS-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <!--Link Font Awesome CDN-->
+    
+    <title>Video Library</title>
+</head>
+
+<body>
+    <!--Start Header-->
+    <!-- Start Bootstrap Header -->
+    <header class="py-3">
+        <nav class="navbar navbar-expand-lg navbar-light container">
+            <!-- Logo -->
+            <a class="navbar-brand" href="">
+                <img src="images/3.png" width="80" alt="Logo">
+            </a>
+
+            <!-- Toggler button for mobile view -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar links and utilities -->
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 mainNav ">
+                    <li class="">
+                        <a class=" headLinks" href="index.html" data-lang="home"></a>
+                    </li>
+                    <li class="">
+                        <a class=" headLinks" href="videos.html" data-lang="videos"></a>
+                    </li>
+                    <li class="">
+                        <a class=" headLinks" href="about.html" data-lang="about"></a>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- Right Side Buttons -->
+            <div class="toggle-btn">
+                <!-- Dark Mode Toggle -->
+                <div class="darkModeButton">
+                    <input type="checkbox" class="checkbox" id="chk" />
+                    <label class="label" for="chk">
+                        <i class="fas fa-moon moon"></i>
+                        <i class="fas fa-sun sun"></i>
+                        <div class="ball"></div>
+                    </label>
+                </div>
+
+                <!-- Language Switcher -->
+                <div class="laguagesButton">
+                    <div class="inner1">
+                        <input type="checkbox" class="checkboxlang" id="chklang"
+                            aria-label="Toggle language between English and Arabic" />
+                        <label class="labellang" for="chklang">
+                            <span>Ar</span>
+                            <span>En</span>
+                            <!-- <img src="images/gb.svg" alt="English" class="gbFlag" />
+              <img src="images/eg.svg" alt="Arabic" class="egFlag" /> -->
+                            <div class="balllang"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- End Bootstrap Header -->
+
+    <main>
+
+
+        <section class="video-gallery-section">
+            <!-- Banner/Breadcrumbs -->
+            <div class="banner">
+                <div class="container">
+                    <p class="breadcrumbs" data-lang="video_library"></p>
+                </div>
+            </div>
+            <div class="container">
+                <div class="video-grid">
+                    <!-- Video items will be populated here -->
+                    <div class="video-card-wrapper">
+                        <div class="video-display-box">
+                            <div class="thumbnail-container">
+                                <img src="https://img.youtube.com/vi/dY3t90L_q3Q/hqdefault.jpg" alt="Video Thumbnail"
+                                    class="thumbnail-image">
+                                <div class="main-play-icon-area">
+                                    <i class="fa-regular fa-circle-play"></i>
+                                </div>
+                            </div>
+                            <div class="youtube-logo-wrapper">
+                                <img src="images/favicon.png" alt="YouTube Logo" class="youtube-logo-image">
+                            </div>
+                        </div>
+                        <p class="video-card-title" data-lang="video1"></p>
+                    </div>
+
+                    <div class="video-card-wrapper">
+                        <div class="video-display-box">
+                            <div class="thumbnail-container">
+                                <img src="https://img.youtube.com/vi/pOWKt8p-GYY/hqdefault.jpg" alt="Video Thumbnail"
+                                    class="thumbnail-image">
+                                <div class="main-play-icon-area">
+                                    <i class="fa-regular fa-circle-play"></i>
+                                </div>
+                            </div>
+                            <div class="youtube-logo-wrapper">
+                                <img src="images/favicon.png" alt="YouTube Logo" class="youtube-logo-image">
+                            </div>
+                        </div>
+                        <p class="video-card-title" data-lang="video2"></p>
+                    </div>
+
+                    <div class="video-card-wrapper">
+                        <div class="video-display-box">
+                            <div class="thumbnail-container">
+                                <img src="https://img.youtube.com/vi/e65Q-NrK-dc/hqdefault.jpg" alt="Video Thumbnail"
+                                    class="thumbnail-image">
+                                <div class="main-play-icon-area">
+                                    <i class="fa-regular fa-circle-play"></i>
+                                </div>
+                            </div>
+                            <div class="youtube-logo-wrapper">
+                                <img src="images/favicon.png" alt="YouTube Logo" class="youtube-logo-image">
+                            </div>
+                        </div>
+                        <p class="video-card-title" data-lang="video3"></p>
+                    </div>
+
+                    <div class="video-card-wrapper">
+                        <div class="video-display-box">
+                            <div class="thumbnail-container">
+                                <img src="https://img.youtube.com/vi/ftV6GKQyKw4/hqdefault.jpg" alt="Video Thumbnail"
+                                    class="thumbnail-image">
+                                <div class="main-play-icon-area">
+                                    <i class="fa-regular fa-circle-play"></i>
+                                </div>
+                            </div>
+                            <div class="youtube-logo-wrapper">
+                                <img src="images/favicon.png" alt="YouTube Logo" class="youtube-logo-image">
+                            </div>
+                        </div>
+                        <p class="video-card-title" data-lang="video4"></p>
+                    </div>
+
+                    <div class="video-card-wrapper">
+                        <div class="video-display-box">
+                            <div class="thumbnail-container">
+                                <img src="https://img.youtube.com/vi/7iEtc19nQNs/hqdefault.jpg" alt="Video Thumbnail"
+                                    class="thumbnail-image">
+                                <div class="main-play-icon-area">
+                                    <i class="fa-regular fa-circle-play"></i>
+                                </div>
+                            </div>
+                            <div class="youtube-logo-wrapper">
+                                <img src="images/favicon.png" alt="YouTube Logo" class="youtube-logo-image">
+                            </div>
+                        </div>
+                        <p class="video-card-title" data-lang="video5"></p>
+                    </div>
+
+                    <div class="video-card-wrapper">
+                        <div class="video-display-box">
+                            <div class="thumbnail-container">
+                                <img src="https://img.youtube.com/vi/Nz6c3zAtDDg/hqdefault.jpg" alt="Video Thumbnail"
+                                    class="thumbnail-image">
+                                <div class="main-play-icon-area">
+                                    <i class="fa-regular fa-circle-play"></i>
+                                </div>
+                            </div>
+                            <div class="youtube-logo-wrapper">
+                                <img src="images/favicon.png" alt="YouTube Logo" class="youtube-logo-image">
+                            </div>
+                        </div>
+                        <p class="video-card-title" data-lang="video6"></p>
+                    </div>
+
+                    <div class="video-card-wrapper">
+                        <div class="video-display-box">
+                            <div class="thumbnail-container">
+                                <img src="https://img.youtube.com/vi/pKFod1gJflk/hqdefault.jpg" alt="Video Thumbnail"
+                                    class="thumbnail-image">
+                                <div class="main-play-icon-area">
+                                    <i class="fa-regular fa-circle-play"></i>
+                                </div>
+                            </div>
+                            <div class="youtube-logo-wrapper">
+                                <img src="images/favicon.png" alt="YouTube Logo" class="youtube-logo-image">
+                            </div>
+                        </div>
+                        <p class="video-card-title" data-lang="video7"></p>
+                    </div>
+
+                    <div class="video-card-wrapper">
+                        <div class="video-display-box">
+                            <div class="thumbnail-container">
+                                <img src="https://img.youtube.com/vi/WmRxceCn7MU/hqdefault.jpg" alt="Video Thumbnail"
+                                    class="thumbnail-image">
+                                <div class="main-play-icon-area">
+                                    <i class="fa-regular fa-circle-play"></i>
+                                </div>
+                            </div>
+                            <div class="youtube-logo-wrapper">
+                                <img src="images/favicon.png" alt="YouTube Logo" class="youtube-logo-image">
+                            </div>
+                        </div>
+                        <p class="video-card-title" data-lang="video8"></p>
+                    </div>
+
+                    <div class="video-card-wrapper">
+                        <div class="video-display-box">
+                            <div class="thumbnail-container">
+                                <img src="https://img.youtube.com/vi/3ZxtQTsN0tE/hqdefault.jpg" alt="Video Thumbnail"
+                                    class="thumbnail-image">
+                                <div class="main-play-icon-area">
+                                    <i class="fa-regular fa-circle-play"></i>
+                                </div>
+                            </div>
+                            <div class="youtube-logo-wrapper">
+                                <img src="images/favicon.png" alt="YouTube Logo" class="youtube-logo-image">
+                            </div>
+                        </div>
+                        <p class="video-card-title" data-lang="video9"></p>
+                    </div>
+
+                    <div class="video-card-wrapper">
+                        <div class="video-display-box">
+                            <div class="thumbnail-container">
+                                <img src="https://img.youtube.com/vi/oovmi47l3gk/hqdefault.jpg" alt="Video Thumbnail"
+                                    class="thumbnail-image">
+                                <div class="main-play-icon-area">
+                                    <i class="fa-regular fa-circle-play"></i>
+                                </div>
+                            </div>
+                            <div class="youtube-logo-wrapper">
+                                <img src="images/favicon.png" alt="YouTube Logo" class="youtube-logo-image">
+                            </div>
+                        </div>
+                        <p class="video-card-title" data-lang="video10"></p>
+                    </div>
+
+                    <div class="video-card-wrapper">
+                        <div class="video-display-box">
+                            <div class="thumbnail-container">
+                                <img src="https://img.youtube.com/vi/IdsEPlzhtXc/hqdefault.jpg" alt="Video Thumbnail"
+                                    class="thumbnail-image">
+                                <div class="main-play-icon-area">
+                                    <i class="fa-regular fa-circle-play"></i>
+                                </div>
+                            </div>
+                            <div class="youtube-logo-wrapper">
+                                <img src="images/favicon.png" alt="YouTube Logo" class="youtube-logo-image">
+                            </div>
+                        </div>
+                        <p class="video-card-title" data-lang="video11"></p>
+                    </div>
+
+                    <div class="video-card-wrapper">
+                        <div class="video-display-box">
+                            <div class="thumbnail-container">
+                                <img src="https://img.youtube.com/vi/0BRS844L1c4/hqdefault.jpg" alt="Video Thumbnail"
+                                    class="thumbnail-image">
+                                <div class="main-play-icon-area">
+                                    <i class="fa-regular fa-circle-play"></i>
+                                </div>
+                            </div>
+                            <div class="youtube-logo-wrapper">
+                                <img src="images/favicon.png" alt="YouTube Logo" class="youtube-logo-image">
+                            </div>
+                        </div>
+                        <p class="video-card-title" data-lang="video12"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!--Start Footer-->
+    <div class="footer">
+      <p class="copyright" data-lang="footer_copyright">
+        Coded by
+        <a href="#">Eng: saad hossam</a>.
+      </p>
+    </div>
+    <!--End Footer-->
+
+    <div class="scrollToTop"><i class="fa-solid fa-arrow-up"></i></div>
+
+    <!-- Bootstrap and JavaScript -->
+    <script src="js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        // Get references to the checkbox and body
+        const darkModeToggle = document.getElementById('chk');
+        const body = document.body;
+
+        // Check if dark mode is saved in local storage
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+            darkModeToggle.checked = true;
+        }
+
+        // Event listener for toggle
+        darkModeToggle.addEventListener('change', () => {
+            if (darkModeToggle.checked) {
+                body.classList.add('dark-mode');
+                localStorage.setItem('darkMode', 'enabled');  // Save preference in local storage
+            } else {
+                body.classList.remove('dark-mode');
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+    </script>
+
+    <script>
+        const translations = {
+            en: {
+                // Header / Navigation
+                home: "Home",
+                news: "Achievments",
+                about: "About Us",
+                videos: "Videos",
+                features: "Features",
+                "other links": "Other Links",
+                gallary: "Gallary",
+                "team members": "Team Members",
+                services: "Services",
+                "our skills": "Our Skills",
+                "how it works": "How It Works",
+                events: "Events",
+                "pricing plans": "Pricing Plans",
+                stats: "Stats",
+                "request a discount": "Request a Discount",
+                
+                // Videos page content
+                video_library: "Video Library",
+                explore_videos: "Explore Our Visual Content",
+                video_description: "Welcome to our video gallery, where we showcase the precision, discipline, and innovation that define our operations. From tactical demonstrations and mission highlights to equipment showcases and training exercises, our visual content provides an in-depth look at our capabilities and commitment to excellence. Explore our videos to gain a deeper understanding of our mission and values.",
+                footer_copyright: "Coded by",
+                
+                // Video titles
+                video1: "Kader Factory for Advanced Industries - Arab Organization for Industrialization",
+                video2: "The Container | Kader Factory for Manufacturing Armored Vehicles, Equipped Cars and Heavy Equipment",
+                video3: "Major General Amr Abdel Aziz, Chairman of Kader Factory, Explains the Most Important Products",
+                video4: "Manufacturing Aircraft Engine Parts in Egypt",
+                video5: "Tour Inside the Electronics Factory of the Arab Organization for Industrialization",
+                video6: "Arab Organization for Industrialization - Arabic Film Version",
+                video7: "Interview with Kader Factory CEO on Electric Scooters by AOI",
+                video8: "Kader Factory for Advanced Industries - Arab Organization for Industrialization",
+                video9: "News: AOI Success in Producing Wooden Molds for Buses",
+                video10: "Engines Factory - Arab Organization for Industrialization",
+                video11: "AOI Signs Cooperation Protocol with Saudi Company for Localizing Nano Technology",
+                video12: "Sakr Factory for Advanced Industries"
+            },
+            ar: {
+                // Header / Navigation
+                home: " الرئيسية",
+                news: "الانجازات",
+                about: "معلومات عنا",
+                videos: "معرض الفيديوهات",
+                features: "مميزات",
+                "other links": "روابط أخرى",
+                gallary: "معرض الصور",
+                "team members": "أعضاء الفريق",
+                services: "خدمات",
+                "our skills": "مهاراتنا",
+                "how it works": "كيف يعمل",
+                events: "الأحداث",
+                "pricing plans": "خطط الأسعار",
+                stats: "الإحصائيات",
+                "request a discount": "طلب خصم",
+                
+                // Videos page content
+                video_library: "مكتبة الفيديو",
+                explore_videos: "استكشف المحتوى المرئي",
+                video_description: "مرحبًا بك في معرض الفيديو الخاص بنا، حيث نعرض الدقة والانضباط والابتكار التي تحدد عملياتنا. من العروض التكتيكية وأبرز المهام إلى عروض المعدات وتدريبات التمارين، يوفر محتوانا المرئي نظرة متعمقة على قدراتنا والتزامنا بالتميز. استكشف مقاطع الفيديو الخاصة بنا للحصول على فهم أعمق لمهمتنا وقيمنا.",
+                footer_copyright: "تم البرمجة بواسطة",
+                
+                // Video titles
+                video1: "مصنع قادر للصناعات المتطورة - الهيئة العربية للتصنيع",
+                video2: "الكونتينر | مصنع قادر لتصنيع المدرعات والسيارات المجهزة والمعدات الثقيلة قصة فخر لكل مصري",
+                video3: "لواء أركان حرب عمرو عبد العزيز رئيس مجلس إدارة مصنع قادر يوضح أهم وأبرز المنتجات في المصنع",
+                video4: "تصنيع قطع غيار محركات الطائرات في مصر",
+                video5: "جولة داخل مصنع الإلكترونيات التابع للهيئة العربية للتصنيع مع اللواء أ.ح مهندس / أحمد عبد العزيز",
+                video6: "الهيئة العربية للتصنيع. نسخة الفيلم باللغة العربية",
+                video7: "مداخلة ر م إ مصنع قادر لموقع الوطن بشأن موضوع الإسكوتر الكهربائي إنتاج الهيئة العربية للتصنيع",
+                video8: "مصنع قادر للصناعات المتطورة - التابع للهيئة العربية للتصنيع",
+                video9: "الأخبار نجاح الهيئة العربية للتصنيع في إنتاج الإسطمبات الخشبية للأوتوبيسات",
+                video10: "مصنع المحركات - الهيئة العربية للتصنيع",
+                video11: "الهيئة العربية للتصنيع توقع بروتوكول تعاون مع أحدى الشركات السعودية لتوطين تكنولوجيا النانو",
+                video12: "مصنع صقر للصناعات المتطورة"
+            }
+        };
+
+        // Language toggling functionality
+        const languageToggle = document.getElementById('chklang');
+
+        function updateLanguage(language) {
+            const elements = document.querySelectorAll('[data-lang], [data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-lang') || element.getAttribute('data-i18n');
+                const translation = translations[language][key];
+                if (!translation) return;
+
+                // Check if it's a navigation link (headLinks class)
+                const isNavLink = element.classList.contains('headLinks');
+
+                // Immediately update navigation links without animation
+                if (isNavLink) {
+                    element.textContent = translation;
+                    return;
+                }
+
+                element.textContent = translation;
+            });
+
+            document.body.setAttribute('dir', language === 'ar' ? 'rtl' : 'ltr');
+        }
+
+        // Check if language preference is saved
+        if (localStorage.getItem('language') === 'ar') {
+            languageToggle.checked = true;
+            updateLanguage('ar');
+        } else {
+            updateLanguage('en');
+        }
+
+        // Language toggle event listener
+        languageToggle.addEventListener('change', () => {
+            if (languageToggle.checked) {
+                updateLanguage('ar');
+                localStorage.setItem('language', 'ar');
+            } else {
+                updateLanguage('en');
+                localStorage.setItem('language', 'en');
+            }
+        });
+
+        // Initial call to update language based on stored preference
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLanguage = localStorage.getItem('language') || 'en';
+            updateLanguage(savedLanguage);
+        });
+    </script>
+</body>
+
+</html>

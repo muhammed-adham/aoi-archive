@@ -44,7 +44,7 @@
               <a class=" headLinks" href="index.html" data-lang="home"></a>
             </li>
             <li class="">
-              <!-- <a class=" headLinks" href="details.html" data-lang="news"></a> -->
+              <a class=" headLinks" href="videos.html" data-lang="videos"></a>
             </li>
             <li class="">
               <a class=" headLinks" href="about.html" data-lang="about"></a>
@@ -106,74 +106,6 @@
     <div id="articles" style="margin:20px;">
       <h2 class="mainTitle" data-i18n="latestArticles">Latest Articles</h2>
 
-      <!-- <div class="filters" style="margin-bottom: 20px;">
-        <div class="filter-group">
-          <label for="titleFilter" data-i18n="filterTitle">Title:</label>
-          <input type="text" id="titleFilter" placeholder="Search by title..." />
-        </div>
-
-
-        <div class="filter-group">
-          <label> from date:
-            <input type="date" id="from-date">
-          </label>
-        </div>
-
-        <div class="filter-group">
-
-
-          <label> to date:
-            <input type="date" id="to-date">
-          </label>
-        </div>
-
-        <div class="filter-group">
-          <label for="daySelect" data-i18n="filterDay">Day:</label>
-          <select id="daySelect">
-            <option value="" data-i18n="all">All</option>
-            <script>
-              document.write([...Array(31).keys()].map(i => `<option value="${i + 1}">${i + 1}</option>`).join(''));
-            </script>
-          </select>
-        </div>
-
-        <div class="filter-group">
-          <label for="monthSelect" data-i18n="filterMonth">Month:</label>
-          <select id="monthSelect">
-            <option value="" data-i18n="all">All</option>
-            <option value="1" data-i18n="month1">January</option>
-            <option value="2" data-i18n="month2">February</option>
-            <option value="3" data-i18n="month3">March</option>
-            <option value="4" data-i18n="month4">April</option>
-            <option value="5" data-i18n="month5">May</option>
-            <option value="6" data-i18n="month6">June</option>
-            <option value="7" data-i18n="month7">July</option>
-            <option value="8" data-i18n="month8">August</option>
-            <option value="9" data-i18n="month9">September</option>
-            <option value="10" data-i18n="month10">October</option>
-            <option value="11" data-i18n="month11">November</option>
-            <option value="12" data-i18n="month12">December</option>
-          </select>
-        </div>
-
-        <div class="filter-group">
-          <label for="yearSelect" data-i18n="filterYear">Year:</label>
-          <select id="yearSelect">
-            <option value="" data-i18n="all">All</option>
-            <option value="2023">2023</option>
-            <option value="2024">2024</option>
-            <option value="2025">2025</option>
-          </select>
-        </div>
-
-
-        <div class="filter-group">
-          <button id="filterButton" data-i18n="applyFilter">Apply Filter</button>
-          <button id="resetButton" data-i18n="resetFilter">Reset</button>
-        </div>
-
-
-      </div> -->
 
       <!-- Search Container Start -->
       <div class="search-container">
@@ -589,7 +521,7 @@
         // Header / Navigation
         home: "Home",
         news: "Achievments",
-        about: "information",
+        about: "About Us",
         features: "Features",
         "other links": "Other Links",
         gallary: "Gallary",
@@ -599,7 +531,7 @@
         "how it works": "How It Works",
         events: "Events",
         "pricing plans": "Pricing Plans",
-        "videos": "Top Videos",
+        "videos": "Videos",
         stats: "Stats",
         requestadiscount: "Request a Discount",
         dateFrom: "Date From",
@@ -707,7 +639,7 @@
         // Header / Navigation
         home: " الرئيسية",
         news: "الانجازات",
-        about: "  معلومات",
+        about: "معلومات عنا",
         features: "مميزات",
         "other links": "روابط أخرى",
         gallary: "معرض الصور",
@@ -717,7 +649,7 @@
         "how it works": "كيف يعمل",
         events: "الأحداث",
         "pricing plans": "خطط الأسعار",
-        "videos": "أفضل الفيديوهات",
+        "videos": "معرض الفيديوهات",
         stats: "الإحصائيات",
         "request a discount": "طلب خصم",
         dateFrom: "من تاريخ:",
@@ -951,168 +883,148 @@
   </script>
 
   <script>
-    document.getElementById('filterButton').addEventListener('click', () => {
-      const titleFilter = document.getElementById('titleFilter').value.trim().toLowerCase();
-      const selectedDay = document.getElementById('daySelect').value;
-      const selectedMonth = document.getElementById('monthSelect').value;
-      const selectedYear = document.getElementById('yearSelect').value;
-      const fromDateValue = document.getElementById('from-date').value;
-      const toDateValue = document.getElementById('to-date').value;
+    // Add null checks before adding event listeners
+    const filterButton = document.getElementById('filterButton');
+    if (filterButton) {
+      filterButton.addEventListener('click', () => {
+        const titleFilter = document.getElementById('titleFilter')?.value.trim().toLowerCase() || '';
+        const selectedDay = document.getElementById('daySelect')?.value || '';
+        const selectedMonth = document.getElementById('monthSelect')?.value || '';
+        const selectedYear = document.getElementById('yearSelect')?.value || '';
+        const fromDateValue = document.getElementById('from-date')?.value || '';
+        const toDateValue = document.getElementById('to-date')?.value || '';
 
-      // Convert from/to date values to actual Date objects, if valid.
-      const fromDate = fromDateValue ? new Date(fromDateValue) : null;
-      const toDate = toDateValue ? new Date(toDateValue) : null;
+        // Convert from/to date values to actual Date objects, if valid.
+        const fromDate = fromDateValue ? new Date(fromDateValue) : null;
+        const toDate = toDateValue ? new Date(toDateValue) : null;
 
-      document.querySelectorAll('#articles .box').forEach(box => {
-        const title = box.getAttribute('data-title').toLowerCase();
-        const date = new Date(box.getAttribute('data-date')); // Assuming data-date is in a valid format (YYYY-MM-DD)
+        const articles = document.querySelectorAll('#articles .box');
+        if (articles.length > 0) {
+          articles.forEach(box => {
+            const title = box.getAttribute('data-title')?.toLowerCase() || '';
+            const dateStr = box.getAttribute('data-date');
+            // Skip processing if there's no data-date attribute
+            if (!dateStr) return;
+            
+            const date = new Date(dateStr);
 
-        let match = true;
+            let match = true;
 
-        // Debugging: Check title and filter input
-        console.log('Title:', title);
-        console.log('Filter:', titleFilter);
+            // Filter by title
+            if (titleFilter && !title.includes(titleFilter)) {
+              match = false;
+            }
 
-        // فلترة العنوان (Filter by title)
-        if (titleFilter && !title.includes(titleFilter)) {
-          match = false;
+            // Filter by day
+            if (selectedDay && date.getDate() !== parseInt(selectedDay)) {
+              match = false;
+            }
+
+            // Filter by month
+            if (selectedMonth && (date.getMonth() + 1) !== parseInt(selectedMonth)) {
+              match = false;
+            }
+
+            // Filter by year
+            if (selectedYear && date.getFullYear() !== parseInt(selectedYear)) {
+              match = false;
+            }
+
+            // Filter by from date
+            if (fromDate && date < fromDate) {
+              match = false;
+            }
+
+            // Filter by to date
+            if (toDate && date > toDate) {
+              match = false;
+            }
+
+            // Apply the filter by displaying or hiding the box
+            box.style.display = match ? 'block' : 'none';
+          });
         }
-
-        // Debugging: Check if the match is set to false due to title filter
-        if (!match) {
-          console.log('Title does not match:', title);
-        }
-
-        // فلترة اليوم (Filter by day)
-        if (selectedDay && date.getDate() !== parseInt(selectedDay)) {
-          match = false;
-        }
-
-        // فلترة الشهر (Filter by month)
-        if (selectedMonth && (date.getMonth() + 1) !== parseInt(selectedMonth)) {
-          match = false;
-        }
-
-        // فلترة السنة (Filter by year)
-        if (selectedYear && date.getFullYear() !== parseInt(selectedYear)) {
-          match = false;
-        }
-
-        // فلترة من تاريخ (Filter by from date)
-        if (fromDate && date < fromDate) {
-          match = false;
-        }
-
-        // فلترة إلى تاريخ (Filter by to date)
-        if (toDate && date > toDate) {
-          match = false;
-        }
-
-        // Apply the filter by displaying or hiding the box
-        box.style.display = match ? 'block' : 'none';
       });
-    });
-
+    }
   </script>
-  <script>
-    document.getElementById('resetButton').addEventListener('click', function () {
-      // Clear all filter inputs
-      document.getElementById('titleFilter').value = '';
-      document.getElementById('daySelect').value = '';
-      document.getElementById('monthSelect').value = '';
-      document.getElementById('yearSelect').value = '';
-      document.getElementById('from-date').value = '';
-      document.getElementById('to-date').value = '';
-
-      // Show all articles again
-      document.querySelectorAll('.box').forEach(function (box) {
-        box.style.display = 'block';
-      });
-    });
-  </script>
-
-
 
   <script>
-    document.getElementById('filterButton').addEventListener('click', () => {
-      const titleFilter = document.getElementById('titleFilter').value.trim().toLowerCase();
-      const selectedDay = document.getElementById('daySelect').value;
-      const selectedMonth = document.getElementById('monthSelect').value;
-      const selectedYear = document.getElementById('yearSelect').value;
-      const fromDateValue = document.getElementById('from-date').value;
-      const toDateValue = document.getElementById('to-date').value;
+    // Add null check before adding event listener
+    const resetButton = document.getElementById('resetButton');
+    if (resetButton) {
+      resetButton.addEventListener('click', function () {
+        // Clear all filter inputs with null checks
+        const titleFilter = document.getElementById('titleFilter');
+        const daySelect = document.getElementById('daySelect');
+        const monthSelect = document.getElementById('monthSelect');
+        const yearSelect = document.getElementById('yearSelect');
+        const fromDate = document.getElementById('from-date');
+        const toDate = document.getElementById('to-date');
+        
+        if (titleFilter) titleFilter.value = '';
+        if (daySelect) daySelect.value = '';
+        if (monthSelect) monthSelect.value = '';
+        if (yearSelect) yearSelect.value = '';
+        if (fromDate) fromDate.value = '';
+        if (toDate) toDate.value = '';
 
-      // Convert from/to date values to actual Date objects, if valid.
-      const fromDate = fromDateValue ? new Date(fromDateValue) : null;
-      const toDate = toDateValue ? new Date(toDateValue) : null;
-
-      document.querySelectorAll('#articles .box').forEach(box => {
-        const title = box.getAttribute('data-title').toLowerCase();
-        const date = new Date(box.getAttribute('data-date')); // Assuming data-date is in a valid format (YYYY-MM-DD)
-
-        let match = true;
-
-        // فلترة العنوان (Filter by title)
-        if (titleFilter && !title.includes(titleFilter)) {
-          match = false;
-        }
-
-        // فلترة اليوم (Filter by day)
-        if (selectedDay && date.getDate() !== parseInt(selectedDay)) {
-          match = false;
-        }
-
-        // فلترة الشهر (Filter by month)
-        if (selectedMonth && (date.getMonth() + 1) !== parseInt(selectedMonth)) {
-          match = false;
-        }
-
-        // فلترة السنة (Filter by year)
-        if (selectedYear && date.getFullYear() !== parseInt(selectedYear)) {
-          match = false;
-        }
-
-        // فلترة من تاريخ (Filter by from date)
-        if (fromDate && date < fromDate) {
-          match = false;
-        }
-
-        // فلترة إلى تاريخ (Filter by to date)
-        if (toDate && date > toDate) {
-          match = false;
-        }
-
-        // Apply the filter by displaying or hiding the box
-        box.style.display = match ? 'block' : 'none';
+        // Show all articles again
+        document.querySelectorAll('.box').forEach(function (box) {
+          box.style.display = 'block';
+        });
       });
-    });
-
+    }
   </script>
-
 
   <script>
     // Function to change the main image when a thumbnail is clicked
     function changeImage(src) {
-      // Change the main image
-      document.getElementById('mainImage').src = src;
+      const mainImage = document.getElementById('mainImage');
+      // Only proceed if main image exists
+      if (mainImage) {
+        // Change the main image
+        mainImage.src = src;
 
-      // Optional: Highlight the selected thumbnail
-      const thumbnails = document.querySelectorAll('.thumbnail');
-      thumbnails.forEach(thumb => {
-        thumb.classList.remove('selected');
-      });
+        // Optional: Highlight the selected thumbnail
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        if (thumbnails.length > 0) {
+          thumbnails.forEach(thumb => {
+            thumb.classList.remove('selected');
+          });
 
-      const selectedThumbnail = Array.from(thumbnails).find(thumb => thumb.src.includes(src));
-      if (selectedThumbnail) {
-        selectedThumbnail.classList.add('selected');
+          const selectedThumbnail = Array.from(thumbnails).find(thumb => thumb.src.includes(src));
+          if (selectedThumbnail) {
+            selectedThumbnail.classList.add('selected');
+          }
+        }
       }
     }
+  </script>
 
+  <!-- Wrap all script executions in safety checks -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Safely initialize components
+      try {
+        // Initialize filters if present
+        if (typeof initFilters === 'function' && document.getElementById('filterButton')) {
+          initFilters();
+        }
+        
+        // Initialize dropdowns if present
+        if (typeof initFilterDropdowns === 'function') {
+          initFilterDropdowns();
+        }
+      } catch (error) {
+        console.log("Error initializing page components:", error);
+      }
+    });
   </script>
 
   <!--Main JS App File-->
   <script src="js/filters.js"></script>
   <script src="js/filter-dropdowns.js"></script>
+  <script src="js/app.js"></script>
 </body>
 
 </html>

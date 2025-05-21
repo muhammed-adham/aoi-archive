@@ -57,11 +57,6 @@ class DateRangePicker {
         this.displayText.textContent = this.isArabic ? 'اختر نطاق التاريخ' : 'Select date range';
         this.displayElement.appendChild(this.displayText);
         
-        // Arrow icon
-        const arrowIcon = document.createElement('i');
-        arrowIcon.className = 'fas fa-chevron-down'; 
-        this.displayElement.appendChild(arrowIcon);
-        
         // Create the dropdown
         this.dropdown = document.createElement('div');
         this.dropdown.className = 'date-range-dropdown';
@@ -600,52 +595,57 @@ class DateRangePicker {
 document.addEventListener('DOMContentLoaded', () => {
     const dateFilterContainer = document.querySelector('.filter-group.date-filter');
     if (dateFilterContainer) {
-        const datePickerContainer = dateFilterContainer.querySelector('.date-picker-container');
-        if (datePickerContainer) {
-            // Create hidden inputs if they don't exist
-            let startDateInput = document.getElementById('start-date');
-            let endDateInput = document.getElementById('end-date');
-            
-            if (!startDateInput) {
-                startDateInput = document.createElement('input');
-                startDateInput.type = 'hidden';
-                startDateInput.id = 'start-date';
-                dateFilterContainer.appendChild(startDateInput);
-            }
-            
-            if (!endDateInput) {
-                endDateInput = document.createElement('input');
-                endDateInput.type = 'hidden';
-                endDateInput.id = 'end-date';
-                dateFilterContainer.appendChild(endDateInput);
-            }
-            
-            // Initialize the date range picker
-            const dateRangePicker = new DateRangePicker(datePickerContainer, {
-                startDateId: 'start-date',
-                endDateId: 'end-date',
-                onChange: (dates) => {
-                    // Update the clear filters button state
-                    const clearFiltersBtn = document.getElementById('clear-filters');
-                    if (clearFiltersBtn) {
-                        clearFiltersBtn.disabled = !dates.startDate && !dates.endDate;
-                    }
-                    
-                    // Filter articles based on date range
-                    filterArticles();
-                }
-            });
-            
-            // Store the picker instance globally
-            window.dateRangePicker = dateRangePicker;
-            
-            // Make the update language function available globally
-            window.updateDateRangePicker = function(language) {
-                if (window.dateRangePicker) {
-                    window.dateRangePicker.updateLanguage(language);
-                }
-            };
+        // Use the existing date-picker-container if present, otherwise create one
+        let datePickerContainer = dateFilterContainer.querySelector('.date-picker-container');
+        if (!datePickerContainer) {
+            datePickerContainer = document.createElement('div');
+            datePickerContainer.className = 'date-picker-container';
+            dateFilterContainer.appendChild(datePickerContainer);
         }
+        
+        // Create hidden inputs if they don't exist
+        let startDateInput = document.getElementById('start-date');
+        let endDateInput = document.getElementById('end-date');
+        
+        if (!startDateInput) {
+            startDateInput = document.createElement('input');
+            startDateInput.type = 'hidden';
+            startDateInput.id = 'start-date';
+            dateFilterContainer.appendChild(startDateInput);
+        }
+        
+        if (!endDateInput) {
+            endDateInput = document.createElement('input');
+            endDateInput.type = 'hidden';
+            endDateInput.id = 'end-date';
+            dateFilterContainer.appendChild(endDateInput);
+        }
+        
+        // Initialize the date range picker
+        const dateRangePicker = new DateRangePicker(datePickerContainer, {
+            startDateId: 'start-date',
+            endDateId: 'end-date',
+            onChange: (dates) => {
+                // Update the clear filters button state
+                const clearFiltersBtn = document.getElementById('clear-filters');
+                if (clearFiltersBtn) {
+                    clearFiltersBtn.disabled = !dates.startDate && !dates.endDate;
+                }
+                
+                // Filter articles based on date range
+                filterArticles();
+            }
+        });
+        
+        // Store the picker instance globally
+        window.dateRangePicker = dateRangePicker;
+        
+        // Make the update language function available globally
+        window.updateDateRangePicker = function(language) {
+            if (window.dateRangePicker) {
+                window.dateRangePicker.updateLanguage(language);
+            }
+        };
     }
 });
 

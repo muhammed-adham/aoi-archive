@@ -5,13 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Exit early if voice search button or search input doesn't exist on this page
     if (!voiceSearchBtn || !searchInput) {
-        console.log('Voice search elements not found on this page');
         return;
     }
 
     // Check if browser supports speech recognition
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        console.log('Speech recognition not supported in this browser');
         voiceSearchBtn.style.display = 'none';
         return;
     }

@@ -9,10 +9,17 @@ document.addEventListener('DOMContentLoaded', () => {
             oldInputs.remove();
         }
         
-        // Create a container for the new date picker
-        const datePickerContainer = document.createElement('div');
-        datePickerContainer.className = 'date-picker-container';
-        dateFilterContainer.appendChild(datePickerContainer);
+        // Check if date picker container already exists, use it if it does
+        let datePickerContainer = dateFilterContainer.querySelector('.date-picker-container');
+        if (!datePickerContainer) {
+            // Only create a new container if one doesn't already exist
+            datePickerContainer = document.createElement('div');
+            datePickerContainer.className = 'date-picker-container';
+            dateFilterContainer.appendChild(datePickerContainer);
+        } else {
+            // Clear the existing container 
+            datePickerContainer.innerHTML = '';
+        }
         
         // Create hidden inputs if they don't exist
         if (!document.getElementById('start-date')) {
@@ -50,6 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle filtering
     const filterInputs = document.querySelectorAll('#category-filter, #sort-by, #start-date, #end-date');
     const clearFiltersBtn = document.getElementById('clear-filters');
+    
+    
     
     function updateFilterButtonState() {
         const hasActiveFilters = Array.from(filterInputs).some(input => input.value !== '');
@@ -126,13 +135,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     clearFiltersBtn.addEventListener('click', () => {
-        filterInputs.forEach(input => {
-            input.value = '';
+        console.log('Clear filters button clicked');
+        const selects = document.querySelectorAll('select');
+        const inputs = document.querySelectorAll('input');
+        console.log('Selects found:', selects.length);
+        console.log('Inputs found:', inputs.length);
+
+        // Brute-force reset all selects
+        selects.forEach(select => {
+            select.selectedIndex = 0;
+            select.dispatchEvent(new Event('change', { bubbles: true }));
         });
+
+        // Brute-force reset all inputs
+        inputs.forEach(input => {
+            input.value = '';
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+
+        // Reset date range picker if available
         if (window.dateRangePicker) {
             window.dateRangePicker.clearDateRange();
         }
+
+        // Update UI and filter display
         filterArticles();
+
+        // Update article count if needed
+        const articleCount = document.getElementById('article-count');
+        if (articleCount) {
+            const visibleArticles = document.querySelectorAll('.box[style="display: block"]');
+            articleCount.textContent = visibleArticles.length;
+        }
     });
     
     // Initial filter button state

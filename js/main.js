@@ -7,21 +7,24 @@ function onLoad() {
   let html = document.querySelector("html");
   let body = document.querySelector("body");
 
-  window.addEventListener("load", () => {
-    if (isDark === "true") {
-      html.classList.add("darkMode");
-      body.classList.add("dark-mode");
-      checkBox.checked = true;
-      checkBox1.checked = true;
-      checkBox2.checked = true;
-    } else {
-      html.classList.remove("darkMode");
-      body.classList.remove("dark-mode");
-      checkBox.checked = false;
-      checkBox1.checked = false;
-      checkBox2.checked = false;
-    }
-  });
+  // Make sure we have all the required elements
+  if (html && body) {
+    window.addEventListener("load", () => {
+      if (isDark === "true") {
+        html.classList.add("darkMode");
+        body.classList.add("dark-mode");
+        if (checkBox) checkBox.checked = true;
+        if (checkBox1) checkBox1.checked = true;
+        if (checkBox2) checkBox2.checked = true;
+      } else {
+        html.classList.remove("darkMode");
+        body.classList.remove("dark-mode");
+        if (checkBox) checkBox.checked = false;
+        if (checkBox1) checkBox1.checked = false;
+        if (checkBox2) checkBox2.checked = false;
+      }
+    });
+  }
 }
 
 // On Load Languages
@@ -29,6 +32,9 @@ function onLoadLanguages() {
   const savedLanguage = localStorage.getItem('language') || 'en';
   const checkBoxlang = document.querySelector('.checkboxlang');
   let body = document.querySelector("body");
+
+  // Only proceed if we have the language checkbox and body
+  if (!checkBoxlang || !body) return;
 
   let email = document.querySelector(".email1");
   let subscribe = document.querySelector(".subscribee");
@@ -85,33 +91,39 @@ document.addEventListener('DOMContentLoaded', () => {
 // Events Count Down
 function countDown() {
   let countdownDate = new Date("Sept 28, 2023 23:59:59").getTime();
+  
+  // Check if countdown elements exist
+  let daysElement = document.querySelector(".days");
+  let hoursElement = document.querySelector(".hours");
+  let minutesElement = document.querySelector(".minutes");
+  let secondsElement = document.querySelector(".seconds");
+  
+  // Only set up the countdown if all required elements exist
+  if (daysElement && hoursElement && minutesElement && secondsElement) {
+    let counter = setInterval(() => {
+      // Get Time Now
+      let timeNow = new Date().getTime();
+      // Find The Date Difference Between Now And Countdown Date
+      let dateDiff = countdownDate - timeNow;
 
-  let counter = setInterval(() => {
-    // Get Time Now
-    let timeNow = new Date().getTime();
-    // Find The Date Difference Between Now And Countdown Date
-    let dateDiff = countdownDate - timeNow;
+      // Get TIme Units
+      let days = Math.floor(dateDiff / (1000 * 60 * 60 * 24));
+      let hours = Math.floor(
+        (dateDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      let minutes = Math.floor((dateDiff % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((dateDiff % (1000 * 60)) / 1000);
 
-    // Get TIme Units
-    let days = Math.floor(dateDiff / (1000 * 60 * 60 * 24));
-    let hours = Math.floor(
-      (dateDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    let minutes = Math.floor((dateDiff % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((dateDiff % (1000 * 60)) / 1000);
+      daysElement.innerHTML = days < 10 ? `0${days}` : days;
+      hoursElement.innerHTML = hours < 10 ? `0${hours}` : hours;
+      minutesElement.innerHTML = minutes < 10 ? `0${minutes}` : minutes;
+      secondsElement.innerHTML = seconds < 10 ? `0${seconds}` : seconds;
 
-    document.querySelector(".days").innerHTML = days < 10 ? `0${days}` : days;
-    document.querySelector(".hours").innerHTML =
-      hours < 10 ? `0${hours}` : hours;
-    document.querySelector(".minutes").innerHTML =
-      minutes < 10 ? `0${minutes}` : minutes;
-    document.querySelector(".seconds").innerHTML =
-      seconds < 10 ? `0${seconds}` : seconds;
-
-    if (dateDiff <= 0) {
-      clearInterval(counter);
-    }
-  }, 1000);
+      if (dateDiff <= 0) {
+        clearInterval(counter);
+      }
+    }, 1000);
+  }
 }
 
 // Skills Width
@@ -257,27 +269,36 @@ function buttonClick() {
   let button = document.querySelector("button");
   let megaMenu = document.querySelector(".megaMenu2");
   let exit = document.querySelector(".up");
-  let goOut = document.querySelectorAll(".linksMenu li");
-
-  button.addEventListener("click", () => {
-    megaMenu.style.top = `100%`;
-    megaMenu.style.opacity = `1`;
-    megaMenu.style.zIndex = `100`;
-  });
-
-  exit.addEventListener("click", () => {
-    megaMenu.style.top = `-1000px`;
-    megaMenu.style.opacity = `0`;
-    megaMenu.style.zIndex = `-1`;
-  });
-
-  goOut.forEach((li) => {
-    li.addEventListener("click", () => {
-      megaMenu.style.top = `-10000px`;
-      megaMenu.style.opacity = `0`;
-      megaMenu.style.zIndex = `-1`;
+  
+  // Check if elements exist before adding event listeners
+  if (button && megaMenu) {
+    button.addEventListener("click", () => {
+      megaMenu.style.top = `100%`;
+      megaMenu.style.opacity = `1`;
+      megaMenu.style.zIndex = `100`;
     });
-  });
+  }
+  
+  if (exit) {
+    exit.addEventListener("click", () => {
+      if (megaMenu) {
+        megaMenu.style.top = `-1000px`;
+        megaMenu.style.opacity = `0`;
+        megaMenu.style.zIndex = `-1`;
+      }
+    });
+  }
+  
+  let goOut = document.querySelectorAll(".linksMenu li");
+  if (goOut.length > 0 && megaMenu) {
+    goOut.forEach((li) => {
+      li.addEventListener("click", () => {
+        megaMenu.style.top = `-10000px`;
+        megaMenu.style.opacity = `0`;
+        megaMenu.style.zIndex = `-1`;
+      });
+    });
+  }
 }
 
 // Scroll To Top Button
@@ -285,7 +306,7 @@ function showUpScrollToTopButton() {
   let scrollToTopButton = document.querySelector(".scrollToTop");
 
   window.addEventListener("scroll", () => {
-    if (this.scrollY >= 3000) {
+    if (this.scrollY >= 300) {
       scrollToTopButton.classList.add("showUp");
     } else {
       scrollToTopButton.classList.remove("showUp");
@@ -308,35 +329,41 @@ function darkModeButton() {
   let html = document.querySelector("html");
   let body = document.querySelector("body");
 
-  checkBox.addEventListener("change", () => {
-    if (checkBox.checked) {
-      html.classList.add("darkMode");
-      body.classList.add("dark-mode");
-    } else {
-      html.classList.remove("darkMode");
-      body.classList.remove("dark-mode");
-    }
-  });
+  if (checkBox && html && body) {
+    checkBox.addEventListener("change", () => {
+      if (checkBox.checked) {
+        html.classList.add("darkMode");
+        body.classList.add("dark-mode");
+      } else {
+        html.classList.remove("darkMode");
+        body.classList.remove("dark-mode");
+      }
+    });
+  }
 
-  checkBox1.addEventListener("change", () => {
-    if (checkBox1.checked) {
-      html.classList.add("darkMode");
-      body.classList.add("dark-mode");
-    } else {
-      html.classList.remove("darkMode");
-      body.classList.remove("dark-mode");
-    }
-  });
+  if (checkBox1 && html && body) {
+    checkBox1.addEventListener("change", () => {
+      if (checkBox1.checked) {
+        html.classList.add("darkMode");
+        body.classList.add("dark-mode");
+      } else {
+        html.classList.remove("darkMode");
+        body.classList.remove("dark-mode");
+      }
+    });
+  }
 
-  checkBox2.addEventListener("change", () => {
-    if (checkBox2.checked) {
-      html.classList.add("darkMode");
-      body.classList.add("dark-mode");
-    } else {
-      html.classList.remove("darkMode");
-      body.classList.remove("dark-mode");
-    }
-  });
+  if (checkBox2 && html && body) {
+    checkBox2.addEventListener("change", () => {
+      if (checkBox2.checked) {
+        html.classList.add("darkMode");
+        body.classList.add("dark-mode");
+      } else {
+        html.classList.remove("darkMode");
+        body.classList.remove("dark-mode");
+      }
+    });
+  }
 }
 
 // Is Dark Mode?
@@ -614,17 +641,69 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-countDown();
-skillsWidth();
-statsCount();
-dotsEntering();
-dotsOuting();
-hidingShowingHeader();
-buttonClick();
-showUpScrollToTopButton();
-darkModeButton();
-addtoLocalStorage();
-onLoad();
-changeLanguagesButton();
-addLanguagetoLocalStorage();
-onLoadLanguages();
+// Initialize all functions safely with a comprehensive check
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    // Check what page elements exist before calling functions
+    
+    // Count down timer elements
+    if (document.querySelector(".days") || document.querySelector(".hours")) {
+      countDown();
+    }
+    
+    // Skills section
+    if (document.querySelector("#ourSkills")) {
+      skillsWidth();
+    }
+    
+    // Stats section
+    if (document.querySelector("#ourAwesomeStats")) {
+      statsCount();
+    }
+    
+    // Dots elements
+    if (document.querySelector(".dots-up") || document.querySelector(".dots-down")) {
+      dotsEntering();
+      dotsOuting();
+    }
+    
+    // Header element
+    if (document.querySelector("header")) {
+      hidingShowingHeader();
+    }
+    
+    // Mobile menu button - check both elements
+    const button = document.querySelector("button");
+    const megaMenu = document.querySelector(".megaMenu2");
+    if (button && megaMenu) {
+      buttonClick();
+    }
+    
+    // Scroll to top button
+    if (document.querySelector(".scrollToTop")) {
+      showUpScrollToTopButton();
+    }
+    
+    // Dark mode elements
+    const darkModeElements = document.querySelector(".checkbox") || 
+                          document.querySelector(".checkbox1") || 
+                          document.querySelector(".checkbox2");
+    if (darkModeElements) {
+      darkModeButton();
+      addtoLocalStorage();
+      onLoad();
+    }
+    
+    // Language switcher elements
+    const langElements = document.querySelector(".checkboxlang") || 
+                       document.querySelector(".checkboxlang1") || 
+                       document.querySelector(".checkboxlang2");
+    if (langElements) {
+      changeLanguagesButton();
+      addLanguagetoLocalStorage();
+      onLoadLanguages();
+    }
+  } catch (error) {
+    console.log("Error initializing JavaScript functionality:", error);
+  }
+});
