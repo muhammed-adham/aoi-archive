@@ -26,7 +26,7 @@
 .dark-mode {
   --primary-color: #4dabf7;
   --primary-hover: #339af0;
-  --secondary-color: #74c0fc;
+  --secondary-color: #ff6620;
   --text-primary: #f0f0f0;
   --text-secondary: #adb5bd;
   --text-light: #f8f9fa;
@@ -121,18 +121,7 @@
   
 
 
-.image-description {
-  /* margin: 50px 200px 0px 180px  ; */
 
-  padding: 15px 20px;
-  background-color: var(--background-secondary);
-  color: var(--text-primary);
-  font-size: 16px;
-  line-height: 1.6;
-  border-left: 4px solid var(--primary-color);
-  border-radius: 8px;
-  box-shadow: 0 2px 6px var(--shadow-color);
-}
 @media (max-width: 768px) {
   .filter-container {
     flex-direction: column;
@@ -145,17 +134,7 @@
   }
 }
 
-.image-description1 {
-  margin-top: 50px ;
-  padding: 15px 20px;
-  background-color: var(--background-secondary);
-  color: var(--text-primary);
-  font-size: 16px;
-  line-height: 1.6;
-  border-left: 4px solid var(--primary-color);
-  border-radius: 8px;
-  box-shadow: 0 2px 6px var(--shadow-color);
-}
+
 
 
 
@@ -221,7 +200,7 @@
   position: relative;
   overflow: hidden;
   padding: 5px 40px;
-  margin: 10px 0;
+  margin-bottom: 10px;
   align-items: center;
   justify-content: flex-start;
   scroll-behavior: smooth;
@@ -770,7 +749,7 @@ header .container .mainNav {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   margin: auto;
 }
 header .container .mainNav li .headLinks {
@@ -1049,7 +1028,7 @@ header .container .button {
 
   .rtl .inner1 {
     float: right;
-    margin-right: 200px !important;
+    /* margin-right: 200px !important; */
   }
 
   .inner1 {
@@ -2342,7 +2321,7 @@ height:225px;
 }
 
 .dark-mode {
-  background-color: #121212;
+  background-color: var(--background-primary);
 }
 .dark-mode .mainTitle {
   color: rgba(255, 255, 255, 0.85);
@@ -2422,7 +2401,7 @@ height:225px;
   }
 }
 .dark-mode .landing {
-  background-color: #121212;
+  /* background-color: #121212; */
 }
 .dark-mode .landing .container .text h1,.dark-mode .landing .container .text h3  {
   color: rgba(255, 255, 255, 0.85);
@@ -2443,7 +2422,7 @@ height:225px;
 .dark-mode #articles .container .box {
   -webkit-box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
           box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
-  background-color: #1f1f1f;
+  background-color: var(--background-secondary);
 }
 .dark-mode #articles .container .box .cardText h3 {
   color: rgba(255, 255, 255, 0.85);
@@ -3049,9 +3028,8 @@ height:225px;
 .toggle-btn {
   display: flex;
   align-items: center;
-  /* gap: 24px; */
-  width: 10rem;
-  justify-content: space-between;
+  gap: 1rem;
+  margin-left: 1rem;
 }
 
 /* Dark Mode Toggle */
@@ -3095,7 +3073,7 @@ header .darkModeButton .label .ball {
 }
 
 header .darkModeButton .checkbox:checked + .label .ball {
-  transform: translateX(34px);
+  transform: translateX(32px);
 }
 
 header .darkModeButton .label .moon,
@@ -3153,24 +3131,23 @@ header .laguagesButton .labellang .balllang {
   box-shadow: 0 2px 4px var(--shadow-color);
 }
 
-/* Language text labels instead of images */
+/* Language text labels */
 header .laguagesButton .labellang span {
   color: white;
   font-size: 14px;
   font-weight: 500;
   transition: all 0.3s ease;
-  /* margin: 0 8px; */
   padding: 0 4px;
   transform: scale(0.8);
 }
 
 header .laguagesButton .checkboxlang:checked + .labellang .balllang {
-  transform: translateX(0px) !important;
+  transform: translateX(32px);
 }
 
 /* Dark Mode Styles */
 .dark-mode header .darkModeButton .label {
-  background-color: var(--background-secondary);
+  background-color: var(--secondary-color);
   box-shadow: 0 0 10px var(--shadow-color);
 }
 
@@ -3180,7 +3157,8 @@ header .laguagesButton .checkboxlang:checked + .labellang .balllang {
 }
 
 .dark-mode header .laguagesButton .labellang {
-  background-color: var(--background-secondary);
+  background-color: var(--secondary-color);
+
   box-shadow: 0 0 10px var(--shadow-color);
 }
 
@@ -3190,17 +3168,13 @@ header .laguagesButton .checkboxlang:checked + .labellang .balllang {
 }
 
 /* RTL Support */
-/* .rtl header .darkModeButton .label {
-  flex-direction: row-reverse;
-} */
-
 .rtl header .darkModeButton .label .ball {
   left: auto;
   right: 2px;
 }
 
 .rtl header .darkModeButton .checkbox:checked + .label .ball {
-  transform: translateX(-34px);
+  transform: translateX(-36px);
 }
 
 .rtl header .laguagesButton .labellang {
@@ -3213,10 +3187,18 @@ header .laguagesButton .checkboxlang:checked + .labellang .balllang {
 }
 
 .rtl header .laguagesButton .checkboxlang:checked + .labellang .balllang {
-  transform: translateX(-34px);
+  transform: scale(-1);
 }
 
 /* Responsive Design */
+@media (max-width: 991px) {
+  .toggle-btn {
+    width: 10rem;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+}
+
 @media (max-width: 768px) {
   .toggle-btn {
     gap: 10px;
@@ -3234,7 +3216,7 @@ header .laguagesButton .checkboxlang:checked + .labellang .balllang {
   }
 }
 
-.navbar-brand{
+.navbar-brand {
   width: 10rem;
   margin: 0;
 }
@@ -3960,7 +3942,7 @@ header .laguagesButton .checkboxlang:checked + .labellang .balllang {
 
 /* Banner styles (merged from videos.css) */
 .banner {
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
   color: white;
   padding: 20px 0;
   text-align: center;
@@ -4110,7 +4092,7 @@ header .laguagesButton .checkboxlang:checked + .labellang .balllang {
 
 /* Dark mode adjustments for video components */
 .dark-mode .video-card-wrapper {
-  background-color: var(--card-bg);
+  background-color: var(--background-secondary);
 }
 
 .dark-mode .video-card-title {
@@ -4149,6 +4131,7 @@ header .laguagesButton .checkboxlang:checked + .labellang .balllang {
 }
 
 .profile-image-container {
+  height: 100%;
   /* border-radius: 8px; */
   /* overflow: hidden; */
   /* border: 5px solid var(--secondary-color); */
@@ -4466,7 +4449,7 @@ header .laguagesButton .checkboxlang:checked + .labellang .balllang {
 
 /* Dark mode adjustments */
 .dark-mode .image-description {
-  background-color: var(--dark-background-secondary);
+  background-color: var(--background-secondary);
 }
 
 .dark-mode .achievement-details {
@@ -4527,18 +4510,7 @@ header .laguagesButton .checkboxlang:checked + .labellang .balllang {
   }
 }
 
-/* Old styles that need to be replaced or updated */
-.image-description1 {
-  margin-top: 50px;
-  padding: 15px 20px;
-  background-color: var(--background-secondary);
-  color: var(--text-primary);
-  font-size: 16px;
-  line-height: 1.6;
-  border-left: 4px solid var(--primary-color);
-  border-radius: 8px;
-  box-shadow: 0 2px 6px var(--shadow-color);
-}
+
 
 .dark-mode .news-icon {
   color: var(--icon-color);
@@ -4928,5 +4900,46 @@ header .laguagesButton .checkboxlang:checked + .labellang .balllang {
   }
 }
 
+
+.dark-mode .card-body{
+  background-color: var(--background-secondary);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-color);
+  border-radius: 5px;
+}
+
+.card-title{
+  color: var(--color-primary) !important;
+}
+
+.badge{
+  background-color: var(--primary-color);
+}
+
+.rtl .timeline{
+  padding-left: 0rem !important;
+  padding-right: 2rem !important;
+}
+
+.rtl .timeline:before{
+  right: 0;
+}
+
+.rtl .timeline-marker{
+  right: -2.45rem;
+}
+
+.navbar-brand img {
+  transition: all 0.3s ease;
+  width: 80px;
+  height: auto;
+}
+
+.navbar-toggler{
+  background-color: var(--secondary-color);
+}
+.navbar-toggler:focus{
+  box-shadow: 0px 0px 0px 2px var(--text-secondary);
+}
 
 

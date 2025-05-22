@@ -26,7 +26,7 @@
   <header class="py-3">
     <nav class="navbar navbar-expand-lg navbar-light container">
       <!-- Logo -->
-      <a class="navbar-brand" href="">
+      <a class="navbar-brand" href="index.html">
         <img src="images/3.png" width="80" alt="Logo">
       </a>
 
@@ -50,31 +50,31 @@
           </li>
         </ul>
 
-      </div>
-      <!-- Right Side Buttons -->
-      <div class="toggle-btn">
-        <!-- Dark Mode Toggle -->
-        <div class="darkModeButton">
-          <input type="checkbox" class="checkbox" id="chk" />
-          <label class="label" for="chk">
-            <i class="fas fa-moon moon"></i>
-            <i class="fas fa-sun sun"></i>
-            <div class="ball"></div>
-          </label>
-        </div>
-
-        <!-- Language Switcher -->
-        <div class="laguagesButton">
-          <div class="inner1">
-            <input type="checkbox" class="checkboxlang" id="chklang"
-              aria-label="Toggle language between English and Arabic" />
-            <label class="labellang" for="chklang">
-              <span>Ar</span>
-              <span>En</span>
-              <!-- <img src="images/gb.svg" alt="English" class="gbFlag" />
-              <img src="images/eg.svg" alt="Arabic" class="egFlag" /> -->
-              <div class="balllang"></div>
+        <!-- Right Side Buttons - Moved inside mobile menu -->
+        <div class="toggle-btn">
+          <!-- Dark Mode Toggle -->
+          <div class="darkModeButton">
+            <input type="checkbox" class="checkbox" id="chk" />
+            <label class="label" for="chk">
+              <i class="fas fa-moon moon"></i>
+              <i class="fas fa-sun sun"></i>
+              <div class="ball"></div>
             </label>
+          </div>
+
+          <!-- Language Switcher -->
+          <div class="laguagesButton">
+            <div class="inner1">
+              <input type="checkbox" class="checkboxlang" id="chklang"
+                aria-label="Toggle language between English and Arabic" />
+              <label class="labellang" for="chklang">
+                <span>Ar</span>
+                <span>En</span>
+                <!-- <img src="images/gb.svg" alt="English" class="gbFlag" />
+                <img src="images/eg.svg" alt="Arabic" class="egFlag" /> -->
+                <div class="balllang"></div>
+              </label>
+            </div>
           </div>
         </div>
       </div>
@@ -101,10 +101,12 @@
         </div>
         <div class="col-lg-7">
           <div class="card border-0 bg-transparent">
-            <div class="card-body px-md-4">
-              <h1 class="display-4 mb-3 text-black fw-bold" data-lang="bioTitle">Major General Eng Mokhtar Abdel
+            <div class="card-body px-md-4 bg-transparent">
+              <h1 class=" mb-0 fw-bold" data-lang="bioTitle">Major General Eng Mokhtar Abdel
                 Latif</h1>
-              <h3 class="text-secondary mb-4" data-lang="chairmanTitle">Chairman of the Arab Organization for
+              <h1 class="display-4 mt-0 mb-2 fw-bold" data-lang="bioTitle1">Major General Eng Mokhtar Abdel
+                Latif</h1>
+              <h3 class=" mb-2" data-lang="chairmanTitle">Chairman of the Arab Organization for
                 Industrialization</h3>
               <p class="lead" data-lang="bioIntro">
                 Major General Mokhtar Abdel Latif assumed the position of Chairman of the Arab Organization for
@@ -112,13 +114,13 @@
               </p>
               <div class="d-flex mt-4">
                 <div class="me-3">
-                  <span class="badge bg-primary p-2 rounded-pill"><i class="fas fa-star me-1"></i> Leadership</span>
+                  <span class="badge p-2 rounded-pill"><i class="fas fa-star me-1"></i> Leadership</span>
                 </div>
                 <div class="me-3">
-                  <span class="badge bg-primary p-2 rounded-pill"><i class="fas fa-gear me-1"></i> Engineering</span>
+                  <span class="badge p-2 rounded-pill"><i class="fas fa-gear me-1"></i> Engineering</span>
                 </div>
                 <div class="me-3">
-                  <span class="badge bg-primary p-2 rounded-pill"><i class="fas fa-shield-alt me-1"></i> Military</span>
+                  <span class="badge p-2 rounded-pill"><i class="fas fa-shield-alt me-1"></i> Military</span>
                 </div>
               </div>
             </div>
@@ -131,10 +133,10 @@
     <div class="container pb-5">
       <div class="row">
         <div class="col-md-6 mb-4">
-          <div class="card h-100 shadow hover-card">
-            <div class="card-body">
+          <div class="card h-100 shadow hover-card border-0">
+            <div class="card-body border-color-white">
               <div class="d-flex align-items-center mb-3">
-                <i class="fas fa-graduation-cap text-primary fs-3 me-3"></i>
+                <i class="fas fa-graduation-cap fs-3 me-3"></i>
                 <h3 class="card-title text-secondary mb-0" data-lang="militaryEduTitle">Military Education</h3>
               </div>
               <p data-lang="militaryEduDesc">
@@ -146,10 +148,10 @@
         </div>
 
         <div class="col-md-6 mb-4">
-          <div class="card h-100 shadow hover-card">
-            <div class="card-body">
+          <div class="card h-100 shadow hover-card border-0">
+            <div class="card-body border-color-white">
               <div class="d-flex align-items-center mb-3">
-                <i class="fas fa-medal text-primary fs-3 me-3"></i>
+                <i class="fas fa-medal fs-3 me-3"></i>
                 <h3 class="card-title text-secondary mb-0" data-lang="medalsTitle">Medals and Decorations</h3>
               </div>
               <div class="row">
@@ -164,11 +166,7 @@
                         class="fas fa-award text-warning me-2"></i> Silver Jubilee Medal for the October 1973 Victory
                     </li>
                   </ul>
-                  <button class="btn btn-link text-primary px-0" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#moreMedals" aria-expanded="false" aria-controls="moreMedals"
-                    data-lang="viewAllMedals">
-                    View all medals <i class="fas fa-chevron-down ms-1"></i>
-                  </button>
+ 
                   <div class="collapse" id="moreMedals">
                     <ul class="list-group list-group-flush medal-list">
                       <li class="list-group-item border-0 d-flex align-items-center px-0" data-lang="medal4"><i
@@ -186,6 +184,11 @@
                           class="fas fa-award text-warning me-2"></i> Order of the Republic – Second Class</li>
                     </ul>
                   </div>
+                  <button class="btn btn-link px-0 show-more-btn" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#moreMedals" aria-expanded="false" aria-controls="moreMedals">
+                  <span class="btn-text" data-lang="showMore">Show More</span>
+                  <i class="fas fa-chevron-down arrow-icon"></i>
+                </button>
                 </div>
               </div>
             </div>
@@ -194,10 +197,10 @@
       </div>
 
       <!-- Positions Timeline -->
-      <div class="card shadow mb-4 hover-card">
+      <div class="card shadow mb-4 hover-card  border-0">
         <div class="card-body">
           <div class="d-flex align-items-center mb-4">
-            <i class="fas fa-briefcase text-primary fs-3 me-3"></i>
+            <i class="fas fa-briefcase fs-3 me-3"></i>
             <h3 class="card-title text-secondary mb-0" data-lang="positionsHeldTitle">Positions Held</h3>
           </div>
 
@@ -223,13 +226,6 @@
                 <p class="text-muted">2018 - 2020</p>
               </div>
             </div>
-
-            <button class="btn btn-link text-primary" type="button" data-bs-toggle="collapse"
-              data-bs-target="#morePositions" aria-expanded="false" aria-controls="morePositions"
-              data-lang="viewAllPositions">
-              View earlier positions <i class="fas fa-chevron-down"></i>
-            </button>
-
             <div class="collapse" id="morePositions">
               <div class="timeline-item">
                 <div class="timeline-marker"></div>
@@ -276,6 +272,11 @@
                 </div>
               </div>
             </div>
+            <button class="btn btn-link show-more-btn" type="button" data-bs-toggle="collapse"
+            data-bs-target="#morePositions" aria-expanded="false" aria-controls="morePositions">
+            <span class="btn-text" data-lang="showMore">Show More</span>
+            <i class="fas fa-chevron-down arrow-icon"></i>
+          </button>
           </div>
         </div>
       </div>
@@ -413,7 +414,8 @@
         month11: "November",
         month12: "December",
 
-        bioTitle: "Major General Eng Mokhtar Abdel Latif",
+        bioTitle: "Major General Eng",
+        bioTitle1: "Mokhtar Abdel Latif",
         bioIntro: "Major General Mokhtar Abdel Latif assumed the position of Chairman of the Arab Organization for Industrialization, succeeding General Abdel Moneim El-Terras in 2022.",
         militaryEduTitle: "Military Education",
         militaryEduDesc: "He received military education in Egypt and graduated from the Military Technical College with a specialization in Chemical and Nuclear Engineering (Class 14 and Military Class 66).",
@@ -436,7 +438,9 @@
         medal6: "June 30, 2013 Medal.",
         medal7: "Second Class Military Duty Decoration.",
         medal8: "Excellent Service Decoration.",
-        medal9: "Order of the Republic – Second Class."
+        medal9: "Order of the Republic – Second Class.",
+        showMore: "View More",
+        showLess: "Show Less"
       },
 
       ar: {
@@ -530,7 +534,8 @@
         month10: "أكتوبر",
         month11: "نوفمبر",
         month12: "ديسمبر",
-        bioTitle: `اللواء مهندس مختار عبد اللطيف`,
+        bioTitle: `اللواء مهندس`,
+        bioTitle1: `مختار عبد اللطيف`,
         bioIntro: "تولى اللواء مختار عبد اللطيف منصب رئيس مجلس إدارة الهيئة العربية للتصنيع خلفًا للواء عبد المنعم التراس عام 2022.",
         militaryEduTitle: "التعليم العسكري",
         militaryEduDesc: "تلقى تعليمه العسكري في مصر وتخرج من الكلية الفنية العسكرية بتخصص الهندسة الكيميائية والنووية (الدفعة 14 العسكرية و66 الكلية).",
@@ -553,7 +558,9 @@
         medal6: "ميدالية 30 يونيو 2013.",
         medal7: "نوط الواجب العسكري من الطبقة الثانية.",
         medal8: "نوط الخدمة الممتازة.",
-        medal9: "وسام الجمهورية من الطبقة الثانية."
+        medal9: "وسام الجمهورية من الطبقة الثانية.",
+        showMore: "عرض المزيد",
+        showLess: "عرض أقل"
       }
     };
 
@@ -626,6 +633,92 @@
           localStorage.setItem('language', 'en');
         }
       });
+    });
+  </script>
+
+  <style>
+    .show-more-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      /* padding: 8px 16px; */
+      /* border-radius: 20px; */
+      /* background-color: var(--bs-light); */
+      color: var(--bs-primary);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      /* border: 1px solid var(--bs-primary); */
+      font-weight: 500;
+    }
+
+    .show-more-btn:hover {
+      /* background-color: var(--bs-primary); */
+      /* color: white; */
+      transform: translateY(-2px);
+      /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); */
+    }
+
+    .show-more-btn .arrow-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .show-more-btn[aria-expanded="true"] .arrow-icon {
+      transform: rotate(180deg);
+    }
+
+    .show-more-btn[aria-expanded="true"] .btn-text {
+      content: attr(data-lang="showLess");
+    }
+
+    /* Dark mode support */
+    .dark-mode .show-more-btn {
+      background-color: var(--bs-dark);
+      border-color: var(--bs-light);
+      color: var(--bs-light);
+    }
+
+    .dark-mode .show-more-btn:hover {
+      background-color: var(--bs-light);
+      color: var(--bs-dark);
+    }
+  </style>
+
+  <script>
+    // Add this to your existing script
+    document.addEventListener('DOMContentLoaded', function() {
+      const showMoreButtons = document.querySelectorAll('.show-more-btn');
+      let currentLang = localStorage.getItem('language') || 'en';
+      
+      showMoreButtons.forEach(button => {
+        const btnText = button.querySelector('.btn-text');
+        const collapseId = button.getAttribute('data-bs-target');
+        const collapseElement = document.querySelector(collapseId);
+        
+        // Set initial text
+        btnText.textContent = translations[currentLang].showMore;
+        
+        // Listen for collapse events
+        collapseElement.addEventListener('show.bs.collapse', function () {
+          btnText.textContent = translations[currentLang].showLess;
+        });
+
+        collapseElement.addEventListener('hide.bs.collapse', function () {
+          btnText.textContent = translations[currentLang].showMore;
+        });
+      });
+
+      // Update button text when language changes
+      const languageToggle = document.getElementById('chklang');
+      if (languageToggle) {
+        languageToggle.addEventListener('change', function() {
+          currentLang = this.checked ? 'ar' : 'en';
+          showMoreButtons.forEach(button => {
+            const btnText = button.querySelector('.btn-text');
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+            btnText.textContent = translations[currentLang][isExpanded ? 'showLess' : 'showMore'];
+          });
+        });
+      }
     });
   </script>
 

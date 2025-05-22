@@ -128,7 +128,7 @@ function initializeListingStates() {
             <div class="spinner"></div>
             <p class="message" data-i18n="loading_message">Loading...</p>
         `;
-        videosContainer.appendChild(loadingState);
+        // videosContainer.appendChild(loadingState);   
     }
     
     // Check if we already have the no results message element

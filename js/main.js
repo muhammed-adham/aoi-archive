@@ -9,22 +9,67 @@ function onLoad() {
 
   // Make sure we have all the required elements
   if (html && body) {
-    window.addEventListener("load", () => {
-      if (isDark === "true") {
-        html.classList.add("darkMode");
-        body.classList.add("dark-mode");
-        if (checkBox) checkBox.checked = true;
-        if (checkBox1) checkBox1.checked = true;
-        if (checkBox2) checkBox2.checked = true;
-      } else {
-        html.classList.remove("darkMode");
-        body.classList.remove("dark-mode");
-        if (checkBox) checkBox.checked = false;
-        if (checkBox1) checkBox1.checked = false;
-        if (checkBox2) checkBox2.checked = false;
+    // Set initial state immediately
+    if (isDark === "true") {
+      html.classList.add("darkMode");
+      body.classList.add("dark-mode");
+      if (checkBox) checkBox.checked = true;
+      if (checkBox1) checkBox1.checked = true;
+      if (checkBox2) checkBox2.checked = true;
+    } else {
+      html.classList.remove("darkMode");
+      body.classList.remove("dark-mode");
+      if (checkBox) checkBox.checked = false;
+      if (checkBox1) checkBox1.checked = false;
+      if (checkBox2) checkBox2.checked = false;
+    }
+    
+    // Update navbar brand image immediately
+    updateNavbarBrandImage(isDark === "true");
+  }
+}
+
+// Function to update navbar brand image
+function updateNavbarBrandImage(isDark) {
+  const navbarBrand = document.querySelector('.navbar-brand img');
+  if (navbarBrand) {
+    navbarBrand.src = isDark ? 'images/3-white.png' : 'images/3.png';
+  }
+}
+
+// Function to check and apply theme state
+function applyThemeState() {
+  const isDark = window.localStorage.getItem("isDark?") === "true";
+  const html = document.querySelector("html");
+  const body = document.querySelector("body");
+  
+  if (html && body) {
+    if (isDark) {
+      html.classList.add("darkMode");
+      body.classList.add("dark-mode");
+    } else {
+      html.classList.remove("darkMode");
+      body.classList.remove("dark-mode");
+    }
+    updateNavbarBrandImage(isDark);
+  }
+}
+
+// Add a MutationObserver to watch for theme changes
+function setupThemeObserver() {
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'class') {
+        const isDark = document.body.classList.contains('dark-mode');
+        updateNavbarBrandImage(isDark);
       }
     });
-  }
+  });
+
+  observer.observe(document.body, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
 }
 
 // On Load Languages
@@ -334,9 +379,11 @@ function darkModeButton() {
       if (checkBox.checked) {
         html.classList.add("darkMode");
         body.classList.add("dark-mode");
+        updateNavbarBrandImage(true);
       } else {
         html.classList.remove("darkMode");
         body.classList.remove("dark-mode");
+        updateNavbarBrandImage(false);
       }
     });
   }
@@ -346,9 +393,11 @@ function darkModeButton() {
       if (checkBox1.checked) {
         html.classList.add("darkMode");
         body.classList.add("dark-mode");
+        updateNavbarBrandImage(true);
       } else {
         html.classList.remove("darkMode");
         body.classList.remove("dark-mode");
+        updateNavbarBrandImage(false);
       }
     });
   }
@@ -358,9 +407,11 @@ function darkModeButton() {
       if (checkBox2.checked) {
         html.classList.add("darkMode");
         body.classList.add("dark-mode");
+        updateNavbarBrandImage(true);
       } else {
         html.classList.remove("darkMode");
         body.classList.remove("dark-mode");
+        updateNavbarBrandImage(false);
       }
     });
   }
@@ -644,8 +695,10 @@ document.addEventListener('DOMContentLoaded', function() {
 // Initialize all functions safely with a comprehensive check
 document.addEventListener('DOMContentLoaded', function() {
   try {
-    // Check what page elements exist before calling functions
+    // Apply theme state immediately
+    applyThemeState();
     
+    // Check what page elements exist before calling functions
     // Count down timer elements
     if (document.querySelector(".days") || document.querySelector(".hours")) {
       countDown();
@@ -703,7 +756,38 @@ document.addEventListener('DOMContentLoaded', function() {
       addLanguagetoLocalStorage();
       onLoadLanguages();
     }
+    
+    // Set up theme observer
+    setupThemeObserver();
+    
   } catch (error) {
     console.log("Error initializing JavaScript functionality:", error);
   }
 });
+
+// Add event listener for page load
+window.addEventListener('load', function() {
+  applyThemeState();
+});
+
+// Add event listener for page visibility changes
+document.addEventListener('visibilitychange', function() {
+  if (!document.hidden) {
+    applyThemeState();
+  }
+});
+
+// Theme switcher functionality
+const themeToggle = document.getElementById('chk');
+if (themeToggle) {
+  themeToggle.addEventListener('change', function() {
+    document.body.classList.toggle('dark-mode');
+    // Update navbar brand image based on theme
+    const navbarBrand = document.querySelector('.navbar-brand img');
+    if (navbarBrand) {
+      navbarBrand.src = document.body.classList.contains('dark-mode') 
+        ? 'images/3-white.png' 
+        : 'images/3.png';
+    }
+  });
+}

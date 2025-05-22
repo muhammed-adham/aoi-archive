@@ -51,7 +51,7 @@
   <header class="py-3">
     <nav class="navbar navbar-expand-lg navbar-light container">
       <!-- Logo -->
-      <a class="navbar-brand" href="">
+      <a class="navbar-brand" href="index.html">
         <img src="images/3.png" width="80" alt="Logo">
       </a>
 
@@ -75,31 +75,29 @@
           </li>
         </ul>
 
-      </div>
-      <!-- Right Side Buttons -->
-      <div class="toggle-btn">
-        <!-- Dark Mode Toggle -->
-        <div class="darkModeButton">
-          <input type="checkbox" class="checkbox" id="chk" />
-          <label class="label" for="chk">
-            <i class="fas fa-moon moon"></i>
-            <i class="fas fa-sun sun"></i>
-            <div class="ball"></div>
-          </label>
-        </div>
-
-        <!-- Language Switcher -->
-        <div class="laguagesButton">
-          <div class="inner1">
-            <input type="checkbox" class="checkboxlang" id="chklang"
-              aria-label="Toggle language between English and Arabic" />
-            <label class="labellang" for="chklang">
-              <span>Ar</span>
-              <span>En</span>
-              <!-- <img src="images/gb.svg" alt="English" class="gbFlag" />
-              <img src="images/eg.svg" alt="Arabic" class="egFlag" /> -->
-              <div class="balllang"></div>
+        <!-- Right Side Buttons - Moved inside mobile menu -->
+        <div class="toggle-btn">
+          <!-- Dark Mode Toggle -->
+          <div class="darkModeButton">
+            <input type="checkbox" class="checkbox" id="chk" />
+            <label class="label" for="chk">
+              <i class="fas fa-moon moon"></i>
+              <i class="fas fa-sun sun"></i>
+              <div class="ball"></div>
             </label>
+          </div>
+
+          <!-- Language Switcher -->
+          <div class="laguagesButton">
+            <div class="inner1">
+              <input type="checkbox" class="checkboxlang" id="chklang"
+                aria-label="Toggle language between English and Arabic" />
+              <label class="labellang" for="chklang">
+                <span>Ar</span>
+                <span>En</span>
+                <div class="balllang"></div>
+              </label>
+            </div>
           </div>
         </div>
       </div>
@@ -1468,8 +1466,8 @@
     }
     
     .dark-mode .main-video-container {
-      background-color: #222;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      background-color: var(--background-primary);
+      box-shadow: 0 4px 15px  var(--shadow-color);;
     }
     
     .main-video-player {
@@ -1847,16 +1845,16 @@
 
     /* Dark Mode Styles */
     .dark-mode .video-nav-btn {
-      background-color: #333;
-      color: #fff;
+      background-color: var(--primary-color);
+      color: var(--text-primary);
     }
 
     .dark-mode .video-nav-btn:hover {
-      background-color: #444;
+      background-color: var(--background-secondary);
     }
 
     .dark-mode .video-title {
-      color: #f0f0f0;
+      color: var(--text-primary);
     }
 
     /* Mobile responsiveness */
@@ -2022,6 +2020,8 @@
       gap: 10px;
       margin-bottom: 25px;
       padding-block: 4rem 1rem;
+      border-bottom: 2px solid #eee;
+
     }
     
     .filter-btn {
@@ -2029,7 +2029,7 @@
       border: 2px solid #eee;
       background-color: #f9f9f9;
       color: #333;
-      border-radius: 25px;
+      border-radius: 5px;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -2046,12 +2046,18 @@
     }
     
     .dark-mode .filter-btn {
-      background-color: #333;
-      color: #f9f9f9;
-      border-color: #444;
+      background-color: var(--background-secondary);
+      color: var(--text-primary);
+      border-color: var(--border-color);
     }
     
     .dark-mode .filter-btn:hover {
+      border-color: var(--primary-color, #2196f3);
+    }
+
+    .dark-mode .filter-btn.active {
+      background-color: var(--primary-color, #2196f3);
+      color: white;
       border-color: var(--primary-color, #2196f3);
     }
     
@@ -2090,7 +2096,6 @@
     }
     
     .dark-mode .image-description {
-      background-color: #2a2a2a;
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
     }
     
@@ -2171,12 +2176,12 @@
       max-width: 900px;
       background-color: #f9f9f9;
       border-radius: 10px;
-      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 3px 15px var(--shadow-color);
     }
     
     .dark-mode #newsLinksSection {
-      background-color: #2a2a2a;
-      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+      background-color: var(--background-secondary);
+      box-shadow: 0 3px 15px var(--shadow-color);
     }
     
     #newsLinksSection .sectionTitle {

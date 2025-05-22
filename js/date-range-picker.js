@@ -47,9 +47,9 @@ class DateRangePicker {
         this.displayElement.className = 'date-range-display date-picker-trigger';
         
         // Calendar icon
-        const calendarIcon = document.createElement('i');
-        calendarIcon.className = 'fas fa-calendar';
-        this.displayElement.appendChild(calendarIcon);
+        // const calendarIcon = document.createElement('i');
+        // calendarIcon.className = 'fas fa-calendar';
+        // this.displayElement.appendChild(calendarIcon);
         
         // Display text
         this.displayText = document.createElement('span');

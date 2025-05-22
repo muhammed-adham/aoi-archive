@@ -248,9 +248,9 @@
 
 /* Dark Mode Styles */
 .dark-mode .date-range-display {
-    background-color: #2d2d2d;
-    border-color: #444;
-    color: #fff;
+    background-color: var(--background-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
 }
 
 .dark-mode .date-range-display:hover {
