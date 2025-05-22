@@ -14,6 +14,53 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // Utility function to normalize Arabic text
+    function normalizeArabicText(text) {
+        if (!text) return '';
+        
+        // Return original text if it's not a string
+        if (typeof text !== 'string') return text;
+        
+        // Arabic character normalization mapping
+        const normalizationMap = {
+            // Alif forms
+            'أ': 'ا', 'إ': 'ا', 'آ': 'ا', 'ٱ': 'ا',
+            // Hamza forms
+            'ؤ': 'و', 'ئ': 'ي',
+            // Taa marbuta and haa
+            'ة': 'ه',
+            // Yaa and Alif Maqsura
+            'ى': 'ي',
+            // Kaf and keheh
+            'ك': 'ك', 'ڪ': 'ك',
+            // Remove diacritics (tashkeel)
+            'َ': '', 'ُ': '', 'ِ': '', 'ّ': '', 'ً': '', 'ٌ': '', 'ٍ': '', 'ْ': ''
+        };
+        
+        // Replace characters according to the mapping
+        return text.split('').map(char => normalizationMap[char] || char).join('');
+    }
+
+    // Function to normalize search text
+    function normalizeSearchText(text) {
+        if (!text) return '';
+        
+        // First normalize Arabic characters
+        let normalizedText = normalizeArabicText(text);
+        
+        // Convert to lowercase for case-insensitive matching
+        normalizedText = normalizedText.toLowerCase();
+        
+        // Remove extra spaces
+        normalizedText = normalizedText.replace(/\s+/g, ' ').trim();
+        
+        return normalizedText;
+    }
+
+    // Make normalization functions globally available
+    window.normalizeArabicText = normalizeArabicText;
+    window.normalizeSearchText = normalizeSearchText;
+
     // Bad words lists (these are placeholder examples - add more as needed)
     const badWordsEN = [
         'fuckoff', 'fuck', 'fucker', 'motherfucker', 'bitch', 'dick'
@@ -29,8 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function containsBadWords(text) {
         if (!text) return false;
 
-        const lang = document.documentElement.lang || 'en';
-        const badWordsList = lang === 'ar' ? badWordsAR : badWordsEN;
+        // Get current language from localStorage or fallback to document.dir
+        const currentLang = getCurrentLanguage();
+        const badWordsList = currentLang === 'ar' ? badWordsAR : badWordsEN;
         const textLower = text.toLowerCase();
 
         // Check if any bad word is contained in the text
@@ -41,8 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function filterBadWords(text) {
         if (!text) return text;
 
-        const lang = document.documentElement.lang || 'en';
-        const badWordsList = lang === 'ar' ? badWordsAR : badWordsEN;
+        // Get current language from localStorage or fallback to document.dir
+        const currentLang = getCurrentLanguage();
+        const badWordsList = currentLang === 'ar' ? badWordsAR : badWordsEN;
         let filteredText = text;
 
         badWordsList.forEach(word => {
@@ -74,6 +123,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return result.join(' ');
     }
 
+    // Helper function to get the current language from localStorage or fallback
+    function getCurrentLanguage() {
+        // First check localStorage for the selected language
+        const storedLanguage = localStorage.getItem('selectedLanguage');
+        if (storedLanguage) {
+            return storedLanguage; // 'ar' or 'en'
+        }
+        
+        // If not in localStorage, check document direction
+        return document.dir === 'rtl' ? 'ar' : 'en';
+    }
+
     // Voice search state
     let isListening = false;
 
@@ -85,39 +146,67 @@ document.addEventListener('DOMContentLoaded', () => {
     recognition.continuous = false;
     recognition.interimResults = true;
 
-    // Set language based on page language
-    const currentLang = document.documentElement.lang || 'en';
-    recognition.lang = currentLang === 'ar' ? 'ar-EG' : 'en-US';
+    // Set language based on current language setting
+    function updateRecognitionLanguage() {
+        const currentLang = getCurrentLanguage();
+        recognition.lang = currentLang === 'ar' ? 'ar-EG' : 'en-US';
+        console.log(`Speech recognition language set to: ${recognition.lang}`);
+    }
+    
+    // Set initial language
+    updateRecognitionLanguage();
 
     // Update recognition language when language changes
     document.addEventListener('langChange', (e) => {
-        recognition.lang = e.detail === 'ar' ? 'ar-EG' : 'en-US';
+        updateRecognitionLanguage();
     });
+    
+    // Also monitor language toggle changes
+    const langToggle = document.getElementById('chklang');
+    if (langToggle) {
+        langToggle.addEventListener('change', () => {
+            // Small delay to allow language change to complete
+            setTimeout(updateRecognitionLanguage, 100);
+        });
+    }
 
     // Store original placeholder
     searchInput.dataset.originalPlaceholder = searchInput.placeholder || '';
 
     // Handle voice button click
-    voiceSearchBtn.addEventListener('click', () => {
-        if (isListening) {
-            recognition.stop();
-            return;
-        }
-
+    voiceSearchBtn.addEventListener('mousedown', () => {
         try {
+            // Update language before starting recognition
+            updateRecognitionLanguage();
+            
             recognition.start();
             isListening = true;
             voiceSearchBtn.classList.add('listening');
             searchInput.classList.add('voice-listening');
 
             // Use appropriate language for placeholder
-            const listeningText = document.documentElement.lang === 'ar' ? 'جاري الاستماع...' : 'Listening...';
+            const currentLang = getCurrentLanguage();
+            const listeningText = currentLang === 'ar' ? 'جاري الاستماع...' : 'Listening...';
             searchInput.placeholder = listeningText;
 
             voiceSearchBtn.innerHTML = '<i class="fas fa-stop"></i>';
         } catch (error) {
             console.error('Error starting speech recognition:', error);
             resetVoiceSearch();
+        }
+    });
+
+    // Add mouseup event listener to stop recording
+    voiceSearchBtn.addEventListener('mouseup', () => {
+        if (isListening) {
+            recognition.stop();
+        }
+    });
+
+    // Add mouseleave event listener to stop recording if mouse leaves button while pressed
+    voiceSearchBtn.addEventListener('mouseleave', () => {
+        if (isListening) {
+            recognition.stop();
         }
     });
 
@@ -134,7 +223,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Check for bad words
             if (containsBadWords(words)) {
                 // Filter out bad words or use a general message
-                const warningText = document.documentElement.lang === 'ar' ?
+                const currentLang = getCurrentLanguage();
+                const warningText = currentLang === 'ar' ?
                     'اعد المحاولة' :
                     'Try again';
 
@@ -168,6 +258,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle recognition end
     recognition.onend = () => {
         resetVoiceSearch();
+        
+        // Trigger search if there's text in the input
+        if (searchInput && searchInput.value) {
+            const inputEvent = new Event('input', {
+                bubbles: true,
+                cancelable: true,
+            });
+            searchInput.dispatchEvent(inputEvent);
+        }
     };
 
     // Handle recognition errors
@@ -185,7 +284,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (searchInput) {
             searchInput.classList.remove('voice-listening');
-            searchInput.placeholder = searchInput.dataset.originalPlaceholder || '';
+            const currentLang = getCurrentLanguage();
+            const placeholder = currentLang === 'ar' ? 'بحث في الإنجازات...' : 'Search achievements...';
+            searchInput.placeholder = placeholder;
         }
     }
 }); 

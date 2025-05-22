@@ -226,6 +226,40 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Trigger change event on the hidden select
                         hiddenSelect.dispatchEvent(new Event('change', {bubbles: true}));
                     }
+                },
+                refresh: function() {
+                    // Update all option translations
+                    const currentLang = localStorage.getItem('language') || 'en';
+                    if (!window.translations || !window.translations[currentLang]) return;
+                    
+                    // Update dropdown options
+                    menu.querySelectorAll('.filter-option').forEach(option => {
+                        const langKey = option.dataset.originalLangKey;
+                        if (langKey && window.translations[currentLang][langKey]) {
+                            option.textContent = window.translations[currentLang][langKey];
+                        }
+                    });
+                    
+                    // Update the currently selected button text
+                    const selectedOption = menu.querySelector('.filter-option.selected');
+                    if (selectedOption) {
+                        btn.textContent = selectedOption.textContent;
+                    }
+                    
+                    // Update label if it exists
+                    const label = wrapper.querySelector('label[data-lang]');
+                    if (label) {
+                        const labelKey = label.getAttribute('data-lang');
+                        if (labelKey && window.translations[currentLang][labelKey]) {
+                            label.textContent = window.translations[currentLang][labelKey];
+                        }
+                    }
+
+                    // Force visibility update - sometimes needed for RTL layouts
+                    wrapper.style.display = 'none';
+                    setTimeout(() => {
+                        wrapper.style.display = '';
+                    }, 0);
                 }
             };
         }
@@ -275,6 +309,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
                 
+                // Handle custom filter labels more explicitly
+                const categoryLabel = document.querySelector('.filter-dropdown[data-for="category-filter"]')?.closest('.filter-group')?.querySelector('label[data-lang="category"]');
+                if (categoryLabel && translations[currentLang].category) {
+                    categoryLabel.textContent = translations[currentLang].category;
+                }
+                
+                const sortByLabel = document.querySelector('.filter-dropdown[data-for="sort-by"]')?.closest('.filter-group')?.querySelector('label[data-lang="sortBy"]');
+                if (sortByLabel && translations[currentLang].sortBy) {
+                    sortByLabel.textContent = translations[currentLang].sortBy;
+                }
+                
                 // Update custom filter components
                 document.querySelectorAll('.filter-option.selected').forEach(selected => {
                     const btn = selected.closest('.filter-dropdown').querySelector('.filter-dropdown-btn');
@@ -318,6 +363,16 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Update all dropdown elements with the new language
             updateAllTranslations();
+            
+            // Also refresh all dropdown components
+            if (window.customDropdowns) {
+                if (window.customDropdowns.category) {
+                    window.customDropdowns.category.refresh();
+                }
+                if (window.customDropdowns.sort) {
+                    window.customDropdowns.sort.refresh();
+                }
+            }
         };
         
         // Make window.customDropdowns available for other scripts
@@ -339,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (typeof filterArticles === 'function') {
                 filterArticles();
             } else {
-                console.warn("filterArticles function not found - filter functionality may not be available yet");
+                console.warn("filterArticles function not found - filter functionality may be available yet");
             }
         }, 200); // Small delay to ensure everything is properly set up
     });

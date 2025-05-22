@@ -12,10 +12,12 @@
     <!--Link Styles Sheet-->
     <link rel="stylesheet" href="css/normalize.css" />
     <!--Link Normalize-->
-    <link rel="stylesheet" href="css/date-range-picker.css" />
-    <!--Link Date Range Picker CSS-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <!--Link Font Awesome CDN-->
+      <link rel="stylesheet" href="css/date-range-picker.css" />
+  <!--Link Date Range Picker CSS-->
+  <link rel="stylesheet" href="css/search-states.css" />
+  <!--Link Search States CSS-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <!--Link Font Awesome CDN-->
     
     <title>Video Library</title>
 </head>
@@ -83,8 +85,6 @@
     <!-- End Bootstrap Header -->
 
     <main>
-
-
         <section class="video-gallery-section">
             <!-- Banner/Breadcrumbs -->
             <div class="banner">
@@ -92,10 +92,70 @@
                     <p class="breadcrumbs" data-lang="video_library"></p>
                 </div>
             </div>
+
+            <!-- Search Container Start -->
+            <div class="search-container">
+                <div class="search-box" role="search">
+                    <label for="search-input" class="sr-only">Search videos</label>
+                    <input type="text" id="search-input" placeholder="Search videos..." data-i18n-placeholder="search_videos_placeholder" aria-label="Search videos">
+                    <button id="voice-search" aria-label="Search by voice" tabindex="0"><i class="fas fa-microphone" aria-hidden="true"></i></button>
+                </div>
+            </div>
+            <!-- Search Container End -->
+
+            <!-- Filter Start -->
+            <section class="filter-section" aria-label="Video Filters" style="margin:0 20px;">
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <select id="category-filter" class="category-filter">
+                            <option value="" data-lang="allCategories">All Categories</option>
+                            <option value="military" data-lang="military">Military</option>
+                            <option value="defense" data-lang="defense">Defense</option>
+                            <option value="industry" data-lang="industry">Industry</option>
+                            <option value="technology" data-lang="technology">Technology</option>
+                            <option value="international" data-lang="international">International Relations</option>
+                            <option value="development" data-lang="development">Development</option>
+                            <option value="security" data-lang="security">Security</option>
+                            <option value="leadership" data-lang="leadership">Leadership</option>
+                        </select>
+                    </div>
+                    <div class="filter-group date-filter">
+                        <label for="date-range" data-lang="dateRange">Date Range:</label>
+                        <div class="date-picker-container">
+                            <!-- The date range picker will be initialized by JavaScript -->
+                        </div>
+                        <input type="hidden" id="start-date">
+                        <input type="hidden" id="end-date">
+                    </div>
+                    <div class="filter-group">
+                        <select id="sort-by" class="sort-filter" aria-label="Sort videos">
+                            <option value="date-desc" selected data-lang="dateNewest">Date (Newest First)</option>
+                            <option value="date-asc" data-lang="dateOldest">Date (Oldest First)</option>
+                            <option value="title-asc" data-lang="titleAZ">Title (A-Z)</option>
+                            <option value="title-desc" data-lang="titleZA">Title (Z-A)</option>
+                        </select>
+                    </div>
+                    <button class="clear-filters-btn" id="clear-filters" disabled aria-label="Clear all filters" tabindex="0">
+                        <i class="fas fa-times" aria-hidden="true"></i> <span data-lang="clearFilters">Clear All Filters</span>
+                    </button>
+                </div>
+            </section>
+            <!-- Filter End -->
+
+            <!-- Video Counter -->
+            <div class="article-counter-container">
+                <div class="article-counter">
+                    <i class="fas fa-filter" aria-hidden="true"></i>
+                    <strong id="article-count">10</strong>
+                    <span data-lang="videosFound">Videos Found</span>
+                </div>
+            </div>
+            <!-- Video Counter End -->
+
             <div class="container">
-                <div class="video-grid">
-                    <!-- Video items will be populated here -->
-                    <div class="video-card-wrapper">
+                <div class="video-grid" id="videos">
+                    <!-- Video items with data attributes for filtering -->
+                    <div class="video-card-wrapper" data-category="military" data-title="Military Exercise" data-date="2024-03-15">
                         <div class="video-display-box">
                             <div class="thumbnail-container">
                                 <img src="https://img.youtube.com/vi/dY3t90L_q3Q/hqdefault.jpg" alt="Video Thumbnail"
@@ -111,7 +171,7 @@
                         <p class="video-card-title" data-lang="video1"></p>
                     </div>
 
-                    <div class="video-card-wrapper">
+                    <div class="video-card-wrapper" data-category="defense" data-title="Defense Strategy" data-date="2024-02-20">
                         <div class="video-display-box">
                             <div class="thumbnail-container">
                                 <img src="https://img.youtube.com/vi/pOWKt8p-GYY/hqdefault.jpg" alt="Video Thumbnail"
@@ -127,7 +187,7 @@
                         <p class="video-card-title" data-lang="video2"></p>
                     </div>
 
-                    <div class="video-card-wrapper">
+                    <div class="video-card-wrapper" data-category="technology" data-title="New Technology" data-date="2024-01-10">
                         <div class="video-display-box">
                             <div class="thumbnail-container">
                                 <img src="https://img.youtube.com/vi/e65Q-NrK-dc/hqdefault.jpg" alt="Video Thumbnail"
@@ -143,7 +203,7 @@
                         <p class="video-card-title" data-lang="video3"></p>
                     </div>
 
-                    <div class="video-card-wrapper">
+                    <div class="video-card-wrapper" data-category="industry" data-title="Industry Development" data-date="2023-12-15">
                         <div class="video-display-box">
                             <div class="thumbnail-container">
                                 <img src="https://img.youtube.com/vi/ftV6GKQyKw4/hqdefault.jpg" alt="Video Thumbnail"
@@ -159,7 +219,7 @@
                         <p class="video-card-title" data-lang="video4"></p>
                     </div>
 
-                    <div class="video-card-wrapper">
+                    <div class="video-card-wrapper" data-category="international" data-title="International Relations" data-date="2023-11-05">
                         <div class="video-display-box">
                             <div class="thumbnail-container">
                                 <img src="https://img.youtube.com/vi/7iEtc19nQNs/hqdefault.jpg" alt="Video Thumbnail"
@@ -175,7 +235,7 @@
                         <p class="video-card-title" data-lang="video5"></p>
                     </div>
 
-                    <div class="video-card-wrapper">
+                    <div class="video-card-wrapper" data-category="development" data-title="Development Project" data-date="2023-10-20">
                         <div class="video-display-box">
                             <div class="thumbnail-container">
                                 <img src="https://img.youtube.com/vi/Nz6c3zAtDDg/hqdefault.jpg" alt="Video Thumbnail"
@@ -191,7 +251,7 @@
                         <p class="video-card-title" data-lang="video6"></p>
                     </div>
 
-                    <div class="video-card-wrapper">
+                    <div class="video-card-wrapper" data-category="security" data-title="Security Operations" data-date="2023-09-15">
                         <div class="video-display-box">
                             <div class="thumbnail-container">
                                 <img src="https://img.youtube.com/vi/pKFod1gJflk/hqdefault.jpg" alt="Video Thumbnail"
@@ -207,7 +267,7 @@
                         <p class="video-card-title" data-lang="video7"></p>
                     </div>
 
-                    <div class="video-card-wrapper">
+                    <div class="video-card-wrapper" data-category="leadership" data-title="Leadership Conference" data-date="2023-08-25">
                         <div class="video-display-box">
                             <div class="thumbnail-container">
                                 <img src="https://img.youtube.com/vi/WmRxceCn7MU/hqdefault.jpg" alt="Video Thumbnail"
@@ -223,7 +283,7 @@
                         <p class="video-card-title" data-lang="video8"></p>
                     </div>
 
-                    <div class="video-card-wrapper">
+                    <div class="video-card-wrapper" data-category="military" data-title="Military Technology" data-date="2023-07-10">
                         <div class="video-display-box">
                             <div class="thumbnail-container">
                                 <img src="https://img.youtube.com/vi/3ZxtQTsN0tE/hqdefault.jpg" alt="Video Thumbnail"
@@ -239,7 +299,7 @@
                         <p class="video-card-title" data-lang="video9"></p>
                     </div>
 
-                    <div class="video-card-wrapper">
+                    <div class="video-card-wrapper" data-category="defense" data-title="Defense Innovation" data-date="2023-06-05">
                         <div class="video-display-box">
                             <div class="thumbnail-container">
                                 <img src="https://img.youtube.com/vi/oovmi47l3gk/hqdefault.jpg" alt="Video Thumbnail"
@@ -254,60 +314,238 @@
                         </div>
                         <p class="video-card-title" data-lang="video10"></p>
                     </div>
-
-                    <div class="video-card-wrapper">
-                        <div class="video-display-box">
-                            <div class="thumbnail-container">
-                                <img src="https://img.youtube.com/vi/IdsEPlzhtXc/hqdefault.jpg" alt="Video Thumbnail"
-                                    class="thumbnail-image">
-                                <div class="main-play-icon-area">
-                                    <i class="fa-regular fa-circle-play"></i>
-                                </div>
-                            </div>
-                            <div class="youtube-logo-wrapper">
-                                <img src="images/favicon.png" alt="YouTube Logo" class="youtube-logo-image">
-                            </div>
-                        </div>
-                        <p class="video-card-title" data-lang="video11"></p>
-                    </div>
-
-                    <div class="video-card-wrapper">
-                        <div class="video-display-box">
-                            <div class="thumbnail-container">
-                                <img src="https://img.youtube.com/vi/0BRS844L1c4/hqdefault.jpg" alt="Video Thumbnail"
-                                    class="thumbnail-image">
-                                <div class="main-play-icon-area">
-                                    <i class="fa-regular fa-circle-play"></i>
-                                </div>
-                            </div>
-                            <div class="youtube-logo-wrapper">
-                                <img src="images/favicon.png" alt="YouTube Logo" class="youtube-logo-image">
-                            </div>
-                        </div>
-                        <p class="video-card-title" data-lang="video12"></p>
-                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- Add no results message -->
+        <div id="no-results-message" style="display: none; text-align: center; margin: 30px 0;">
+            <p data-lang="noResultsFound">No videos match your search criteria. Please try different filters.</p>
+        </div>
+
+        <!-- Video Modal -->
+        <div id="video-modal" class="video-modal">
+            <div class="video-modal-content">
+                <span class="video-modal-close">&times;</span>
+                <div class="video-container">
+                    <iframe id="youtube-iframe" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <!--Start Footer-->
-    <div class="footer">
-      <p class="copyright" data-lang="footer_copyright">
-        Coded by
-        <a href="#">Eng: saad hossam</a>.
-      </p>
-    </div>
-    <!--End Footer-->
+    <!-- START FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Footer content here -->
+        </div>
+    </footer>
+    <!-- END FOOTER -->
 
-    <div class="scrollToTop"><i class="fa-solid fa-arrow-up"></i></div>
-
-    <!-- Bootstrap and JavaScript -->
-    <script src="js/all.min.js"></script>
+    <!-- JS Files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/date-range-picker.js"></script>
+    <script src="js/filter-dropdowns.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/voice-search.js"></script>
+    <script src="js/video-filters.js"></script>
 
     <script>
+        // Define translations
+        const translations = {
+            en: {
+                // Header / Navigation
+                home: "Home",
+                news: "News",
+                about: "About Us",
+                videos: "Videos",
+                features: "Features",
+                "other links": "Other Links",
+                
+                // Video page content
+                video_library: "Video Library",
+                search_videos_placeholder: "Search videos...",
+                searchPlaceholder: "Search videos...",
+                allCategories: "All Categories",
+                category: "Category",
+                military: "Military",
+                defense: "Defense",
+                industry: "Industry",
+                technology: "Technology", 
+                international: "International Relations",
+                development: "Development",
+                security: "Security",
+                leadership: "Leadership",
+                dateRange: "Date Range",
+                sortBy: "Sort By",
+                dateNewest: "Date (Newest First)",
+                dateOldest: "Date (Oldest First)",
+                titleAZ: "Title (A-Z)",
+                titleZA: "Title (Z-A)",
+                clearFilters: "Clear All Filters",
+                videosFound: "Videos Found",
+                noResultsFound: "No videos match your search criteria. Please try different filters.",
+                
+                // Video titles
+                video1: "Kader Factory for Advanced Industries - Arab Organization for Industrialization",
+                video2: "The Container | Kader Factory for Manufacturing Armored Vehicles, Equipped Cars and Heavy Equipment",
+                video3: "Major General Amr Abdel Aziz, Chairman of Kader Factory, Explains the Most Important Products",
+                video4: "Manufacturing Aircraft Engine Parts in Egypt",
+                video5: "Tour Inside the Electronics Factory of the Arab Organization for Industrialization",
+                video6: "Arab Organization for Industrialization - Arabic Film Version",
+                video7: "Interview with Kader Factory CEO on Electric Scooters by AOI",
+                video8: "Kader Factory for Advanced Industries - Arab Organization for Industrialization",
+                video9: "News: AOI Success in Producing Wooden Molds for Buses",
+                video10: "Engines Factory - Arab Organization for Industrialization"
+            },
+            ar: {
+                // Header / Navigation
+                home: " الرئيسية",
+                news: "الانجازات",
+                about: "معلومات عنا",
+                videos: "معرض الفيديوهات",
+                features: "مميزات",
+                "other links": "روابط أخرى",
+                
+                // Video page content
+                video_library: "مكتبة الفيديو",
+                search_videos_placeholder: "البحث عن الفيديوهات...",
+                searchPlaceholder: "البحث عن الفيديوهات...",
+                allCategories: "جميع الفئات",
+                category: "الفئة",
+                military: "عسكري",
+                defense: "دفاع",
+                industry: "صناعة",
+                technology: "تكنولوجيا",
+                international: "علاقات دولية",
+                development: "تنمية",
+                security: "أمن",
+                leadership: "قيادة",
+                dateRange: "النطاق الزمني",
+                sortBy: "ترتيب حسب",
+                dateNewest: "التاريخ (الأحدث أولاً)",
+                dateOldest: "التاريخ (الأقدم أولاً)",
+                titleAZ: "العنوان (أ-ي)",
+                titleZA: "العنوان (ي-أ)",
+                clearFilters: "مسح كل الفلاتر",
+                videosFound: "فيديوهات وجدت",
+                noResultsFound: "لا توجد فيديوهات تطابق معايير البحث. يرجى تجربة فلاتر مختلفة.",
+                
+                // Video titles
+                video1: "مصنع قادر للصناعات المتطورة - الهيئة العربية للتصنيع",
+                video2: "الكونتينر | مصنع قادر لتصنيع المدرعات والسيارات المجهزة والمعدات الثقيلة قصة فخر لكل مصري",
+                video3: "لواء أركان حرب عمرو عبد العزيز رئيس مجلس إدارة مصنع قادر يوضح أهم وأبرز المنتجات في المصنع",
+                video4: "تصنيع قطع غيار محركات الطائرات في مصر",
+                video5: "جولة داخل مصنع الإلكترونيات التابع للهيئة العربية للتصنيع مع اللواء أ.ح مهندس / أحمد عبد العزيز",
+                video6: "الهيئة العربية للتصنيع. نسخة الفيلم باللغة العربية",
+                video7: "مداخلة ر م إ مصنع قادر لموقع الوطن بشأن موضوع الإسكوتر الكهربائي إنتاج الهيئة العربية للتصنيع",
+                video8: "مصنع قادر للصناعات المتطورة - التابع للهيئة العربية للتصنيع",
+                video9: "الأخبار نجاح الهيئة العربية للتصنيع في إنتاج الإسطمبات الخشبية للأوتوبيسات",
+                video10: "مصنع المحركات - الهيئة العربية للتصنيع"
+            }
+        };
+
+        // Language toggling functionality
+        const languageToggle = document.getElementById('chklang');
+
+        function updateLanguage(language) {
+            const elements = document.querySelectorAll('[data-lang], [data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-lang') || element.getAttribute('data-i18n');
+                const translation = translations[language][key];
+                if (!translation) return;
+
+                // Check if it's a navigation link (headLinks class)
+                const isNavLink = element.classList.contains('headLinks');
+
+                // Handle select option elements specially
+                if (element.tagName === 'OPTION') {
+                    element.innerHTML = translation; // This ensures the UI is updated
+                    return;
+                }
+
+                // Immediately update navigation links without animation
+                if (isNavLink) {
+                    element.textContent = translation;
+                    return;
+                }
+
+                element.textContent = translation;
+            });
+            
+            // Update placeholders for elements with data-i18n-placeholder attributes
+            const placeholderElements = document.querySelectorAll('[data-i18n-placeholder]');
+            placeholderElements.forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                const translation = translations[language][key];
+                if (translation) {
+                    element.placeholder = translation;
+                }
+            });
+
+            document.body.setAttribute('dir', language === 'ar' ? 'rtl' : 'ltr');
+            
+            // Store the selected language in localStorage using the unified key
+            localStorage.setItem('selectedLanguage', language);
+            
+            // Store translations globally for other scripts to access
+            window.translations = translations;
+            
+            // Make sure translations are fully initialized before filters are created
+            // Update custom dropdowns if available
+            if (window.updateFilterDropdowns) {
+                window.updateFilterDropdowns(language);
+            }
+            
+            // Dispatch language change event for voice search
+            const langChangeEvent = new CustomEvent('langChange', { 
+                detail: language,
+                bubbles: true 
+            });
+            document.dispatchEvent(langChangeEvent);
+            
+            document.dispatchEvent(new CustomEvent('translationsLoaded', {
+                detail: { language: language }
+            }));
+        }
+
+        // Check if language preference is saved (using the unified key)
+        if (localStorage.getItem('selectedLanguage') === 'ar') {
+            languageToggle.checked = true;
+            updateLanguage('ar');
+        } else {
+            updateLanguage('en');
+        }
+
+        // Language toggle event listener
+        languageToggle.addEventListener('change', () => {
+            if (languageToggle.checked) {
+                localStorage.setItem('selectedLanguage', 'ar');
+                // Simply reload the page - it will apply the language on load
+                window.location.reload();
+            } else {
+                localStorage.setItem('selectedLanguage', 'en');
+                // Simply reload the page - it will apply the language on load
+                window.location.reload();
+            }
+        });
+
+        // Initial call to update language based on stored preference
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+            updateLanguage(savedLanguage);
+            
+            // Make sure custom dropdowns are properly initialized with correct language
+            setTimeout(() => {
+                if (window.customDropdowns) {
+                    if (window.customDropdowns.category) window.customDropdowns.category.refresh();
+                    if (window.customDropdowns.sort) window.customDropdowns.sort.refresh();
+                }
+            }, 300);
+        });
+        
+        // Dark mode functionality
         // Get references to the checkbox and body
         const darkModeToggle = document.getElementById('chk');
         const body = document.body;
@@ -327,137 +565,6 @@
                 body.classList.remove('dark-mode');
                 localStorage.setItem('darkMode', 'disabled');
             }
-        });
-    </script>
-
-    <script>
-        const translations = {
-            en: {
-                // Header / Navigation
-                home: "Home",
-                news: "Achievments",
-                about: "About Us",
-                videos: "Videos",
-                features: "Features",
-                "other links": "Other Links",
-                gallary: "Gallary",
-                "team members": "Team Members",
-                services: "Services",
-                "our skills": "Our Skills",
-                "how it works": "How It Works",
-                events: "Events",
-                "pricing plans": "Pricing Plans",
-                stats: "Stats",
-                "request a discount": "Request a Discount",
-                
-                // Videos page content
-                video_library: "Video Library",
-                explore_videos: "Explore Our Visual Content",
-                video_description: "Welcome to our video gallery, where we showcase the precision, discipline, and innovation that define our operations. From tactical demonstrations and mission highlights to equipment showcases and training exercises, our visual content provides an in-depth look at our capabilities and commitment to excellence. Explore our videos to gain a deeper understanding of our mission and values.",
-                footer_copyright: "Coded by",
-                
-                // Video titles
-                video1: "Kader Factory for Advanced Industries - Arab Organization for Industrialization",
-                video2: "The Container | Kader Factory for Manufacturing Armored Vehicles, Equipped Cars and Heavy Equipment",
-                video3: "Major General Amr Abdel Aziz, Chairman of Kader Factory, Explains the Most Important Products",
-                video4: "Manufacturing Aircraft Engine Parts in Egypt",
-                video5: "Tour Inside the Electronics Factory of the Arab Organization for Industrialization",
-                video6: "Arab Organization for Industrialization - Arabic Film Version",
-                video7: "Interview with Kader Factory CEO on Electric Scooters by AOI",
-                video8: "Kader Factory for Advanced Industries - Arab Organization for Industrialization",
-                video9: "News: AOI Success in Producing Wooden Molds for Buses",
-                video10: "Engines Factory - Arab Organization for Industrialization",
-                video11: "AOI Signs Cooperation Protocol with Saudi Company for Localizing Nano Technology",
-                video12: "Sakr Factory for Advanced Industries"
-            },
-            ar: {
-                // Header / Navigation
-                home: " الرئيسية",
-                news: "الانجازات",
-                about: "معلومات عنا",
-                videos: "معرض الفيديوهات",
-                features: "مميزات",
-                "other links": "روابط أخرى",
-                gallary: "معرض الصور",
-                "team members": "أعضاء الفريق",
-                services: "خدمات",
-                "our skills": "مهاراتنا",
-                "how it works": "كيف يعمل",
-                events: "الأحداث",
-                "pricing plans": "خطط الأسعار",
-                stats: "الإحصائيات",
-                "request a discount": "طلب خصم",
-                
-                // Videos page content
-                video_library: "مكتبة الفيديو",
-                explore_videos: "استكشف المحتوى المرئي",
-                video_description: "مرحبًا بك في معرض الفيديو الخاص بنا، حيث نعرض الدقة والانضباط والابتكار التي تحدد عملياتنا. من العروض التكتيكية وأبرز المهام إلى عروض المعدات وتدريبات التمارين، يوفر محتوانا المرئي نظرة متعمقة على قدراتنا والتزامنا بالتميز. استكشف مقاطع الفيديو الخاصة بنا للحصول على فهم أعمق لمهمتنا وقيمنا.",
-                footer_copyright: "تم البرمجة بواسطة",
-                
-                // Video titles
-                video1: "مصنع قادر للصناعات المتطورة - الهيئة العربية للتصنيع",
-                video2: "الكونتينر | مصنع قادر لتصنيع المدرعات والسيارات المجهزة والمعدات الثقيلة قصة فخر لكل مصري",
-                video3: "لواء أركان حرب عمرو عبد العزيز رئيس مجلس إدارة مصنع قادر يوضح أهم وأبرز المنتجات في المصنع",
-                video4: "تصنيع قطع غيار محركات الطائرات في مصر",
-                video5: "جولة داخل مصنع الإلكترونيات التابع للهيئة العربية للتصنيع مع اللواء أ.ح مهندس / أحمد عبد العزيز",
-                video6: "الهيئة العربية للتصنيع. نسخة الفيلم باللغة العربية",
-                video7: "مداخلة ر م إ مصنع قادر لموقع الوطن بشأن موضوع الإسكوتر الكهربائي إنتاج الهيئة العربية للتصنيع",
-                video8: "مصنع قادر للصناعات المتطورة - التابع للهيئة العربية للتصنيع",
-                video9: "الأخبار نجاح الهيئة العربية للتصنيع في إنتاج الإسطمبات الخشبية للأوتوبيسات",
-                video10: "مصنع المحركات - الهيئة العربية للتصنيع",
-                video11: "الهيئة العربية للتصنيع توقع بروتوكول تعاون مع أحدى الشركات السعودية لتوطين تكنولوجيا النانو",
-                video12: "مصنع صقر للصناعات المتطورة"
-            }
-        };
-
-        // Language toggling functionality
-        const languageToggle = document.getElementById('chklang');
-
-        function updateLanguage(language) {
-            const elements = document.querySelectorAll('[data-lang], [data-i18n]');
-            elements.forEach(element => {
-                const key = element.getAttribute('data-lang') || element.getAttribute('data-i18n');
-                const translation = translations[language][key];
-                if (!translation) return;
-
-                // Check if it's a navigation link (headLinks class)
-                const isNavLink = element.classList.contains('headLinks');
-
-                // Immediately update navigation links without animation
-                if (isNavLink) {
-                    element.textContent = translation;
-                    return;
-                }
-
-                element.textContent = translation;
-            });
-
-            document.body.setAttribute('dir', language === 'ar' ? 'rtl' : 'ltr');
-        }
-
-        // Check if language preference is saved
-        if (localStorage.getItem('language') === 'ar') {
-            languageToggle.checked = true;
-            updateLanguage('ar');
-        } else {
-            updateLanguage('en');
-        }
-
-        // Language toggle event listener
-        languageToggle.addEventListener('change', () => {
-            if (languageToggle.checked) {
-                updateLanguage('ar');
-                localStorage.setItem('language', 'ar');
-            } else {
-                updateLanguage('en');
-                localStorage.setItem('language', 'en');
-            }
-        });
-
-        // Initial call to update language based on stored preference
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedLanguage = localStorage.getItem('language') || 'en';
-            updateLanguage(savedLanguage);
         });
     </script>
 </body>

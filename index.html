@@ -14,6 +14,8 @@
   <!--Link Normalize-->
   <link rel="stylesheet" href="css/date-range-picker.css" />
   <!--Link Date Range Picker CSS-->
+  <link rel="stylesheet" href="css/search-states.css" />
+  <!--Link Search States CSS-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <!--Link Font Awesome CDN-->
 
@@ -111,7 +113,7 @@
       <div class="search-container">
         <div class="search-box" role="search">
           <label for="search-input" class="sr-only">Search events</label>
-          <input type="text" id="search-input" placeholder="Search achievements..." data-lang="searchPlaceholder" aria-label="Search achievements">
+          <input type="text" id="search-input" placeholder="Search achievements..." data-i18n-placeholder="search_placeholder" aria-label="Search achievements">
           <button id="voice-search" aria-label="Search by voice" tabindex="0"><i class="fas fa-microphone" aria-hidden="true"></i></button>
         </div>
       </div>
@@ -520,24 +522,12 @@
       en: {
         // Header / Navigation
         home: "Home",
-        news: "Achievments",
-        about: "About Us",
-        features: "Features",
-        "other links": "Other Links",
-        gallary: "Gallary",
-        "team members": "Team Members",
-        services: "Services",
-        "our skills": "Our Skills",
-        "how it works": "How It Works",
-        events: "Events",
-        "pricing plans": "Pricing Plans",
-        "videos": "Videos",
-        stats: "Stats",
-        requestadiscount: "Request a Discount",
-        dateFrom: "Date From",
-        dateTo: "Date To",
+        news: "News",
+        about: "About",
+        videos: "Videos",
         
-        // Filter Elements
+        // Search and filters
+        search_placeholder: "Search achievements...",
         searchPlaceholder: "Search achievements...",
         category: "Category",
         allCategories: "All Categories",
@@ -565,7 +555,7 @@
 
 
         // Landing
-        landingTitle1: "Major General Engineer",
+        landingTitle1: "Major GeneralEngineer",
         landingTitle2: "Mokhtar Abdel Latif",
         landingParagraph: "Chairman of the Board of Directors of the Arab Organization for Industrialization",
 
@@ -656,7 +646,7 @@
         dateTo: "الى تاريخ:",
         
         // Filter Elements
-        searchPlaceholder: "البحث في الإنجازات...",
+        search_placeholder: "البحث في الإنجازات...",
         category: "التصنيف",
         allCategories: "كل التصنيفات",
         military: "عسكري",
@@ -786,6 +776,16 @@
         }
       });
       
+      // Update placeholders for elements with data-i18n-placeholder attributes
+      const placeholderElements = document.querySelectorAll('[data-i18n-placeholder]');
+      placeholderElements.forEach(element => {
+        const key = element.getAttribute('data-i18n-placeholder');
+        const translation = translations[language][key];
+        if (translation) {
+          element.placeholder = translation;
+        }
+      });
+      
       // Only animate landing page elements with typewriter effect
       const landingTitle = document.getElementById("landing-title");
       const landingParagraph = document.getElementById("landing-paragraph");
@@ -819,12 +819,21 @@
         }
       });
 
+      // Update document direction and store language preference
       document.body.setAttribute('dir', language === 'ar' ? 'rtl' : 'ltr');
+      localStorage.setItem('selectedLanguage', language);
+      
+      // Dispatch language change event for other scripts
+      const langChangeEvent = new CustomEvent('langChange', { 
+        detail: language,
+        bubbles: true 
+      });
+      document.dispatchEvent(langChangeEvent);
     }
 
     window.addEventListener("DOMContentLoaded", () => {
       // Check for saved language preference
-      const savedLanguage = localStorage.getItem('language') || 'en';
+      const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
       const langToggle = document.getElementById("chklang");
 
       // Set initial state based on saved preference
@@ -849,7 +858,7 @@
           const selectedLanguage = this.checked ? "ar" : "en";
           
           // Save language preference
-          localStorage.setItem('language', selectedLanguage);
+          localStorage.setItem('selectedLanguage', selectedLanguage);
           
           // Reload the page to apply all language changes fully
           window.location.reload();
@@ -1022,7 +1031,7 @@
   </script>
 
   <!--Main JS App File-->
-  <script src="js/filters.js"></script>
+  <script src="js/articles-filter.js"></script>
   <script src="js/filter-dropdowns.js"></script>
   <script src="js/app.js"></script>
 </body>
