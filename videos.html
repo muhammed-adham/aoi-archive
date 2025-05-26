@@ -318,9 +318,12 @@
         </section>
 
         <!-- Add no results message -->
-        <div id="no-results-message" style="display: none; text-align: center; margin: 30px 0;">
-            <p data-lang="noResultsFound">No videos match your search criteria. Please try different filters.</p>
-        </div>
+        <!-- No results message -->
+        <div id="no-results-message" style="display: none; text-align: center; padding: 40px; width: 100%;">
+            <i class="fas fa-search" style="font-size: 48px; color: #ccc; margin-bottom: 20px;"></i>
+            <h3 data-lang="noResultsTitle">No Results Found</h3>
+            <p data-lang="noResultsDesc">Try adjusting your filters or search criteria.</p>
+          </div>
 
         <!-- Video Modal -->
         <div id="video-modal" class="video-modal">
@@ -449,7 +452,6 @@
         };
 
         // Language toggling functionality
-        const languageToggle = document.getElementById('chklang');
 
         function updateLanguage(language) {
             const elements = document.querySelectorAll('[data-lang], [data-i18n]');
@@ -512,57 +514,48 @@
             }));
         }
 
-        // Check if language preference is saved (using the unified key)
-        if (localStorage.getItem('selectedLanguage') === 'ar') {
-            languageToggle.checked = true;
-            updateLanguage('ar');
-        } else {
-            updateLanguage('en');
-        }
+        window.addEventListener("DOMContentLoaded", () => {
+      // Check for saved language preference
+      const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+      const langToggle = document.getElementById("chklang");
 
-        // Language toggle event listener
-        languageToggle.addEventListener('change', () => {
-            const newLang = languageToggle.checked ? 'ar' : 'en';
-            localStorage.setItem('selectedLanguage', newLang);
-            updateLanguage(newLang);
+      // Set initial state based on saved preference
+      if (savedLanguage === 'ar') {
+        langToggle.checked = true;
+      }
+
+      // Make sure translations are fully initialized before filters are created
+      document.dispatchEvent(new CustomEvent('translationsLoaded', { 
+        detail: { language: savedLanguage }
+      }));
+      
+      // Update language on page load
+      updateLanguage(savedLanguage);
+
+      // Add change event listener
+      if (langToggle) {
+        langToggle.addEventListener("change", function () {
+          const selectedLanguage = this.checked ? "ar" : "en";
+          
+          // Save language preference
+          localStorage.setItem('selectedLanguage', selectedLanguage);
+          
+          // Update language immediately
+          updateLanguage(selectedLanguage);
+          
+          // Update any dependent components
+          if (window.updateFilterDropdowns) {
+            window.updateFilterDropdowns(selectedLanguage);
+          }
+          
+          if (window.updateDateRangePicker) {
+            window.updateDateRangePicker(selectedLanguage);
+          }
         });
+      }
+    });
+  </script>
 
-        // Initial call to update language based on stored preference
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
-            updateLanguage(savedLanguage);
-            
-            // Make sure custom dropdowns are properly initialized with correct language
-            setTimeout(() => {
-                if (window.customDropdowns) {
-                    if (window.customDropdowns.category) window.customDropdowns.category.refresh();
-                    if (window.customDropdowns.sort) window.customDropdowns.sort.refresh();
-                }
-            }, 300);
-        });
-        
-        // Dark mode functionality
-        // Get references to the checkbox and body
-        const darkModeToggle = document.getElementById('chk');
-        const body = document.body;
-
-        // Check if dark mode is saved in local storage
-        if (localStorage.getItem('darkMode') === 'enabled') {
-            body.classList.add('dark-mode');
-            darkModeToggle.checked = true;
-        }
-
-        // Event listener for toggle
-        darkModeToggle.addEventListener('change', () => {
-            if (darkModeToggle.checked) {
-                body.classList.add('dark-mode');
-                localStorage.setItem('darkMode', 'enabled');  // Save preference in local storage
-            } else {
-                body.classList.remove('dark-mode');
-                localStorage.setItem('darkMode', 'disabled');
-            }
-        });
-    </script>
 </body>
 
 </html>

@@ -87,16 +87,16 @@
 }
 
 /* No results state */
-.no-results-message {
+#no-results-message {
     display: none;
     text-align: center;
     padding: 30px;
-    color: #666;
+    color: #666 ;
     font-size: 18px;
 }
 
-.dark-mode .no-results-message {
-    color: #aaa;
+.dark-mode #no-results-message {
+    color: #999;
 }
 
 /* Animation for spinner */

@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 refresh: function() {
                     // Update all option translations
-                    const currentLang = localStorage.getItem('language') || 'en';
+                    const currentLang = localStorage.getItem('selectedLanguage') || 'en';
                     if (!window.translations || !window.translations[currentLang]) return;
                     
                     // Update dropdown options
@@ -324,11 +324,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         btn.textContent = selected.textContent;
                     }
                 });
-                
-                // Fire event when translations are complete
-                document.dispatchEvent(new CustomEvent('languageChanged', {
-                    detail: { language: currentLang }
-                }));
             });
         }
         

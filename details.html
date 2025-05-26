@@ -397,6 +397,31 @@
         stats: "Stats",
         "request a discount": "Request a Discount",
 
+        // Content Filter Bar
+        show_all: "Show All",
+        images: "Images",
+        videos_filter: "Videos",
+        news_filter: "News",
+        description: "Description",
+
+        // Image Description
+        about_achievement: "About This Achievement",
+        achievement_desc_p1: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus ducimus explicabo reiciendis officia! Provident illo quas voluptas hic repudiandae repellendus molestias dolorum! Quia consectetur fuga voluptate at ratione, beatae illum.",
+        achievement_desc_p2: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus ducimus explicabo reiciendis officia! Provident illo quas voluptas hic repudiandae repellendus molestias dolorum! Quia consectetur fuga voluptate at ratione, beatae illum.",
+        date_label: "Date:",
+        achievement_date: "March 15, 2023",
+        location_label: "Location:",
+        achievement_location: "Cairo, Egypt",
+        category_label: "Category:",
+        achievement_category: "Industrial Development",
+
+        // News Links Section
+        news_item_1: "New development in tech industry",
+        news_item_2: "Economy shows signs of recovery",
+        news_item_3: "New policies announced today",
+        news_item_4: "Sports team wins championship",
+        news_item_5: "Upcoming cultural events",
+
         // Video Section
         related_videos: "Related Videos",
         achievement_overview: "Achievement Overview - Industrial Development Project",
@@ -423,9 +448,33 @@
         events: "الأحداث",
         "pricing plans": "خطط الأسعار",
         "videos": "معرض الفيديوهات",
-
         stats: "الإحصائيات",
         "request a discount": "طلب خصم",
+
+        // Content Filter Bar
+        show_all: "عرض الكل",
+        images: "الصور",
+        videos_filter: "الفيديوهات",
+        news_filter: "الأخبار",
+        description: "الوصف",
+
+        // Image Description
+        about_achievement: "عن هذا الإنجاز",
+        achievement_desc_p1: "لوريم إيبسوم هو نص وهمي يستخدم في صناعة الطباعة والتنضيد. كان لوريم إيبسوم ولايزال المعيار للنص الوهمي منذ القرن الخامس عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف.",
+        achievement_desc_p2: "لوريم إيبسوم هو نص وهمي يستخدم في صناعة الطباعة والتنضيد. كان لوريم إيبسوم ولايزال المعيار للنص الوهمي منذ القرن الخامس عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف.",
+        date_label: "التاريخ:",
+        achievement_date: "١٥ مارس ٢٠٢٣",
+        location_label: "الموقع:",
+        achievement_location: "القاهرة، مصر",
+        category_label: "الفئة:",
+        achievement_category: "التنمية الصناعية",
+
+        // News Links Section
+        news_item_1: "تطور جديد في صناعة التكنولوجيا",
+        news_item_2: "الاقتصاد يظهر علامات التعافي",
+        news_item_3: "سياسات جديدة تم الإعلان عنها اليوم",
+        news_item_4: "فريق رياضي يفوز بالبطولة",
+        news_item_5: "الفعاليات الثقافية القادمة",
 
         // Video Section
         related_videos: "الفيديوهات المتعلقة",
@@ -713,10 +762,10 @@
       if (!prevBtn || !nextBtn) return;
       
       // Hide previous button if at first image
-      prevBtn.classList.toggle('hidden', currentImageIndex === 0);
+      // prevBtn.classList.toggle('hidden', currentImageIndex === 0);
       
       // Hide next button if at last image
-      nextBtn.classList.toggle('hidden', currentImageIndex === totalImages - 1);
+      // nextBtn.classList.toggle('hidden', currentImageIndex === totalImages - 1);
     }
 
     function handleKeyPress(e) {
