@@ -125,7 +125,6 @@ function initializeListingStates() {
         loadingState = document.createElement('div');
         loadingState.className = 'listing-state loading';
         loadingState.innerHTML = `
-
         `;
         articlesContainer.appendChild(loadingState);
     }
@@ -137,8 +136,8 @@ function initializeListingStates() {
         noResults.id = 'no-results-message';
         noResults.className = 'no-results-message';
         
-        // Set the text based on current language
-        const currentLang = document.dir === 'rtl' || localStorage.getItem('language') === 'ar' ? 'ar' : 'en';
+        // Set the text based on current language using consistent method
+        const currentLang = localStorage.getItem('selectedLanguage') || 'en';
         noResults.textContent = currentLang === 'ar' ? 
             'لم يتم العثور على نتائج للبحث. حاول تعديل معايير البحث والفلترة.' : 
             'No results found. Try adjusting your search and filter criteria.';
@@ -355,8 +354,8 @@ function clearFilters() {
     } else {
         const dateRangeDisplay = document.querySelector('.date-range-display .date-range-text');
         if (dateRangeDisplay) {
-            const isArabic = document.dir === 'rtl' || localStorage.getItem('language') === 'ar';
-            dateRangeDisplay.textContent = isArabic ? 'اختر نطاق التاريخ' : 'Select date range';
+            const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+            dateRangeDisplay.textContent = currentLang === 'ar' ? 'اختر نطاق التاريخ' : 'Select date range';
         }
     }
     

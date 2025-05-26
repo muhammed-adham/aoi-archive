@@ -13,15 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     waitForTranslations(function() {
-        // Check if we're in Arabic/RTL mode
-        const isRTL = document.documentElement.lang === 'ar' || 
-                    document.body.classList.contains('rtl') || 
-                    document.dir === 'rtl' ||
-                    (localStorage.getItem('language') === 'ar');
+        // Check if we're in Arabic/RTL mode using consistent method
+        const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+        const isRTL = currentLang === 'ar';
         
         // Function to get translation for a key
         function getTranslation(key, defaultText) {
-            const currentLang = localStorage.getItem('language') || 'en';
             if (window.translations && 
                 window.translations[currentLang] && 
                 window.translations[currentLang][key]) {
@@ -274,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Function to update translations for all dropdown elements
         function updateAllTranslations() {
-            const currentLang = localStorage.getItem('language') || 'en';
+            const currentLang = localStorage.getItem('selectedLanguage') || 'en';
             const translations = window.translations || {};
             
             if (!translations[currentLang]) return;
@@ -329,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 
                 // Fire event when translations are complete
-                document.dispatchEvent(new CustomEvent('translationsComplete', {
+                document.dispatchEvent(new CustomEvent('languageChanged', {
                     detail: { language: currentLang }
                 }));
             });

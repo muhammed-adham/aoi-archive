@@ -25,7 +25,7 @@ class DateRangePicker {
         this.endDate = null;
         this.currentMonth = new Date().getMonth();
         this.currentYear = new Date().getFullYear();
-        this.isArabic = document.documentElement.lang === 'ar' || document.body.classList.contains('rtl') || document.dir === 'rtl' || (localStorage.getItem('language') === 'ar');
+        this.isArabic = localStorage.getItem('selectedLanguage') === 'ar';
         this.inRangeSelection = false;
         this.tempStartDate = null;
         
@@ -33,7 +33,7 @@ class DateRangePicker {
         this.attachEvents();
         
         // Listen for language changes
-        document.addEventListener('translationsComplete', (event) => {
+        document.addEventListener('languageChanged', (event) => {
             this.updateLanguage(event.detail.language);
         });
     }

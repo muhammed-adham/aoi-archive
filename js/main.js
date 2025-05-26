@@ -44,6 +44,9 @@ function applyThemeState() {
   const body = document.querySelector("body");
   
   if (html && body) {
+    // Add a temporary class to prevent flashing
+    html.classList.add('theme-transitioning');
+    
     if (isDark) {
       html.classList.add("darkMode");
       body.classList.add("dark-mode");
@@ -51,7 +54,14 @@ function applyThemeState() {
       html.classList.remove("darkMode");
       body.classList.remove("dark-mode");
     }
+    
+    // Update navbar brand image
     updateNavbarBrandImage(isDark);
+    
+    // Remove the transition class after a short delay
+    setTimeout(() => {
+      html.classList.remove('theme-transitioning');
+    }, 50);
   }
 }
 
@@ -71,67 +81,6 @@ function setupThemeObserver() {
     attributeFilter: ['class']
   });
 }
-
-// On Load Languages
-function onLoadLanguages() {
-  const savedLanguage = localStorage.getItem('language') || 'en';
-  const checkBoxlang = document.querySelector('.checkboxlang');
-  let body = document.querySelector("body");
-
-  // Only proceed if we have the language checkbox and body
-  if (!checkBoxlang || !body) return;
-
-  let email = document.querySelector(".email1");
-  let subscribe = document.querySelector(".subscribee");
-  let name = document.querySelector(".namee");
-  let email1 = document.querySelector(".emaill");
-  let mobile = document.querySelector(".mobilee");
-  let message = document.querySelector(".messagee");
-  let submit = document.querySelector(".sendd");
-  let copyright = document.querySelector(".copyright");
-
-  // Set initial state
-  if (savedLanguage === 'ar') {
-    checkBoxlang.checked = true;
-    body.classList.add('rtl');
-    body.setAttribute('dir', 'rtl');
-  } else {
-    checkBoxlang.checked = false;
-    body.classList.remove('rtl');
-    body.removeAttribute('dir');
-  }
-
-  // Update language switch
-  checkBoxlang.addEventListener('change', function() {
-    const newLanguage = this.checked ? 'ar' : 'en';
-    localStorage.setItem('language', newLanguage);
-    
-    // Add transition class
-    body.classList.add('language-transition');
-    
-    // Update UI
-    if (newLanguage === 'ar') {
-      body.classList.add('rtl');
-      body.setAttribute('dir', 'rtl');
-    } else {
-      body.classList.remove('rtl');
-      body.removeAttribute('dir');
-    }
-    
-    // Update content
-    translate(newLanguage);
-    
-    // Remove transition class after animation
-    setTimeout(() => {
-      body.classList.remove('language-transition');
-    }, 300);
-  });
-}
-
-// Initialize language switcher
-document.addEventListener('DOMContentLoaded', () => {
-  onLoadLanguages();
-});
 
 // Events Count Down
 function countDown() {
@@ -299,7 +248,7 @@ function hidingShowingHeader() {
       this.screenY <= section2.offsetTop
     ) {
       if (scroll1 > this.scrollY) {
-        header.style.top = "72px";
+        header.style.top = "0";
         scroll1 = this.scrollY;
       } else {
         header.style.top = "-100px";
@@ -365,282 +314,209 @@ function showUpScrollToTopButton() {
   });
 }
 
-// Dark Mode Button
-function darkModeButton() {
-  let checkBox = document.querySelector(".checkbox");
-  let checkBox1 = document.querySelector(".checkbox1");
-  let checkBox2 = document.querySelector(".checkbox2");
-
-  let html = document.querySelector("html");
-  let body = document.querySelector("body");
-
-  if (checkBox && html && body) {
-    checkBox.addEventListener("change", () => {
-      if (checkBox.checked) {
-        html.classList.add("darkMode");
-        body.classList.add("dark-mode");
-        updateNavbarBrandImage(true);
-      } else {
-        html.classList.remove("darkMode");
-        body.classList.remove("dark-mode");
-        updateNavbarBrandImage(false);
-      }
+// Robust typing effect function
+async function typeText(element, text, speed) {
+  if (!element || !text) {
+    console.log('typeText: Missing element or text', { element, text });
+    return;
+  }
+  
+  console.log('typeText: Starting animation', { elementId: element.id, text });
+  
+  // Clear any existing typing animation
+  if (element.typingTimeout) {
+    clearTimeout(element.typingTimeout);
+  }
+  
+  // Clear the element
+  element.textContent = '';
+  
+  // Create a span to hold the text
+  const textSpan = document.createElement('span');
+  element.appendChild(textSpan);
+  
+  // Type each character
+  for (let i = 0; i < text.length; i++) {
+    textSpan.textContent = text.substring(0, i + 1);
+    await new Promise(resolve => {
+      element.typingTimeout = setTimeout(resolve, speed);
     });
   }
+  
+  console.log('typeText: Animation complete', { elementId: element.id });
+  
+  // Clean up
+  delete element.typingTimeout;
+}
 
-  if (checkBox1 && html && body) {
-    checkBox1.addEventListener("change", () => {
-      if (checkBox1.checked) {
-        html.classList.add("darkMode");
-        body.classList.add("dark-mode");
-        updateNavbarBrandImage(true);
-      } else {
-        html.classList.remove("darkMode");
-        body.classList.remove("dark-mode");
-        updateNavbarBrandImage(false);
+// Single Source of Truth Language System
+const LangSystem = {
+  init() {
+    console.log('LangSystem: Initializing');
+    // Get language directly from localStorage using consistent key
+    const savedLang = localStorage.getItem('selectedLanguage') || 'en';
+    console.log('LangSystem: Saved language', savedLang);
+    
+    // Set up language toggle
+    const langToggle = document.getElementById('chklang');
+    if (langToggle) {
+      console.log('LangSystem: Found language toggle');
+      // Set initial state directly
+      langToggle.checked = savedLang === 'ar';
+      
+      // Remove any existing listeners by cloning
+      const newToggle = langToggle.cloneNode(true);
+      langToggle.parentNode.replaceChild(newToggle, langToggle);
+      
+      // Add single event listener for direct changes
+      newToggle.addEventListener('change', (e) => {
+        console.log('LangSystem: Language toggle changed');
+        e.preventDefault(); // Prevent any default behavior
+        const newLang = newToggle.checked ? 'ar' : 'en';
+        this.changeLang(newLang);
+      });
+    } else {
+      console.log('LangSystem: Language toggle not found');
+    }
+    
+    // Apply language immediately
+    this.changeLang(savedLang);
+  },
+  
+  changeLang(lang) {
+    console.log('LangSystem: Changing language to', lang);
+    // Update localStorage with consistent key
+    localStorage.setItem('selectedLanguage', lang);
+    
+    // Update document direction and language attributes
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.body.classList.toggle('rtl', lang === 'ar');
+    
+    // Update content immediately
+    this.updateContent(lang);
+    
+    // Dispatch a single event for other systems
+    window.dispatchEvent(new CustomEvent('languageChanged', {
+      detail: { language: lang }
+    }));
+  },
+  
+  updateContent(lang) {
+    console.log('LangSystem: Updating content for language', lang);
+    // Update regular elements immediately
+    document.querySelectorAll('[data-lang], [data-i18n]').forEach(element => {
+      const key = element.getAttribute('data-lang') || element.getAttribute('data-i18n');
+      const translation = translations[lang][key];
+      if (!translation) {
+        console.log('LangSystem: No translation found for key', key);
+        return;
+      }
+      
+      // Skip landing page elements that need animation
+      if (element.id === 'landing-title1' || element.id === 'landing-title2' || element.id === 'landing-paragraph') {
+        console.log('LangSystem: Skipping animated element', element.id);
+        return;
+      }
+      
+      element.textContent = translation;
+    });
+    
+    // Update placeholders immediately
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+      const key = element.getAttribute('data-i18n-placeholder');
+      const translation = translations[lang][key];
+      if (translation) {
+        element.placeholder = translation;
       }
     });
+    
+    // Handle landing page animations
+    this.updateLandingPage(lang);
+  },
+  
+  updateLandingPage(lang) {
+    console.log('LangSystem: Updating landing page for language', lang);
+    const landingTitle1 = document.getElementById('landing-title1');
+    const landingTitle2 = document.getElementById('landing-title2');
+    const landingParagraph = document.getElementById('landing-paragraph');
+    
+    console.log('LangSystem: Landing elements found', {
+      title1: !!landingTitle1,
+      title2: !!landingTitle2,
+      paragraph: !!landingParagraph
+    });
+    
+    // Clear existing content
+    if (landingTitle1) landingTitle1.textContent = '';
+    if (landingTitle2) landingTitle2.textContent = '';
+    if (landingParagraph) landingParagraph.textContent = '';
+    
+    // Animate first title (h3)
+    if (landingTitle1) {
+      const titleKey = landingTitle1.getAttribute('data-lang');
+      const titleTranslation = translations[lang][titleKey];
+      console.log('LangSystem: First title translation', { key: titleKey, translation: titleTranslation });
+      if (titleTranslation) {
+        typeText(landingTitle1, titleTranslation, 50);
+      }
+    }
+    
+    // Animate second title (h1)
+    if (landingTitle2) {
+      const titleKey = landingTitle2.getAttribute('data-lang');
+      const titleTranslation = translations[lang][titleKey];
+      console.log('LangSystem: Second title translation', { key: titleKey, translation: titleTranslation });
+      if (titleTranslation) {
+        setTimeout(() => {
+          typeText(landingTitle2, titleTranslation, 50);
+        }, 500);
+      }
+    }
+    
+    // Animate paragraph
+    if (landingParagraph) {
+      const paraKey = landingParagraph.getAttribute('data-lang');
+      const paraTranslation = translations[lang][paraKey];
+      console.log('LangSystem: Paragraph translation', { key: paraKey, translation: paraTranslation });
+      if (paraTranslation) {
+        setTimeout(() => {
+          typeText(landingParagraph, paraTranslation, 30);
+        }, 1000);
+      }
+    }
   }
+};
 
-  if (checkBox2 && html && body) {
-    checkBox2.addEventListener("change", () => {
-      if (checkBox2.checked) {
-        html.classList.add("darkMode");
-        body.classList.add("dark-mode");
-        updateNavbarBrandImage(true);
-      } else {
-        html.classList.remove("darkMode");
-        body.classList.remove("dark-mode");
-        updateNavbarBrandImage(false);
+// Initialize language system when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM Content Loaded: Initializing LangSystem');
+  LangSystem.init();
+  
+  // Listen for language changes and update filters accordingly
+  document.addEventListener('languageChanged', (event) => {
+    // Give some time for the translations to be applied to the DOM
+    setTimeout(() => {
+      // If you have custom dropdowns, refresh them here
+      if (window.customDropdowns) {
+        if (window.customDropdowns.category) {
+          window.customDropdowns.category.refresh();
+        }
+        if (window.customDropdowns.sort) {
+          window.customDropdowns.sort.refresh();
+        }
       }
-    });
-  }
-}
-
-// Is Dark Mode?
-function addtoLocalStorage() {
-  let checkBox = document.querySelector(".checkbox");
-  let checkBox1 = document.querySelector(".checkbox1");
-  let checkBox2 = document.querySelector(".checkbox2");
-
-  let dark = false;
-
-  checkBox.addEventListener("change", () => {
-    if (checkBox.checked) {
-      dark = true;
-      window.localStorage.setItem("isDark?", dark);
-    } else {
-      dark = false;
-      window.localStorage.setItem("isDark?", dark);
-    }
-  });
-
-  checkBox1.addEventListener("change", () => {
-    if (checkBox1.checked) {
-      dark = true;
-      window.localStorage.setItem("isDark?", dark);
-    } else {
-      dark = false;
-      window.localStorage.setItem("isDark?", dark);
-    }
-  });
-
-  checkBox2.addEventListener("change", () => {
-    if (checkBox2.checked) {
-      dark = true;
-      window.localStorage.setItem("isDark?", dark);
-    } else {
-      dark = false;
-      window.localStorage.setItem("isDark?", dark);
-    }
-  });
-}
-
-function translate(language) {
-  let lang = language;
-  let allDom = document.querySelectorAll("*");
-
-  fetch(
-    `https://raw.githubusercontent.com/Mohamed-Waled/webSite/main/languages/${lang}.json`
-  )
-    .then((response) => {
-      return response.json();
-    })
-    .then((jsondata) => {
-      for (const key in jsondata) {
-        allDom.forEach((element) => {
-          for (const attr of element.attributes) {
-            if (element.hasAttribute("data-lang")) {
-              if (attr.name === "data-lang") {
-                if (attr.value === key) {
-                  element.innerHTML = jsondata[key];
-                }
-              }
-            }
-          }
-        });
+      
+      // Update the filters UI and re-apply filtering
+      if (typeof filterArticles === 'function') {
+        filterArticles();
       }
-    });
-}
-
-//Change Languages Button
-function changeLanguagesButton() {
-  let checkBoxlang = document.querySelector(".checkboxlang");
-  let checkBoxlang1 = document.querySelector(".checkboxlang1");
-  let checkBoxlang2 = document.querySelector(".checkboxlang2");
-
-  let email = document.querySelector(".email1");
-  let subscribe = document.querySelector(".subscribee");
-  let name = document.querySelector(".namee");
-  let email1 = document.querySelector(".emaill");
-  let mobile = document.querySelector(".mobilee");
-  let message = document.querySelector(".messagee");
-  let submit = document.querySelector(".sendd");
-  let copyright = document.querySelector(".copyright");
-
-  let body = document.querySelector("body");
-
-  checkBoxlang.addEventListener("change", () => {
-    if (checkBoxlang.checked) {
-      translate("ar");
-      body.classList.add("rtl");
-      body.setAttribute("dir", "rtl");
-      email.setAttribute("placeholder", "ادخل بريدك الإلكترونى");
-      subscribe.setAttribute("value", "اشترك");
-      submit.setAttribute("value", "ارسل");
-      name.setAttribute("placeholder", "ادخل أسمك");
-      email1.setAttribute("placeholder", "ادخل بريدك الالكترونى");
-      mobile.setAttribute("placeholder", "ادخل رقم هاتفك");
-      message.setAttribute("placeholder", "ادخل رسالتك");
-      copyright.innerHTML = `تمت برمجتها بكل ال ❤ بواسطة
-      <a href="https://github.com/Mohamed-Waled" target="_blank"
-        >م : محمد وليد</a
-      >.`;
-    } else {
-      translate("en");
-      body.classList.remove("rtl");
-      body.removeAttribute("dir", "rtl");
-      email.setAttribute("placeholder", "Enter Your Email");
-      subscribe.setAttribute("value", "Subscribe");
-      submit.setAttribute("value", "Send");
-      name.setAttribute("placeholder", "Your Name");
-      email1.setAttribute("placeholder", "Your Email");
-      mobile.setAttribute("placeholder", "Your Phone");
-      message.setAttribute("placeholder", "Tell Us About Your Needs");
-      copyright.innerHTML = `coded with ❤ by
-      <a href="https://github.com/Mohamed-Waled" target="_blank"
-        >Eng: mohamed waled</a
-      >.`;
-    }
+      if (typeof updateFilterButtonState === 'function') {
+        updateFilterButtonState();
+      }
+    }, 100);
   });
-
-  checkBoxlang1.addEventListener("change", () => {
-    if (checkBoxlang1.checked) {
-      translate("ar");
-      body.classList.add("rtl");
-      body.setAttribute("dir", "rtl");
-      email.setAttribute("placeholder", "ادخل بريدك الإلكترونى");
-      subscribe.setAttribute("value", "اشترك");
-      submit.setAttribute("value", "ارسل");
-      name.setAttribute("placeholder", "ادخل أسمك");
-      email1.setAttribute("placeholder", "ادخل بريدك الالكترونى");
-      mobile.setAttribute("placeholder", "ادخل رقم هاتفك");
-      message.setAttribute("placeholder", "ادخل رسالتك");
-      copyright.innerHTML = `تمت برمجتها بكل ال ❤ بواسطة
-      <a href="https://github.com/Mohamed-Waled" target="_blank"
-        >م : محمد وليد</a
-      >.`;
-    } else {
-      translate("en");
-      body.classList.remove("rtl");
-      body.removeAttribute("dir", "rtl");
-      email.setAttribute("placeholder", "Enter Your Email");
-      subscribe.setAttribute("value", "Subscribe");
-      submit.setAttribute("value", "Send");
-      name.setAttribute("placeholder", "Your Name");
-      email1.setAttribute("placeholder", "Your Email");
-      mobile.setAttribute("placeholder", "Your Phone");
-      message.setAttribute("placeholder", "Tell Us About Your Needs");
-      copyright.innerHTML = `coded with ❤ by
-      <a href="https://github.com/Mohamed-Waled" target="_blank"
-        >Eng: mohamed waled</a
-      >.`;
-    }
-  });
-
-  checkBoxlang2.addEventListener("change", () => {
-    if (checkBoxlang2.checked) {
-      translate("ar");
-      body.classList.add("rtl");
-      body.setAttribute("dir", "rtl");
-      email.setAttribute("placeholder", "ادخل بريدك الإلكترونى");
-      subscribe.setAttribute("value", "اشترك");
-      submit.setAttribute("value", "ارسل");
-      name.setAttribute("placeholder", "ادخل أسمك");
-      email1.setAttribute("placeholder", "ادخل بريدك الالكترونى");
-      mobile.setAttribute("placeholder", "ادخل رقم هاتفك");
-      message.setAttribute("placeholder", "ادخل رسالتك");
-      copyright.innerHTML = `تمت برمجتها بكل ال ❤ بواسطة
-      <a href="https://github.com/Mohamed-Waled" target="_blank"
-        >م : محمد وليد</a
-      >.`;
-    } else {
-      translate("en");
-      body.classList.remove("rtl");
-      body.removeAttribute("dir", "rtl");
-      email.setAttribute("placeholder", "Enter Your Email");
-      subscribe.setAttribute("value", "Subscribe");
-      submit.setAttribute("value", "Send");
-      name.setAttribute("placeholder", "Your Name");
-      email1.setAttribute("placeholder", "Your Email");
-      mobile.setAttribute("placeholder", "Your Phone");
-      message.setAttribute("placeholder", "Tell Us About Your Needs");
-      copyright.innerHTML = `coded with ❤ by
-      <a href="https://github.com/Mohamed-Waled" target="_blank"
-        >Eng: mohamed waled</a
-      >.`;
-    }
-  });
-}
-
-// Is Arabic?
-function addLanguagetoLocalStorage() {
-  let checkBoxlang = document.querySelector(".checkboxlang");
-  let checkBoxlang1 = document.querySelector(".checkboxlang1");
-  let checkBoxlang2 = document.querySelector(".checkboxlang2");
-
-  let arabic = false;
-
-  checkBoxlang.addEventListener("change", () => {
-    if (checkBoxlang.checked) {
-      arabic = true;
-      window.localStorage.setItem("isArabic?", arabic);
-    } else {
-      arabic = false;
-      window.localStorage.setItem("isArabic?", arabic);
-    }
-  });
-
-  checkBoxlang1.addEventListener("change", () => {
-    if (checkBoxlang1.checked) {
-      arabic = true;
-      window.localStorage.setItem("isArabic?", arabic);
-    } else {
-      arabic = false;
-      window.localStorage.setItem("isArabic?", arabic);
-    }
-  });
-
-  checkBoxlang2.addEventListener("change", () => {
-    if (checkBoxlang2.checked) {
-      arabic = true;
-      window.localStorage.setItem("isArabic?", arabic);
-    } else {
-      arabic = false;
-      window.localStorage.setItem("isArabic?", arabic);
-    }
-  });
-}
+});
 
 // Search functionality
 document.addEventListener('DOMContentLoaded', function() {
@@ -695,7 +571,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Initialize all functions safely with a comprehensive check
 document.addEventListener('DOMContentLoaded', function() {
   try {
-    // Apply theme state immediately
+    // Apply theme state immediately before any other initialization
     applyThemeState();
     
     // Check what page elements exist before calling functions
@@ -743,18 +619,7 @@ document.addEventListener('DOMContentLoaded', function() {
                           document.querySelector(".checkbox2");
     if (darkModeElements) {
       darkModeButton();
-      addtoLocalStorage();
       onLoad();
-    }
-    
-    // Language switcher elements
-    const langElements = document.querySelector(".checkboxlang") || 
-                       document.querySelector(".checkboxlang1") || 
-                       document.querySelector(".checkboxlang2");
-    if (langElements) {
-      changeLanguagesButton();
-      addLanguagetoLocalStorage();
-      onLoadLanguages();
     }
     
     // Set up theme observer
@@ -767,13 +632,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Add event listener for page load
 window.addEventListener('load', function() {
-  applyThemeState();
+  // Apply theme state after a small delay to ensure DOM is ready
+  setTimeout(applyThemeState, 0);
 });
 
 // Add event listener for page visibility changes
 document.addEventListener('visibilitychange', function() {
   if (!document.hidden) {
-    applyThemeState();
+    // Apply theme state after a small delay
+    setTimeout(applyThemeState, 0);
   }
 });
 

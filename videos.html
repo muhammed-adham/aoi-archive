@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="js/settings-loader.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/all.min.css" />
     <!--Link Font Awesome 6 Library-->
@@ -341,6 +342,7 @@
       </div>
     </footer>
     <!-- END FOOTER -->
+    <div class="scrollToTop"><i class="fa-solid fa-arrow-up"></i></div>
 
     <!-- JS Files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -520,15 +522,9 @@
 
         // Language toggle event listener
         languageToggle.addEventListener('change', () => {
-            if (languageToggle.checked) {
-                localStorage.setItem('selectedLanguage', 'ar');
-                // Simply reload the page - it will apply the language on load
-                window.location.reload();
-            } else {
-                localStorage.setItem('selectedLanguage', 'en');
-                // Simply reload the page - it will apply the language on load
-                window.location.reload();
-            }
+            const newLang = languageToggle.checked ? 'ar' : 'en';
+            localStorage.setItem('selectedLanguage', newLang);
+            updateLanguage(newLang);
         });
 
         // Initial call to update language based on stored preference
