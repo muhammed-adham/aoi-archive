@@ -124,7 +124,7 @@
       <section class="filter-section" aria-label="Event Filters">
         <div class="filter-container">
           <div class="filter-group">
-            <!-- <label for="category-filter">Category:</label> -->
+            <label for="category-filter" data-lang="category">Category:</label>
             <select id="category-filter" class="category-filter">
               <option value="" data-lang="allCategories">All Categories</option>
               <option value="military" data-lang="military">Military</option>
@@ -137,12 +137,6 @@
               <option value="leadership" data-lang="leadership">Leadership</option>
             </select>
           </div>
-          <!-- <div class="filter-group">
-            <label for="location-filter">Location:</label>
-            <select id="location-filter" aria-label="Filter by location">
-              <option value="">All Locations</option>
-            </select>
-          </div> -->
           <div class="filter-group date-filter">
             <label for="date-range" data-lang="dateRange">Date Range:</label>
             <div class="date-picker-container">
@@ -152,7 +146,7 @@
             <input type="hidden" id="end-date">
           </div>
           <div class="filter-group">
-            <!-- <label for="sort-by">Sort By:</label> -->
+            <label for="sort-by" data-lang="sortBy">Sort By:</label>
             <select id="sort-by" class="sort-filter" aria-label="Sort events">
               <option value="date-desc" selected data-lang="dateNewest">Date (Newest First)</option>
               <option value="date-asc" data-lang="dateOldest">Date (Oldest First)</option>
