@@ -82,6 +82,64 @@ function setupThemeObserver() {
   });
 }
 
+// Function to setup theme toggle
+function setupThemeToggle() {
+  const darkModeToggles = document.querySelectorAll('.checkbox, .checkbox1, .checkbox2');
+  const html = document.documentElement;
+  const body = document.body;
+
+  // Function to update theme state
+  function updateThemeState(isDark) {
+    // Add a temporary class to prevent flashing
+    html.classList.add('theme-transitioning');
+    
+    if (isDark) {
+      html.classList.add("darkMode");
+      body.classList.add("dark-mode");
+    } else {
+      html.classList.remove("darkMode");
+      body.classList.remove("dark-mode");
+    }
+    
+    // Update navbar brand image
+    updateNavbarBrandImage(isDark);
+    
+    // Remove the transition class after a short delay
+    setTimeout(() => {
+      html.classList.remove('theme-transitioning');
+    }, 50);
+  }
+
+  // Set initial state from localStorage
+  const isDark = localStorage.getItem("isDark?") === "true";
+  updateThemeState(isDark);
+  
+  // Update all toggle checkboxes
+  darkModeToggles.forEach(toggle => {
+    if (toggle) {
+      toggle.checked = isDark;
+    }
+  });
+
+  // Add event listeners to all toggle checkboxes
+  darkModeToggles.forEach(toggle => {
+    if (toggle) {
+      toggle.addEventListener('change', (e) => {
+        const isDark = e.target.checked;
+        localStorage.setItem("isDark?", isDark);
+        updateThemeState(isDark);
+        
+        // Update all other toggle checkboxes
+        darkModeToggles.forEach(otherToggle => {
+          if (otherToggle !== toggle) {
+            otherToggle.checked = isDark;
+          }
+        });
+      });
+    }
+  });
+}
+
 // Events Count Down
 function countDown() {
   let countdownDate = new Date("Sept 28, 2023 23:59:59").getTime();
@@ -572,7 +630,8 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
   try {
     // Apply theme state immediately before any other initialization
-    applyThemeState();
+    setupThemeToggle();
+    setupThemeObserver();
     
     // Check what page elements exist before calling functions
     // Count down timer elements
@@ -613,20 +672,8 @@ document.addEventListener('DOMContentLoaded', function() {
       showUpScrollToTopButton();
     }
     
-    // Dark mode elements
-    const darkModeElements = document.querySelector(".checkbox") || 
-                          document.querySelector(".checkbox1") || 
-                          document.querySelector(".checkbox2");
-    if (darkModeElements) {
-      darkModeButton();
-      onLoad();
-    }
-    
-    // Set up theme observer
-    setupThemeObserver();
-    
   } catch (error) {
-    console.log("Error initializing JavaScript functionality:", error);
+    console.error('Error during initialization:', error);
   }
 });
 
@@ -643,18 +690,3 @@ document.addEventListener('visibilitychange', function() {
     setTimeout(applyThemeState, 0);
   }
 });
-
-// Theme switcher functionality
-const themeToggle = document.getElementById('chk');
-if (themeToggle) {
-  themeToggle.addEventListener('change', function() {
-    document.body.classList.toggle('dark-mode');
-    // Update navbar brand image based on theme
-    const navbarBrand = document.querySelector('.navbar-brand img');
-    if (navbarBrand) {
-      navbarBrand.src = document.body.classList.contains('dark-mode') 
-        ? 'images/3-white.png' 
-        : 'images/3.png';
-    }
-  });
-}

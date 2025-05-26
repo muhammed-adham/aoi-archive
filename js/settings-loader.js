@@ -14,7 +14,7 @@
     function loadSettings() {
         // Get saved settings
         const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
-        const savedTheme = localStorage.getItem('theme') || 'light';
+        const isDark = localStorage.getItem('isDark?') === 'true';
 
         // Apply language settings
         document.documentElement.lang = savedLanguage;
@@ -22,8 +22,9 @@
         document.body.classList.toggle('rtl', savedLanguage === 'ar');
 
         // Apply theme settings
-        if (savedTheme === 'dark') {
-            document.documentElement.classList.add('dark-mode');
+        if (isDark) {
+            document.documentElement.classList.add('darkMode');
+            document.body.classList.add('dark-mode');
         }
 
         // Remove loading class to show content
@@ -33,7 +34,7 @@
         window.dispatchEvent(new CustomEvent('settingsLoaded', {
             detail: {
                 language: savedLanguage,
-                theme: savedTheme
+                isDark: isDark
             }
         }));
     }

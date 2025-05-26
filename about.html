@@ -294,7 +294,6 @@
   </main>
   <div class="scrollToTop"><i class="fa-solid fa-arrow-up"></i></div>
   <script src="js/all.min.js"></script>
-  <!--Link Font Awesome 6 Library-->
   <script src="js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -322,6 +321,7 @@
 
   </script>
   <script>
+    // Define translations
     const translations = {
       en: {
         // Header / Navigation
@@ -565,8 +565,51 @@
       }
     };
 
-    // Make translations available globally
-    window.translations = translations;
+    // Language toggling functionality
+    function updateLanguage(language) {
+      // ... existing language update code ...
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      // Check for saved language preference
+      const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+      const langToggle = document.getElementById("chklang");
+
+      // Set initial state based on saved preference
+      if (savedLanguage === 'ar') {
+        langToggle.checked = true;
+      }
+
+      // Make sure translations are fully initialized before filters are created
+      document.dispatchEvent(new CustomEvent('translationsLoaded', { 
+        detail: { language: savedLanguage }
+      }));
+      
+      // Update language on page load
+      updateLanguage(savedLanguage);
+
+      // Add change event listener
+      if (langToggle) {
+        langToggle.addEventListener("change", function () {
+          const selectedLanguage = this.checked ? "ar" : "en";
+          
+          // Save language preference
+          localStorage.setItem('selectedLanguage', selectedLanguage);
+          
+          // Update language immediately
+          updateLanguage(selectedLanguage);
+          
+          // Update any dependent components
+          if (window.updateFilterDropdowns) {
+            window.updateFilterDropdowns(selectedLanguage);
+          }
+          
+          if (window.updateDateRangePicker) {
+            window.updateDateRangePicker(selectedLanguage);
+          }
+        });
+      }
+    });
   </script>
 
   <style>

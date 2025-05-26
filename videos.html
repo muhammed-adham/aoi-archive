@@ -452,7 +452,6 @@
         };
 
         // Language toggling functionality
-
         function updateLanguage(language) {
             const elements = document.querySelectorAll('[data-lang], [data-i18n]');
             elements.forEach(element => {
@@ -515,46 +514,46 @@
         }
 
         window.addEventListener("DOMContentLoaded", () => {
-      // Check for saved language preference
-      const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
-      const langToggle = document.getElementById("chklang");
+            // Check for saved language preference
+            const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+            const langToggle = document.getElementById("chklang");
 
-      // Set initial state based on saved preference
-      if (savedLanguage === 'ar') {
-        langToggle.checked = true;
-      }
+            // Set initial state based on saved preference
+            if (savedLanguage === 'ar') {
+                langToggle.checked = true;
+            }
 
-      // Make sure translations are fully initialized before filters are created
-      document.dispatchEvent(new CustomEvent('translationsLoaded', { 
-        detail: { language: savedLanguage }
-      }));
-      
-      // Update language on page load
-      updateLanguage(savedLanguage);
+            // Make sure translations are fully initialized before filters are created
+            document.dispatchEvent(new CustomEvent('translationsLoaded', { 
+                detail: { language: savedLanguage }
+            }));
+            
+            // Update language on page load
+            updateLanguage(savedLanguage);
 
-      // Add change event listener
-      if (langToggle) {
-        langToggle.addEventListener("change", function () {
-          const selectedLanguage = this.checked ? "ar" : "en";
-          
-          // Save language preference
-          localStorage.setItem('selectedLanguage', selectedLanguage);
-          
-          // Update language immediately
-          updateLanguage(selectedLanguage);
-          
-          // Update any dependent components
-          if (window.updateFilterDropdowns) {
-            window.updateFilterDropdowns(selectedLanguage);
-          }
-          
-          if (window.updateDateRangePicker) {
-            window.updateDateRangePicker(selectedLanguage);
-          }
+            // Add change event listener
+            if (langToggle) {
+                langToggle.addEventListener("change", function () {
+                    const selectedLanguage = this.checked ? "ar" : "en";
+                    
+                    // Save language preference
+                    localStorage.setItem('selectedLanguage', selectedLanguage);
+                    
+                    // Update language immediately
+                    updateLanguage(selectedLanguage);
+                    
+                    // Update any dependent components
+                    if (window.updateFilterDropdowns) {
+                        window.updateFilterDropdowns(selectedLanguage);
+                    }
+                    
+                    if (window.updateDateRangePicker) {
+                        window.updateDateRangePicker(selectedLanguage);
+                    }
+                });
+            }
         });
-      }
-    });
-  </script>
+    </script>
 
 </body>
 

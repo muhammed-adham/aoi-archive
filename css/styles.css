@@ -3050,7 +3050,7 @@ header .darkModeButton .label {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2px 2px;
+  padding: 2px 6px;
   position: relative;
   height: 26px;
   width: 60px;
@@ -3084,11 +3084,11 @@ header .darkModeButton .label .sun {
 }
 
 header .darkModeButton .label .moon {
-  margin-left: 8px;
+  margin-left: 0;
 }
 
 header .darkModeButton .label .sun {
-  margin-right: 8px;
+  margin-right: 0;
 }
 
 /* Language Toggle */
@@ -3174,7 +3174,7 @@ header .laguagesButton .checkboxlang:checked + .labellang .balllang {
 }
 
 .rtl header .darkModeButton .checkbox:checked + .label .ball {
-  transform: translateX(-36px);
+  transform: translateX(-34px);
 }
 
 .rtl header .laguagesButton .labellang {

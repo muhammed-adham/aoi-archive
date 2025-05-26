@@ -493,31 +493,7 @@
   <script src="js/voice-search.js"></script>
   <!--Link Date Range Picker JS-->
   <script>
-
-
-    // Get references to the checkbox and body
-    const darkModeToggle = document.getElementById('chk');
-    const body = document.body;
-
-    // Check if dark mode is saved in local storage
-    if (localStorage.getItem('darkMode') === 'enabled') {
-      body.classList.add('dark-mode');
-      darkModeToggle.checked = true;
-    }
-
-    // Event listener for toggle
-    darkModeToggle.addEventListener('change', () => {
-      if (darkModeToggle.checked) {
-        body.classList.add('dark-mode');
-        localStorage.setItem('darkMode', 'enabled');  // Save preference in local storage
-      } else {
-        body.classList.remove('dark-mode');
-        localStorage.setItem('darkMode', 'disabled');
-      }
-    });
-
-  </script>
-  <script>
+    // Define translations
     const translations = {
       en: {
         // Header / Navigation
@@ -744,9 +720,7 @@
       }
     };
 
-    // Make translations available globally
-    window.translations = translations;
-
+    // Language toggling functionality
     function updateLanguage(language) {
       const elements = document.querySelectorAll('[data-lang], [data-i18n]');
       
