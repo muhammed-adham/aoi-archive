@@ -11,6 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const clearFiltersBtn = document.getElementById('clear-filters');
         const searchInput = document.getElementById('search-input');
         
+        // Initialize article count
+        const videos = document.querySelectorAll('#videos .video-card-wrapper');
+        const articleCountElement = document.getElementById('article-count');
+        if (articleCountElement) {
+            articleCountElement.textContent = videos.length;
+        }
+        
         // Add loading indicator and listing states containers if not already present
         initializeListingStates();
         
