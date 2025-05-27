@@ -236,6 +236,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Show confidence level in console for debugging
                     console.log(`Recognition confidence: ${confidence}`);
                     
+                    // Show loading state
+                    if (typeof showLoadingState === 'function') {
+                        showLoadingState();
+                    }
+                    
                     // Trigger search with a slight delay to ensure value is set
                     setTimeout(() => {
                         // Create and dispatch both input and change events
@@ -266,6 +271,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             if (typeof window.filterArticles === 'function') {
                                 window.filterArticles();
                             }
+                            
+                            // Hide loading state
+                            if (typeof hideLoadingState === 'function') {
+                                hideLoadingState();
+                            }
                         }, 50);
                     }, 100);
                 }
@@ -285,6 +295,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Normalize the search text
             const normalizedValue = normalizeSearchText(searchInput.value);
             searchInput.value = normalizedValue;
+            
+            // Show loading state
+            if (typeof showLoadingState === 'function') {
+                showLoadingState();
+            }
             
             // Create and dispatch events in sequence
             const inputEvent = new Event('input', {
@@ -314,6 +329,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Force a filter update
                     if (typeof window.filterArticles === 'function') {
                         window.filterArticles();
+                    }
+                    
+                    // Hide loading state
+                    if (typeof hideLoadingState === 'function') {
+                        hideLoadingState();
                     }
                 }, 50);
             }, 50);
