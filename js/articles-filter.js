@@ -201,9 +201,14 @@ function filterArticles() {
     const endDate = endDateInput ? endDateInput.value : '';
     let searchTerm = searchInput ? searchInput.value : '';
     
+    // Debug log the original search term
+    console.log('Original search term:', searchTerm);
+    
     // Normalize search term if we have the normalization function
     if (window.normalizeSearchText) {
         searchTerm = window.normalizeSearchText(searchTerm);
+        // Debug log the normalized search term
+        console.log('Normalized search term:', searchTerm);
     }
 
     // Get all article elements
@@ -225,11 +230,25 @@ function filterArticles() {
         let articleTitleText = articleTitleElement ? articleTitleElement.textContent : '';
         let articleDescText = articleDesc ? articleDesc.textContent : '';
         
+        // Debug log article text before normalization
+        console.log('Article before normalization:', {
+            title: articleTitle,
+            titleText: articleTitleText,
+            desc: articleDescText
+        });
+        
         // Normalize article text if we have the normalization function
         if (window.normalizeSearchText) {
             articleTitle = window.normalizeSearchText(articleTitle);
             articleTitleText = window.normalizeSearchText(articleTitleText);
             articleDescText = window.normalizeSearchText(articleDescText);
+            
+            // Debug log article text after normalization
+            console.log('Article after normalization:', {
+                title: articleTitle,
+                titleText: articleTitleText,
+                desc: articleDescText
+            });
         }
         
         let showArticle = true;
@@ -239,23 +258,36 @@ function filterArticles() {
             // Split search term into words for partial matching
             const searchWords = searchTerm.split(/\s+/).filter(word => word.length > 0);
             
+            // Debug log search words
+            console.log('Search words:', searchWords);
+            
             // Check if any of the search words are found in the article
             const hasMatch = searchWords.some(word => {
                 // Try exact match first
-                if (articleTitle.includes(word) || 
-                    articleTitleText.includes(word) || 
-                    articleDescText.includes(word)) {
+                const exactMatch = articleTitle.includes(word) || 
+                                 articleTitleText.includes(word) || 
+                                 articleDescText.includes(word);
+                
+                if (exactMatch) {
+                    console.log('Found exact match for word:', word);
                     return true;
                 }
                 
                 // Try partial match if exact match fails
-                return articleTitle.split(/\s+/).some(titleWord => titleWord.includes(word)) ||
-                       articleTitleText.split(/\s+/).some(titleWord => titleWord.includes(word)) ||
-                       articleDescText.split(/\s+/).some(descWord => descWord.includes(word));
+                const partialMatch = articleTitle.split(/\s+/).some(titleWord => titleWord.includes(word)) ||
+                                   articleTitleText.split(/\s+/).some(titleWord => titleWord.includes(word)) ||
+                                   articleDescText.split(/\s+/).some(descWord => descWord.includes(word));
+                
+                if (partialMatch) {
+                    console.log('Found partial match for word:', word);
+                }
+                
+                return partialMatch;
             });
             
             if (!hasMatch) {
                 showArticle = false;
+                console.log('No match found for article:', articleTitle);
             }
         }
 

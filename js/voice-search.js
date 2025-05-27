@@ -193,6 +193,13 @@ document.addEventListener('DOMContentLoaded', () => {
             let bestResult = result[0].transcript;
             let confidence = result[0].confidence;
             
+            // Debug log the recognition result
+            console.log('Recognition result:', {
+                transcript: bestResult,
+                confidence: confidence,
+                isFinal: result.isFinal
+            });
+            
             // If confidence is low, try alternatives
             if (confidence < 0.7 && result.length > 1) {
                 // Try to find a better match from alternatives
@@ -200,12 +207,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (result[i].confidence > confidence) {
                         bestResult = result[i].transcript;
                         confidence = result[i].confidence;
+                        console.log('Using alternative result:', {
+                            transcript: bestResult,
+                            confidence: confidence
+                        });
                     }
                 }
             }
 
             // Remove duplicate consecutive words
             let words = removeDuplicateWords(bestResult);
+            console.log('After removing duplicates:', words);
 
             // Check for bad words
             if (containsBadWords(words)) {
@@ -217,12 +229,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Either filter the content or show warning
                 searchInput.value = filterBadWords(words);
+                console.log('Bad words filtered:', searchInput.value);
 
                 // Optionally display a warning message
                 console.warn('Bad words detected and filtered');
             } else {
                 // Update the search input with processed spoken words
                 searchInput.value = words;
+                console.log('Updated search input:', searchInput.value);
             }
 
             // Trigger search only on final results to avoid excessive searches
@@ -231,6 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!containsBadWords(words)) {
                     // Normalize the search text
                     const normalizedWords = normalizeSearchText(words);
+                    console.log('Normalized words:', normalizedWords);
                     
                     // Update the input value
                     searchInput.value = normalizedWords;
@@ -260,11 +275,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Dispatch the input event
                     searchInput.dispatchEvent(inputEvent);
+                    console.log('Dispatched input event with:', normalizedWords);
                     
                     // Use the same delay as manual typing (300ms)
                     setTimeout(() => {
                         // Force a filter update
                         if (typeof filterArticles === 'function') {
+                            console.log('Calling filterArticles()');
                             filterArticles();
                         }
                         
@@ -283,12 +300,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to handle recognition end
     function handleRecognitionEnd() {
+        console.log('Recognition ended');
         resetVoiceSearch();
         
         // Trigger search if there's text in the input
         if (searchInput && searchInput.value) {
+            console.log('Search input has value:', searchInput.value);
+            
             // Normalize the search text
             const normalizedValue = normalizeSearchText(searchInput.value);
+            console.log('Normalized value:', normalizedValue);
             
             // Update the input value
             searchInput.value = normalizedValue;
@@ -315,11 +336,13 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Dispatch the input event
             searchInput.dispatchEvent(inputEvent);
+            console.log('Dispatched final input event with:', normalizedValue);
             
             // Use the same delay as manual typing (300ms)
             setTimeout(() => {
                 // Force a filter update
                 if (typeof filterArticles === 'function') {
+                    console.log('Calling final filterArticles()');
                     filterArticles();
                 }
                 
