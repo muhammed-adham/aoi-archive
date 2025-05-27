@@ -51,8 +51,20 @@ document.addEventListener('DOMContentLoaded', () => {
         // Convert to lowercase for case-insensitive matching
         normalizedText = normalizedText.toLowerCase();
         
-        // Remove extra spaces
-        normalizedText = normalizedText.replace(/\s+/g, ' ').trim();
+        // Remove extra spaces and special characters
+        normalizedText = normalizedText
+            .replace(/\s+/g, ' ')  // Replace multiple spaces with single space
+            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '') // Remove punctuation
+            .replace(/\s+/g, ' ')  // Clean up any spaces left after removing punctuation
+            .trim();
+        
+        // Debug log the normalization steps
+        console.log('Text normalization steps:', {
+            original: text,
+            afterArabic: normalizeArabicText(text),
+            afterLowercase: normalizedText.toLowerCase(),
+            final: normalizedText
+        });
         
         return normalizedText;
     }
@@ -247,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const normalizedWords = normalizeSearchText(words);
                     console.log('Normalized words:', normalizedWords);
                     
-                    // Update the input value
+                    // Update the input value with normalized text
                     searchInput.value = normalizedWords;
                     
                     // Show confidence level in console for debugging
@@ -258,30 +270,31 @@ document.addEventListener('DOMContentLoaded', () => {
                         showLoadingState();
                     }
                     
-                    // Create a new input event with all required properties
-                    const inputEvent = new InputEvent('input', {
-                        bubbles: true,
-                        cancelable: true,
-                        composed: true,
-                        data: normalizedWords,
-                        inputType: 'insertText',
-                        isComposing: false,
-                        detail: {
-                            inputType: 'insertText',
+                    // Create and dispatch multiple events to ensure mobile compatibility
+                    const events = [
+                        new Event('focus', { bubbles: true }),
+                        new InputEvent('input', {
+                            bubbles: true,
+                            cancelable: true,
+                            composed: true,
                             data: normalizedWords,
+                            inputType: 'insertText',
                             isComposing: false
-                        }
-                    });
+                        }),
+                        new Event('change', { bubbles: true })
+                    ];
                     
-                    // Dispatch the input event
-                    searchInput.dispatchEvent(inputEvent);
-                    console.log('Dispatched input event with:', normalizedWords);
+                    // Dispatch events in sequence
+                    events.forEach(event => {
+                        searchInput.dispatchEvent(event);
+                        console.log('Dispatched event:', event.type, 'with value:', normalizedWords);
+                    });
                     
                     // Use the same delay as manual typing (300ms)
                     setTimeout(() => {
                         // Force a filter update
                         if (typeof filterArticles === 'function') {
-                            console.log('Calling filterArticles()');
+                            console.log('Calling filterArticles() with value:', normalizedWords);
                             filterArticles();
                         }
                         
@@ -319,24 +332,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 showLoadingState();
             }
             
-            // Create a new input event with all required properties
-            const inputEvent = new InputEvent('input', {
-                bubbles: true,
-                cancelable: true,
-                composed: true,
-                data: normalizedValue,
-                inputType: 'insertText',
-                isComposing: false,
-                detail: {
-                    inputType: 'insertText',
+            // Create and dispatch multiple events to ensure mobile compatibility
+            const events = [
+                new Event('focus', { bubbles: true }),
+                new InputEvent('input', {
+                    bubbles: true,
+                    cancelable: true,
+                    composed: true,
                     data: normalizedValue,
+                    inputType: 'insertText',
                     isComposing: false
-                }
-            });
+                }),
+                new Event('change', { bubbles: true })
+            ];
             
-            // Dispatch the input event
-            searchInput.dispatchEvent(inputEvent);
-            console.log('Dispatched final input event with:', normalizedValue);
+            // Dispatch events in sequence
+            events.forEach(event => {
+                searchInput.dispatchEvent(event);
+                console.log('Dispatched final event:', event.type);
+            });
             
             // Use the same delay as manual typing (300ms)
             setTimeout(() => {
@@ -487,6 +501,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update language before starting recognition
             updateRecognitionLanguage();
             
+            // Set mobile-specific recognition settings
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.maxAlternatives = 3;
+            
+            // Start recognition
             recognition.start();
             isListening = true;
             voiceSearchBtn.classList.add('listening');

@@ -16,15 +16,18 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Add event listeners to search input
         if (searchInput) {
-            searchInput.addEventListener('input', function() {
-                // Show loading state
-                showLoadingState();
-                
-                // Use a slight delay to mimic search process
-                setTimeout(() => {
-                    filterArticles();
-                    hideLoadingState();
-                }, 300);
+            // Handle both input and change events for better mobile compatibility
+            ['input', 'change'].forEach(eventType => {
+                searchInput.addEventListener(eventType, function() {
+                    // Show loading state
+                    showLoadingState();
+                    
+                    // Use a slight delay to mimic search process
+                    setTimeout(() => {
+                        filterArticles();
+                        hideLoadingState();
+                    }, 300);
+                });
             });
         }
 
@@ -274,9 +277,14 @@ function filterArticles() {
                 }
                 
                 // Try partial match if exact match fails
-                const partialMatch = articleTitle.split(/\s+/).some(titleWord => titleWord.includes(word)) ||
-                                   articleTitleText.split(/\s+/).some(titleWord => titleWord.includes(word)) ||
-                                   articleDescText.split(/\s+/).some(descWord => descWord.includes(word));
+                const partialMatch = articleTitle.split(/\s+/).some(titleWord => {
+                    // Check if the search word is contained in any part of the title word
+                    return titleWord.includes(word) || word.includes(titleWord);
+                }) || articleTitleText.split(/\s+/).some(titleWord => {
+                    return titleWord.includes(word) || word.includes(titleWord);
+                }) || articleDescText.split(/\s+/).some(descWord => {
+                    return descWord.includes(word) || word.includes(descWord);
+                });
                 
                 if (partialMatch) {
                     console.log('Found partial match for word:', word);
