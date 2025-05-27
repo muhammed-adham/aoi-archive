@@ -231,37 +231,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!containsBadWords(words)) {
                     // Normalize the search text
                     const normalizedWords = normalizeSearchText(words);
+                    
+                    // Update the input value
                     searchInput.value = normalizedWords;
                     
                     // Show confidence level in console for debugging
                     console.log(`Recognition confidence: ${confidence}`);
                     
-                    // Show loading state
-                    if (typeof showLoadingState === 'function') {
-                        showLoadingState();
-                    }
-                    
-                    // Create and dispatch input event exactly like manual typing
-                    const inputEvent = new Event('input', {
+                    // Create a new input event
+                    const inputEvent = new InputEvent('input', {
                         bubbles: true,
                         cancelable: true,
-                        composed: true
+                        composed: true,
+                        data: normalizedWords,
+                        inputType: 'insertText',
+                        isComposing: false
                     });
                     
                     // Dispatch the input event
                     searchInput.dispatchEvent(inputEvent);
-                    
-                    // Use the same delay as manual typing (300ms)
-                    setTimeout(() => {
-                        if (typeof filterArticles === 'function') {
-                            filterArticles();
-                        }
-                        
-                        // Hide loading state
-                        if (typeof hideLoadingState === 'function') {
-                            hideLoadingState();
-                        }
-                    }, 300);
                 }
             }
         } catch (error) {
@@ -278,34 +266,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (searchInput && searchInput.value) {
             // Normalize the search text
             const normalizedValue = normalizeSearchText(searchInput.value);
+            
+            // Update the input value
             searchInput.value = normalizedValue;
             
-            // Show loading state
-            if (typeof showLoadingState === 'function') {
-                showLoadingState();
-            }
-            
-            // Create and dispatch input event exactly like manual typing
-            const inputEvent = new Event('input', {
+            // Create a new input event
+            const inputEvent = new InputEvent('input', {
                 bubbles: true,
                 cancelable: true,
-                composed: true
+                composed: true,
+                data: normalizedValue,
+                inputType: 'insertText',
+                isComposing: false
             });
             
             // Dispatch the input event
             searchInput.dispatchEvent(inputEvent);
-            
-            // Use the same delay as manual typing (300ms)
-            setTimeout(() => {
-                if (typeof filterArticles === 'function') {
-                    filterArticles();
-                }
-                
-                // Hide loading state
-                if (typeof hideLoadingState === 'function') {
-                    hideLoadingState();
-                }
-            }, 300);
         }
     }
 
