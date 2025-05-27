@@ -14,6 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // Check if running on iOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    console.log('Running on iOS:', isIOS);
+
     // Utility function to normalize Arabic text
     function normalizeArabicText(text) {
         if (!text) return '';
@@ -172,6 +176,13 @@ document.addEventListener('DOMContentLoaded', () => {
         recognition.interimResults = true;
         recognition.maxAlternatives = 3; // Get multiple recognition alternatives
 
+        // iOS-specific settings
+        if (isIOS) {
+            recognition.continuous = false;
+            recognition.interimResults = false; // iOS works better with final results only
+            recognition.maxAlternatives = 1; // iOS typically only provides one alternative
+        }
+
         // Set up recognition event handlers
         recognition.onresult = handleRecognitionResult;
         recognition.onend = handleRecognitionEnd;
@@ -209,11 +220,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Recognition result:', {
                 transcript: bestResult,
                 confidence: confidence,
-                isFinal: result.isFinal
+                isFinal: result.isFinal,
+                isIOS: isIOS
             });
             
-            // If confidence is low, try alternatives
-            if (confidence < 0.7 && result.length > 1) {
+            // If confidence is low and not on iOS, try alternatives
+            if (!isIOS && confidence < 0.7 && result.length > 1) {
                 // Try to find a better match from alternatives
                 for (let i = 1; i < result.length; i++) {
                     if (result[i].confidence > confidence) {
@@ -251,8 +263,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Updated search input:', searchInput.value);
             }
 
-            // Trigger search only on final results to avoid excessive searches
-            if (result.isFinal) {
+            // On iOS, always treat results as final
+            if (isIOS || result.isFinal) {
                 // Only trigger search if content is appropriate
                 if (!containsBadWords(words)) {
                     // Normalize the search text
@@ -313,16 +325,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to handle recognition end
     function handleRecognitionEnd() {
-        console.log('Recognition ended');
+        console.log('Recognition ended, isIOS:', isIOS);
         resetVoiceSearch();
         
-        // Trigger search if there's text in the input
-        if (searchInput && searchInput.value) {
-            console.log('Search input has value:', searchInput.value);
+        // On iOS, we need to ensure the search is triggered
+        if (isIOS && searchInput && searchInput.value) {
+            console.log('iOS: Triggering final search with value:', searchInput.value);
             
             // Normalize the search text
             const normalizedValue = normalizeSearchText(searchInput.value);
-            console.log('Normalized value:', normalizedValue);
+            console.log('iOS: Normalized value:', normalizedValue);
             
             // Update the input value
             searchInput.value = normalizedValue;
@@ -349,14 +361,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Dispatch events in sequence
             events.forEach(event => {
                 searchInput.dispatchEvent(event);
-                console.log('Dispatched final event:', event.type);
+                console.log('iOS: Dispatched final event:', event.type, 'with value:', normalizedValue);
             });
             
             // Use the same delay as manual typing (300ms)
             setTimeout(() => {
                 // Force a filter update
                 if (typeof filterArticles === 'function') {
-                    console.log('Calling final filterArticles()');
+                    console.log('iOS: Calling final filterArticles() with value:', normalizedValue);
                     filterArticles();
                 }
                 
