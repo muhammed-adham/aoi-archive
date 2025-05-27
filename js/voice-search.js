@@ -16,7 +16,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Check if running on iOS
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    console.log('Running on iOS:', isIOS);
+    
+    // Check if running on HTTPS
+    const isHTTPS = window.location.protocol === 'https:';
+    
+    // Check if running on Vercel
+    const isVercel = window.location.hostname.includes('vercel.app');
+    
+    console.log('Environment checks:', {
+        isIOS,
+        isHTTPS,
+        isVercel,
+        hostname: window.location.hostname,
+        protocol: window.location.protocol
+    });
 
     // Utility function to normalize Arabic text
     function normalizeArabicText(text) {
@@ -174,13 +187,23 @@ document.addEventListener('DOMContentLoaded', () => {
         // Enhanced recognition configuration
         recognition.continuous = false;
         recognition.interimResults = true;
-        recognition.maxAlternatives = 3; // Get multiple recognition alternatives
+        recognition.maxAlternatives = 3;
 
         // iOS-specific settings
         if (isIOS) {
             recognition.continuous = false;
-            recognition.interimResults = false; // iOS works better with final results only
-            recognition.maxAlternatives = 1; // iOS typically only provides one alternative
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+            
+            // Additional iOS checks
+            if (!isHTTPS) {
+                console.error('iOS requires HTTPS for speech recognition');
+                const currentLang = getCurrentLanguage();
+                searchInput.placeholder = currentLang === 'ar' ? 
+                    'يرجى استخدام HTTPS للبحث الصوتي' : 
+                    'Please use HTTPS for voice search';
+                return;
+            }
         }
 
         // Set up recognition event handlers
@@ -382,7 +405,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to handle recognition errors
     function handleRecognitionError(event) {
-        console.error('Speech recognition error:', event.error);
+        console.error('Speech recognition error:', {
+            error: event.error,
+            message: event.message,
+            isIOS,
+            isHTTPS,
+            isVercel
+        });
         
         // Provide user feedback based on error type
         const currentLang = getCurrentLanguage();
@@ -408,6 +437,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorMessage = currentLang === 'ar' ? 
                     'خطأ في الاتصال بالشبكة' : 
                     'Network error occurred';
+                break;
+            case 'service-not-allowed':
+                errorMessage = currentLang === 'ar' ? 
+                    'يرجى استخدام HTTPS للبحث الصوتي' : 
+                    'Please use HTTPS for voice search';
                 break;
             default:
                 errorMessage = currentLang === 'ar' ? 
