@@ -241,43 +241,27 @@ document.addEventListener('DOMContentLoaded', () => {
                         showLoadingState();
                     }
                     
-                    // Trigger search with a slight delay to ensure value is set
+                    // Create and dispatch input event exactly like manual typing
+                    const inputEvent = new Event('input', {
+                        bubbles: true,
+                        cancelable: true,
+                        composed: true
+                    });
+                    
+                    // Dispatch the input event
+                    searchInput.dispatchEvent(inputEvent);
+                    
+                    // Use the same delay as manual typing (300ms)
                     setTimeout(() => {
-                        // Create and dispatch both input and change events
-                        const inputEvent = new Event('input', {
-                            bubbles: true,
-                            cancelable: true,
-                        });
-                        const changeEvent = new Event('change', {
-                            bubbles: true,
-                            cancelable: true,
-                        });
+                        if (typeof filterArticles === 'function') {
+                            filterArticles();
+                        }
                         
-                        // First trigger input event
-                        searchInput.dispatchEvent(inputEvent);
-                        
-                        // Then trigger change event
-                        setTimeout(() => {
-                            searchInput.dispatchEvent(changeEvent);
-                            
-                            // Also trigger a keyup event to ensure filtering
-                            const keyupEvent = new Event('keyup', {
-                                bubbles: true,
-                                cancelable: true,
-                            });
-                            searchInput.dispatchEvent(keyupEvent);
-                            
-                            // Force a filter update
-                            if (typeof window.filterArticles === 'function') {
-                                window.filterArticles();
-                            }
-                            
-                            // Hide loading state
-                            if (typeof hideLoadingState === 'function') {
-                                hideLoadingState();
-                            }
-                        }, 50);
-                    }, 100);
+                        // Hide loading state
+                        if (typeof hideLoadingState === 'function') {
+                            hideLoadingState();
+                        }
+                    }, 300);
                 }
             }
         } catch (error) {
@@ -301,42 +285,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 showLoadingState();
             }
             
-            // Create and dispatch events in sequence
+            // Create and dispatch input event exactly like manual typing
             const inputEvent = new Event('input', {
                 bubbles: true,
                 cancelable: true,
-            });
-            const changeEvent = new Event('change', {
-                bubbles: true,
-                cancelable: true,
-            });
-            const keyupEvent = new Event('keyup', {
-                bubbles: true,
-                cancelable: true,
+                composed: true
             });
             
-            // First trigger input event
+            // Dispatch the input event
             searchInput.dispatchEvent(inputEvent);
             
-            // Then trigger change event
+            // Use the same delay as manual typing (300ms)
             setTimeout(() => {
-                searchInput.dispatchEvent(changeEvent);
+                if (typeof filterArticles === 'function') {
+                    filterArticles();
+                }
                 
-                // Finally trigger keyup event
-                setTimeout(() => {
-                    searchInput.dispatchEvent(keyupEvent);
-                    
-                    // Force a filter update
-                    if (typeof window.filterArticles === 'function') {
-                        window.filterArticles();
-                    }
-                    
-                    // Hide loading state
-                    if (typeof hideLoadingState === 'function') {
-                        hideLoadingState();
-                    }
-                }, 50);
-            }, 50);
+                // Hide loading state
+                if (typeof hideLoadingState === 'function') {
+                    hideLoadingState();
+                }
+            }, 300);
         }
     }
 
