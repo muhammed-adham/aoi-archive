@@ -238,6 +238,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Show confidence level in console for debugging
                     console.log(`Recognition confidence: ${confidence}`);
                     
+                    // Show loading state
+                    if (typeof showLoadingState === 'function') {
+                        showLoadingState();
+                    }
+                    
                     // Create a new input event
                     const inputEvent = new InputEvent('input', {
                         bubbles: true,
@@ -250,6 +255,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Dispatch the input event
                     searchInput.dispatchEvent(inputEvent);
+                    
+                    // Use the same delay as manual typing (300ms)
+                    setTimeout(() => {
+                        // Force a filter update
+                        if (typeof filterArticles === 'function') {
+                            filterArticles();
+                        }
+                        
+                        // Hide loading state
+                        if (typeof hideLoadingState === 'function') {
+                            hideLoadingState();
+                        }
+                    }, 300);
                 }
             }
         } catch (error) {
@@ -270,6 +288,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update the input value
             searchInput.value = normalizedValue;
             
+            // Show loading state
+            if (typeof showLoadingState === 'function') {
+                showLoadingState();
+            }
+            
             // Create a new input event
             const inputEvent = new InputEvent('input', {
                 bubbles: true,
@@ -282,6 +305,19 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Dispatch the input event
             searchInput.dispatchEvent(inputEvent);
+            
+            // Use the same delay as manual typing (300ms)
+            setTimeout(() => {
+                // Force a filter update
+                if (typeof filterArticles === 'function') {
+                    filterArticles();
+                }
+                
+                // Hide loading state
+                if (typeof hideLoadingState === 'function') {
+                    hideLoadingState();
+                }
+            }, 300);
         }
     }
 
