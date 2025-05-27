@@ -155,14 +155,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
         
-        // Configure recognition
+        // Enhanced recognition configuration
         recognition.continuous = false;
         recognition.interimResults = true;
+        recognition.maxAlternatives = 3; // Get multiple recognition alternatives
 
         // Set up recognition event handlers
         recognition.onresult = handleRecognitionResult;
         recognition.onend = handleRecognitionEnd;
         recognition.onerror = handleRecognitionError;
+        recognition.onaudiostart = handleAudioStart;
+        recognition.onaudioend = handleAudioEnd;
+        recognition.onspeechstart = handleSpeechStart;
+        recognition.onspeechend = handleSpeechEnd;
     }
 
     // Function to force reset voice search
@@ -182,10 +187,25 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Get most recent result
             const lastResultIndex = event.results.length - 1;
-            let words = event.results[lastResultIndex][0].transcript;
+            const result = event.results[lastResultIndex];
+            
+            // Get the best result and alternatives
+            let bestResult = result[0].transcript;
+            let confidence = result[0].confidence;
+            
+            // If confidence is low, try alternatives
+            if (confidence < 0.7 && result.length > 1) {
+                // Try to find a better match from alternatives
+                for (let i = 1; i < result.length; i++) {
+                    if (result[i].confidence > confidence) {
+                        bestResult = result[i].transcript;
+                        confidence = result[i].confidence;
+                    }
+                }
+            }
 
             // Remove duplicate consecutive words
-            words = removeDuplicateWords(words);
+            let words = removeDuplicateWords(bestResult);
 
             // Check for bad words
             if (containsBadWords(words)) {
@@ -206,12 +226,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Trigger search only on final results to avoid excessive searches
-            if (event.results[lastResultIndex].isFinal) {
+            if (result.isFinal) {
                 // Only trigger search if content is appropriate
                 if (!containsBadWords(words)) {
                     // Normalize the search text
                     const normalizedWords = normalizeSearchText(words);
                     searchInput.value = normalizedWords;
+                    
+                    // Show confidence level in console for debugging
+                    console.log(`Recognition confidence: ${confidence}`);
                     
                     // Trigger search with a slight delay to ensure value is set
                     setTimeout(() => {
@@ -262,7 +285,90 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to handle recognition errors
     function handleRecognitionError(event) {
         console.error('Speech recognition error:', event.error);
+        
+        // Provide user feedback based on error type
+        const currentLang = getCurrentLanguage();
+        let errorMessage = '';
+        
+        switch(event.error) {
+            case 'no-speech':
+                errorMessage = currentLang === 'ar' ? 
+                    'لم يتم اكتشاف أي كلام' : 
+                    'No speech was detected';
+                break;
+            case 'audio-capture':
+                errorMessage = currentLang === 'ar' ? 
+                    'لم يتم العثور على ميكروفون' : 
+                    'No microphone was found';
+                break;
+            case 'not-allowed':
+                errorMessage = currentLang === 'ar' ? 
+                    'يرجى السماح بالوصول إلى الميكروفون' : 
+                    'Please allow microphone access';
+                break;
+            case 'network':
+                errorMessage = currentLang === 'ar' ? 
+                    'خطأ في الاتصال بالشبكة' : 
+                    'Network error occurred';
+                break;
+            default:
+                errorMessage = currentLang === 'ar' ? 
+                    'حدث خطأ في التعرف على الصوت' : 
+                    'Speech recognition error occurred';
+        }
+        
+        // Show error message in search input
+        if (searchInput) {
+            searchInput.value = '';
+            searchInput.placeholder = errorMessage;
+            setTimeout(() => {
+                const currentLang = getCurrentLanguage();
+                searchInput.placeholder = currentLang === 'ar' ? 
+                    'بحث في الإنجازات...' : 
+                    'Search achievements...';
+            }, 3000);
+        }
+        
         forceResetVoiceSearch();
+    }
+
+    // Audio event handlers
+    function handleAudioStart() {
+        console.log('Audio capturing started');
+    }
+
+    function handleAudioEnd() {
+        console.log('Audio capturing ended');
+    }
+
+    function handleSpeechStart() {
+        console.log('Speech detected');
+    }
+
+    function handleSpeechEnd() {
+        console.log('Speech ended');
+    }
+
+    // Function to provide feedback when recording starts/stops
+    function provideFeedback(type) {
+        // Try vibration first
+        if ('vibrate' in navigator) {
+            if (type === 'start') {
+                navigator.vibrate(50);
+            } else if (type === 'stop') {
+                navigator.vibrate([30, 50, 30]);
+            }
+        }
+
+        // Add visual feedback for all devices
+        const voiceSearchBtn = document.getElementById('voice-search');
+        if (voiceSearchBtn) {
+            // Add a temporary class for visual feedback
+            voiceSearchBtn.classList.add('feedback');
+            setTimeout(() => {
+                voiceSearchBtn.classList.remove('feedback');
+            }, 200);
+        }
     }
 
     // Function to handle voice start
@@ -314,11 +420,8 @@ document.addEventListener('DOMContentLoaded', () => {
             voiceSearchBtn.classList.add('listening');
             searchInput.classList.add('voice-listening');
 
-            // Vibrate on mobile devices when recording starts
-            if ('vibrate' in navigator) {
-                // Short vibration (50ms) to indicate recording start
-                navigator.vibrate(50);
-            }
+            // Provide feedback for recording start
+            provideFeedback('start');
 
             // Use appropriate language for placeholder
             const currentLang = getCurrentLanguage();
@@ -348,11 +451,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isListening) {
             try {
                 recognition.stop();
-                // Vibrate on mobile devices when recording stops
-                if ('vibrate' in navigator) {
-                    // Two short vibrations (30ms each) to indicate recording stop
-                    navigator.vibrate([30, 50, 30]);
-                }
+                // Provide feedback for recording stop
+                provideFeedback('stop');
             } catch (error) {
                 console.error('Error stopping recognition:', error);
                 forceResetVoiceSearch();
@@ -423,6 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set language based on current language setting
     function updateRecognitionLanguage() {
         const currentLang = getCurrentLanguage();
+        // Use Egyptian Arabic for better accuracy with Egyptian dialect
         recognition.lang = currentLang === 'ar' ? 'ar-EG' : 'en-US';
         console.log(`Speech recognition language set to: ${recognition.lang}`);
     }
