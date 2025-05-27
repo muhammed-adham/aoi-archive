@@ -673,7 +673,7 @@
     // Add this to your existing script
     document.addEventListener('DOMContentLoaded', function() {
       const showMoreButtons = document.querySelectorAll('.show-more-btn');
-      let currentLang = localStorage.getItem('language') || 'en';
+      let currentLang = localStorage.getItem('selectedLanguage') || 'en';
       
       showMoreButtons.forEach(button => {
         const btnText = button.querySelector('.btn-text');
