@@ -247,8 +247,26 @@ document.addEventListener('DOMContentLoaded', () => {
                             bubbles: true,
                             cancelable: true,
                         });
+                        
+                        // First trigger input event
                         searchInput.dispatchEvent(inputEvent);
-                        searchInput.dispatchEvent(changeEvent);
+                        
+                        // Then trigger change event
+                        setTimeout(() => {
+                            searchInput.dispatchEvent(changeEvent);
+                            
+                            // Also trigger a keyup event to ensure filtering
+                            const keyupEvent = new Event('keyup', {
+                                bubbles: true,
+                                cancelable: true,
+                            });
+                            searchInput.dispatchEvent(keyupEvent);
+                            
+                            // Force a filter update
+                            if (typeof window.filterArticles === 'function') {
+                                window.filterArticles();
+                            }
+                        }, 50);
                     }, 100);
                 }
             }
@@ -268,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const normalizedValue = normalizeSearchText(searchInput.value);
             searchInput.value = normalizedValue;
             
-            // Create and dispatch both input and change events
+            // Create and dispatch events in sequence
             const inputEvent = new Event('input', {
                 bubbles: true,
                 cancelable: true,
@@ -277,8 +295,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 bubbles: true,
                 cancelable: true,
             });
+            const keyupEvent = new Event('keyup', {
+                bubbles: true,
+                cancelable: true,
+            });
+            
+            // First trigger input event
             searchInput.dispatchEvent(inputEvent);
-            searchInput.dispatchEvent(changeEvent);
+            
+            // Then trigger change event
+            setTimeout(() => {
+                searchInput.dispatchEvent(changeEvent);
+                
+                // Finally trigger keyup event
+                setTimeout(() => {
+                    searchInput.dispatchEvent(keyupEvent);
+                    
+                    // Force a filter update
+                    if (typeof window.filterArticles === 'function') {
+                        window.filterArticles();
+                    }
+                }, 50);
+            }, 50);
         }
     }
 
