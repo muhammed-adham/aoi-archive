@@ -234,11 +234,21 @@ function filterArticles() {
         
         let showArticle = true;
 
-        // Filter by search term
-        if (searchTerm && !articleTitle.includes(searchTerm) && 
-            !articleTitleText.includes(searchTerm) && 
-            !articleDescText.includes(searchTerm)) {
-            showArticle = false;
+        // Filter by search term - more lenient matching for voice input
+        if (searchTerm) {
+            // Split search term into words for partial matching
+            const searchWords = searchTerm.split(/\s+/).filter(word => word.length > 0);
+            
+            // Check if any of the search words are found in the article
+            const hasMatch = searchWords.some(word => 
+                articleTitle.includes(word) || 
+                articleTitleText.includes(word) || 
+                articleDescText.includes(word)
+            );
+            
+            if (!hasMatch) {
+                showArticle = false;
+            }
         }
 
         // Filter by category - only hide if category is selected and doesn't match

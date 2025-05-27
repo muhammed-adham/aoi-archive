@@ -137,96 +137,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Voice search state
     let isListening = false;
+    let recognition = null;
+    let isProcessing = false;
+    let clickTimeout = null;
+    let lastClickTime = 0; // Track last click time
 
     // Initialize speech recognition
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-
-    // Configure recognition
-    recognition.continuous = false;
-    recognition.interimResults = true;
-
-    // Set language based on current language setting
-    function updateRecognitionLanguage() {
-        const currentLang = getCurrentLanguage();
-        recognition.lang = currentLang === 'ar' ? 'ar-EG' : 'en-US';
-        console.log(`Speech recognition language set to: ${recognition.lang}`);
-    }
-    
-    // Set initial language
-    updateRecognitionLanguage();
-
-    // Update recognition language when language changes
-    document.addEventListener('langChange', (e) => {
-        updateRecognitionLanguage();
-    });
-    
-    // Also monitor language toggle changes
-    const langToggle = document.getElementById('chklang');
-    if (langToggle) {
-        langToggle.addEventListener('change', () => {
-            // Small delay to allow language change to complete
-            setTimeout(updateRecognitionLanguage, 100);
-        });
-    }
-
-    // Store original placeholder
-    searchInput.dataset.originalPlaceholder = searchInput.placeholder || '';
-
-    // Handle voice button click
-    voiceSearchBtn.addEventListener('mousedown', handleVoiceStart);
-    voiceSearchBtn.addEventListener('touchstart', handleVoiceStart);
-    
-    // Add mouseup/touchend event listeners to stop recording
-    voiceSearchBtn.addEventListener('mouseup', handleVoiceStop);
-    voiceSearchBtn.addEventListener('touchend', handleVoiceStop);
-    
-    // Add mouseleave/touchcancel event listeners to stop recording if interaction ends
-    voiceSearchBtn.addEventListener('mouseleave', handleVoiceStop);
-    voiceSearchBtn.addEventListener('touchcancel', handleVoiceStop);
-
-    // Function to handle voice start
-    function handleVoiceStart(event) {
-        // Prevent default behavior for touch events
-        if (event.type === 'touchstart') {
-            event.preventDefault();
+    function initializeRecognition() {
+        if (recognition) {
+            try {
+                recognition.stop();
+            } catch (e) {
+                console.log('Recognition already stopped');
+            }
         }
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
         
-        try {
-            // Update language before starting recognition
-            updateRecognitionLanguage();
-            
-            recognition.start();
-            isListening = true;
-            voiceSearchBtn.classList.add('listening');
-            searchInput.classList.add('voice-listening');
+        // Configure recognition
+        recognition.continuous = false;
+        recognition.interimResults = true;
 
-            // Use appropriate language for placeholder
-            const currentLang = getCurrentLanguage();
-            const listeningText = currentLang === 'ar' ? 'جاري الاستماع...' : 'Listening...';
-            searchInput.placeholder = listeningText;
-
-            voiceSearchBtn.innerHTML = '<i class="fas fa-stop"></i>';
-        } catch (error) {
-            console.error('Error starting speech recognition:', error);
-            resetVoiceSearch();
-        }
+        // Set up recognition event handlers
+        recognition.onresult = handleRecognitionResult;
+        recognition.onend = handleRecognitionEnd;
+        recognition.onerror = handleRecognitionError;
     }
 
-    // Function to handle voice stop
-    function handleVoiceStop(event) {
-        // Prevent default behavior for touch events
-        if (event.type === 'touchend' || event.type === 'touchcancel') {
-            event.preventDefault();
+    // Function to force reset voice search
+    function forceResetVoiceSearch() {
+        if (recognition) {
+            try {
+                recognition.stop();
+            } catch (e) {
+                console.log('Force stop recognition');
+            }
         }
-        
-        if (isListening) {
-            recognition.stop();
-        }
+        resetVoiceSearch();
     }
 
-    // Handle recognition results
-    recognition.onresult = (event) => {
+    // Function to handle recognition results
+    function handleRecognitionResult(event) {
         try {
             // Get most recent result
             const lastResultIndex = event.results.length - 1;
@@ -257,42 +209,165 @@ document.addEventListener('DOMContentLoaded', () => {
             if (event.results[lastResultIndex].isFinal) {
                 // Only trigger search if content is appropriate
                 if (!containsBadWords(words)) {
-                    // Trigger search
-                    const inputEvent = new Event('input', {
-                        bubbles: true,
-                        cancelable: true,
-                    });
-                    searchInput.dispatchEvent(inputEvent);
+                    // Normalize the search text
+                    const normalizedWords = normalizeSearchText(words);
+                    searchInput.value = normalizedWords;
+                    
+                    // Trigger search with a slight delay to ensure value is set
+                    setTimeout(() => {
+                        // Create and dispatch both input and change events
+                        const inputEvent = new Event('input', {
+                            bubbles: true,
+                            cancelable: true,
+                        });
+                        const changeEvent = new Event('change', {
+                            bubbles: true,
+                            cancelable: true,
+                        });
+                        searchInput.dispatchEvent(inputEvent);
+                        searchInput.dispatchEvent(changeEvent);
+                    }, 100);
                 }
             }
         } catch (error) {
             console.error('Error processing speech results:', error);
+            resetVoiceSearch();
         }
-    };
+    }
 
-    // Handle recognition end
-    recognition.onend = () => {
+    // Function to handle recognition end
+    function handleRecognitionEnd() {
         resetVoiceSearch();
         
         // Trigger search if there's text in the input
         if (searchInput && searchInput.value) {
+            // Normalize the search text
+            const normalizedValue = normalizeSearchText(searchInput.value);
+            searchInput.value = normalizedValue;
+            
+            // Create and dispatch both input and change events
             const inputEvent = new Event('input', {
                 bubbles: true,
                 cancelable: true,
             });
+            const changeEvent = new Event('change', {
+                bubbles: true,
+                cancelable: true,
+            });
             searchInput.dispatchEvent(inputEvent);
+            searchInput.dispatchEvent(changeEvent);
         }
-    };
+    }
 
-    // Handle recognition errors
-    recognition.onerror = (event) => {
+    // Function to handle recognition errors
+    function handleRecognitionError(event) {
         console.error('Speech recognition error:', event.error);
-        resetVoiceSearch();
-    };
+        forceResetVoiceSearch();
+    }
+
+    // Function to handle voice start
+    function handleVoiceStart(event) {
+        // Prevent default behavior for touch events
+        if (event.type === 'touchstart') {
+            event.preventDefault();
+        }
+
+        const currentTime = Date.now();
+        const timeSinceLastClick = currentTime - lastClickTime;
+        lastClickTime = currentTime;
+
+        // If double click detected (less than 300ms between clicks)
+        if (timeSinceLastClick < 300) {
+            forceResetVoiceSearch();
+            return;
+        }
+
+        // Prevent rapid clicks
+        if (isProcessing) {
+            return;
+        }
+        
+        try {
+            isProcessing = true;
+
+            // If already listening, stop first
+            if (isListening) {
+                recognition.stop();
+                isProcessing = false;
+                return;
+            }
+
+            // Clear any existing timeout
+            if (clickTimeout) {
+                clearTimeout(clickTimeout);
+                clickTimeout = null;
+            }
+
+            // Initialize new recognition instance
+            initializeRecognition();
+            
+            // Update language before starting recognition
+            updateRecognitionLanguage();
+            
+            recognition.start();
+            isListening = true;
+            voiceSearchBtn.classList.add('listening');
+            searchInput.classList.add('voice-listening');
+
+            // Vibrate on mobile devices when recording starts
+            if ('vibrate' in navigator) {
+                // Short vibration (50ms) to indicate recording start
+                navigator.vibrate(50);
+            }
+
+            // Use appropriate language for placeholder
+            const currentLang = getCurrentLanguage();
+            const listeningText = currentLang === 'ar' ? 'جاري الاستماع...' : 'Listening...';
+            searchInput.placeholder = listeningText;
+
+            voiceSearchBtn.innerHTML = '<i class="fas fa-stop"></i>';
+
+            // Reset processing flag after a short delay
+            setTimeout(() => {
+                isProcessing = false;
+            }, 300);
+        } catch (error) {
+            console.error('Error starting speech recognition:', error);
+            forceResetVoiceSearch();
+            isProcessing = false;
+        }
+    }
+
+    // Function to handle voice stop
+    function handleVoiceStop(event) {
+        // Prevent default behavior for touch events
+        if (event.type === 'touchend' || event.type === 'touchcancel') {
+            event.preventDefault();
+        }
+        
+        if (isListening) {
+            try {
+                recognition.stop();
+                // Vibrate on mobile devices when recording stops
+                if ('vibrate' in navigator) {
+                    // Two short vibrations (30ms each) to indicate recording stop
+                    navigator.vibrate([30, 50, 30]);
+                }
+            } catch (error) {
+                console.error('Error stopping recognition:', error);
+                forceResetVoiceSearch();
+            }
+        }
+    }
 
     // Helper function to reset voice search state
     function resetVoiceSearch() {
         isListening = false;
+        isProcessing = false;
+        if (clickTimeout) {
+            clearTimeout(clickTimeout);
+            clickTimeout = null;
+        }
         if (voiceSearchBtn) {
             voiceSearchBtn.classList.remove('listening');
             voiceSearchBtn.innerHTML = '<i class="fas fa-microphone"></i>';
@@ -304,4 +379,71 @@ document.addEventListener('DOMContentLoaded', () => {
             searchInput.placeholder = placeholder;
         }
     }
+
+    // Initialize recognition on page load
+    initializeRecognition();
+
+    // Handle voice button click with debounce
+    voiceSearchBtn.addEventListener('mousedown', (event) => {
+        if (clickTimeout) {
+            clearTimeout(clickTimeout);
+        }
+        clickTimeout = setTimeout(() => {
+            handleVoiceStart(event);
+        }, 50);
+    });
+    
+    voiceSearchBtn.addEventListener('touchstart', (event) => {
+        if (clickTimeout) {
+            clearTimeout(clickTimeout);
+        }
+        clickTimeout = setTimeout(() => {
+            handleVoiceStart(event);
+        }, 50);
+    });
+    
+    // Add mouseup/touchend event listeners to stop recording
+    voiceSearchBtn.addEventListener('mouseup', handleVoiceStop);
+    voiceSearchBtn.addEventListener('touchend', handleVoiceStop);
+    
+    // Add mouseleave/touchcancel event listeners to stop recording if interaction ends
+    voiceSearchBtn.addEventListener('mouseleave', handleVoiceStop);
+    voiceSearchBtn.addEventListener('touchcancel', handleVoiceStop);
+
+    // Add safety timeout to force reset if stuck
+    setInterval(() => {
+        if (isListening && !isProcessing) {
+            const currentTime = Date.now();
+            if (currentTime - lastClickTime > 10000) { // Force reset if stuck for more than 10 seconds
+                forceResetVoiceSearch();
+            }
+        }
+    }, 1000);
+
+    // Set language based on current language setting
+    function updateRecognitionLanguage() {
+        const currentLang = getCurrentLanguage();
+        recognition.lang = currentLang === 'ar' ? 'ar-EG' : 'en-US';
+        console.log(`Speech recognition language set to: ${recognition.lang}`);
+    }
+    
+    // Set initial language
+    updateRecognitionLanguage();
+
+    // Update recognition language when language changes
+    document.addEventListener('langChange', (e) => {
+        updateRecognitionLanguage();
+    });
+    
+    // Also monitor language toggle changes
+    const langToggle = document.getElementById('chklang');
+    if (langToggle) {
+        langToggle.addEventListener('change', () => {
+            // Small delay to allow language change to complete
+            setTimeout(updateRecognitionLanguage, 100);
+        });
+    }
+
+    // Store original placeholder
+    searchInput.dataset.originalPlaceholder = searchInput.placeholder || '';
 }); 
