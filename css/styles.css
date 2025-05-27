@@ -3290,6 +3290,13 @@ header .laguagesButton .checkboxlang:checked + .labellang .balllang {
   font-size: 18px;
   cursor: pointer;
   transition: color 0.3s ease;
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+  touch-action: manipulation; /* Improve touch handling */
+  min-width: 44px; /* Minimum touch target size */
+  min-height: 44px; /* Minimum touch target size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .search-box button:hover {
@@ -3300,6 +3307,7 @@ header .laguagesButton .checkboxlang:checked + .labellang .balllang {
 .search-box button.listening {
   color: var(--error-color);
   animation: pulse 1.5s infinite;
+  transform-origin: center;
 }
 
 .search-box input.voice-listening {
@@ -3323,7 +3331,7 @@ header .laguagesButton .checkboxlang:checked + .labellang .balllang {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.2);
+    transform: scale(1.1); /* Reduced scale for better mobile experience */
   }
   100% {
     transform: scale(1);

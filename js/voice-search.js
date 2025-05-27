@@ -174,7 +174,24 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.dataset.originalPlaceholder = searchInput.placeholder || '';
 
     // Handle voice button click
-    voiceSearchBtn.addEventListener('mousedown', () => {
+    voiceSearchBtn.addEventListener('mousedown', handleVoiceStart);
+    voiceSearchBtn.addEventListener('touchstart', handleVoiceStart);
+    
+    // Add mouseup/touchend event listeners to stop recording
+    voiceSearchBtn.addEventListener('mouseup', handleVoiceStop);
+    voiceSearchBtn.addEventListener('touchend', handleVoiceStop);
+    
+    // Add mouseleave/touchcancel event listeners to stop recording if interaction ends
+    voiceSearchBtn.addEventListener('mouseleave', handleVoiceStop);
+    voiceSearchBtn.addEventListener('touchcancel', handleVoiceStop);
+
+    // Function to handle voice start
+    function handleVoiceStart(event) {
+        // Prevent default behavior for touch events
+        if (event.type === 'touchstart') {
+            event.preventDefault();
+        }
+        
         try {
             // Update language before starting recognition
             updateRecognitionLanguage();
@@ -194,21 +211,19 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error starting speech recognition:', error);
             resetVoiceSearch();
         }
-    });
+    }
 
-    // Add mouseup event listener to stop recording
-    voiceSearchBtn.addEventListener('mouseup', () => {
+    // Function to handle voice stop
+    function handleVoiceStop(event) {
+        // Prevent default behavior for touch events
+        if (event.type === 'touchend' || event.type === 'touchcancel') {
+            event.preventDefault();
+        }
+        
         if (isListening) {
             recognition.stop();
         }
-    });
-
-    // Add mouseleave event listener to stop recording if mouse leaves button while pressed
-    voiceSearchBtn.addEventListener('mouseleave', () => {
-        if (isListening) {
-            recognition.stop();
-        }
-    });
+    }
 
     // Handle recognition results
     recognition.onresult = (event) => {
