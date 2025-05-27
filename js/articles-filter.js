@@ -199,7 +199,7 @@ function filterArticles() {
     const sortBy = sortByFilter ? sortByFilter.value : 'date-desc';
     const startDate = startDateInput ? startDateInput.value : '';
     const endDate = endDateInput ? endDateInput.value : '';
-    let searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+    let searchTerm = searchInput ? searchInput.value : '';
     
     // Normalize search term if we have the normalization function
     if (window.normalizeSearchText) {
@@ -219,11 +219,11 @@ function filterArticles() {
     articlesArray.forEach(article => {
         const articleDate = new Date(article.dataset.date);
         const articleCategory = article.dataset.category;
-        let articleTitle = article.dataset.title.toLowerCase();
+        let articleTitle = article.dataset.title;
         const articleTitleElement = article.querySelector('h3');
         const articleDesc = article.querySelector('p');
-        let articleTitleText = articleTitleElement ? articleTitleElement.textContent.toLowerCase() : '';
-        let articleDescText = articleDesc ? articleDesc.textContent.toLowerCase() : '';
+        let articleTitleText = articleTitleElement ? articleTitleElement.textContent : '';
+        let articleDescText = articleDesc ? articleDesc.textContent : '';
         
         // Normalize article text if we have the normalization function
         if (window.normalizeSearchText) {
@@ -240,11 +240,19 @@ function filterArticles() {
             const searchWords = searchTerm.split(/\s+/).filter(word => word.length > 0);
             
             // Check if any of the search words are found in the article
-            const hasMatch = searchWords.some(word => 
-                articleTitle.includes(word) || 
-                articleTitleText.includes(word) || 
-                articleDescText.includes(word)
-            );
+            const hasMatch = searchWords.some(word => {
+                // Try exact match first
+                if (articleTitle.includes(word) || 
+                    articleTitleText.includes(word) || 
+                    articleDescText.includes(word)) {
+                    return true;
+                }
+                
+                // Try partial match if exact match fails
+                return articleTitle.split(/\s+/).some(titleWord => titleWord.includes(word)) ||
+                       articleTitleText.split(/\s+/).some(titleWord => titleWord.includes(word)) ||
+                       articleDescText.split(/\s+/).some(descWord => descWord.includes(word));
+            });
             
             if (!hasMatch) {
                 showArticle = false;

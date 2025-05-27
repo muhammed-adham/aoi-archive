@@ -243,14 +243,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         showLoadingState();
                     }
                     
-                    // Create a new input event
+                    // Create a new input event with all required properties
                     const inputEvent = new InputEvent('input', {
                         bubbles: true,
                         cancelable: true,
                         composed: true,
                         data: normalizedWords,
                         inputType: 'insertText',
-                        isComposing: false
+                        isComposing: false,
+                        detail: {
+                            inputType: 'insertText',
+                            data: normalizedWords,
+                            isComposing: false
+                        }
                     });
                     
                     // Dispatch the input event
@@ -293,14 +298,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 showLoadingState();
             }
             
-            // Create a new input event
+            // Create a new input event with all required properties
             const inputEvent = new InputEvent('input', {
                 bubbles: true,
                 cancelable: true,
                 composed: true,
                 data: normalizedValue,
                 inputType: 'insertText',
-                isComposing: false
+                isComposing: false,
+                detail: {
+                    inputType: 'insertText',
+                    data: normalizedValue,
+                    isComposing: false
+                }
             });
             
             // Dispatch the input event
