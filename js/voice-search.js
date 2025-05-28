@@ -92,14 +92,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Bad words lists (these are placeholder examples - add more as needed)
     const badWordsEN = [
-        'fuckoff', 'fuck', 'fucker', 'motherfucker', 'bitch', 'dick'
-        // Add more English bad words here
+        "fuck", "fucker", "fucking", "fuckoff", "motherfucker", "bitch", "sonofabitch",
+        "ass", "asshole", "bastard", "shit", "bullshit", "dick", "dickhead", "pussy",
+        "cunt", "slut", "whore", "jerk", "prick", "nigger", "nigga", "retard", "fag",
+        "faggot", "crap", "twat", "damn", "goddamn", "cock", "balls", "nutsack", "shithead"
     ];
+    
 
     const badWordsAR = [
-         'ام', 'امك', 'كس', 'متناك', 'متناكه', 'متناكة'
-        // Add more Arabic bad words here
+        "كس", "طيز", "زب", "متناك", "متناكة", "متناكه", "نيك", "انكح", "قحب", "قحبة", "قواد",
+        "شرموطة", "شرموطه", "خرا", "عرص", "منيك", "يلعن", "ابن الكلب", "كلب", "حيوان", "زبالة",
+        "نصبة", "تفو", "احا", "منيوك", "خنيث", "مخنث", "وسخ", "وسخة", "خنزير", "مغفل", "غبي"
     ];
+    
 
     // Function to check for bad words
     function containsBadWords(text) {
@@ -111,7 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const textLower = text.toLowerCase();
 
         // Check if any bad word is contained in the text
-        return badWordsList.some(word => textLower.includes(word.toLowerCase()));
+        // return badWordsList.some(word => textLower.includes(word.toLowerCase()));
+        return badWordsList.some(word => new RegExp(`\\b${word}\\b`, 'i').test(text));
+
     }
 
     // Function to filter out bad words (replace with asterisks)
@@ -123,11 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const badWordsList = currentLang === 'ar' ? badWordsAR : badWordsEN;
         let filteredText = text;
 
-        badWordsList.forEach(word => {
-            const regex = new RegExp(word, 'gi');
-            const asterisks = '*'.repeat(word.length);
-            filteredText = filteredText.replace(regex, asterisks);
-        });
+    badWordsList.forEach(word => {
+        const regex = new RegExp(`\\b${escapeRegex(word)}\\b`, 'gi'); // word-boundary and safe
+        filteredText = filteredText.replace(regex, ''); // remove word completely
+    });
 
         return filteredText;
     }
