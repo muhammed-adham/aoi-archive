@@ -31,6 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
         protocol: window.location.protocol
     });
 
+    // Debug info for iOS troubleshooting
+    console.log('Voice search debug info:', {
+        isIOS: isIOS,
+        hasWebkitSpeechRecognition: 'webkitSpeechRecognition' in window,
+        hasSpeechRecognition: 'SpeechRecognition' in window,
+        isHTTPS: isHTTPS,
+        userAgent: navigator.userAgent,
+        hostname: window.location.hostname
+    });
+
     // Utility function to normalize Arabic text
     function normalizeArabicText(text) {
         if (!text) return '';
@@ -98,13 +108,16 @@ document.addEventListener('DOMContentLoaded', () => {
         "faggot", "crap", "twat", "damn", "goddamn", "cock", "balls", "nutsack", "shithead"
     ];
     
-
     const badWordsAR = [
         "كس", "طيز", "زب", "متناك", "متناكة", "متناكه", "نيك", "انكح", "قحب", "قحبة", "قواد",
         "شرموطة", "شرموطه", "خرا", "عرص", "منيك", "يلعن", "ابن الكلب", "كلب", "حيوان", "زبالة",
         "نصبة", "تفو", "احا", "منيوك", "خنيث", "مخنث", "وسخ", "وسخة", "خنزير", "مغفل", "غبي"
     ];
-    
+
+    // Helper function to escape regex special characters
+    function escapeRegex(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
 
     // Function to check for bad words
     function containsBadWords(text) {
@@ -116,9 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const textLower = text.toLowerCase();
 
         // Check if any bad word is contained in the text
-        // return badWordsList.some(word => textLower.includes(word.toLowerCase()));
-        return badWordsList.some(word => new RegExp(`\\b${word}\\b`, 'i').test(text));
-
+        return badWordsList.some(word => new RegExp(`\\b${escapeRegex(word)}\\b`, 'i').test(text));
     }
 
     // Function to filter out bad words (replace with asterisks)
@@ -130,10 +141,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const badWordsList = currentLang === 'ar' ? badWordsAR : badWordsEN;
         let filteredText = text;
 
-    badWordsList.forEach(word => {
-        const regex = new RegExp(`\\b${escapeRegex(word)}\\b`, 'gi'); // word-boundary and safe
-        filteredText = filteredText.replace(regex, ''); // remove word completely
-    });
+        badWordsList.forEach(word => {
+            const regex = new RegExp(`\\b${escapeRegex(word)}\\b`, 'gi');
+            filteredText = filteredText.replace(regex, ''); // remove word completely
+        });
 
         return filteredText;
     }
@@ -174,52 +185,91 @@ document.addEventListener('DOMContentLoaded', () => {
     let isListening = false;
     let recognition = null;
     let isProcessing = false;
-    let clickTimeout = null;
-    let lastClickTime = 0; // Track last click time
+    let holdTimer = null;
+    let isHolding = false;
+    let holdStartTime = 0;
+    let minHoldTime = 200; // Minimum hold time in milliseconds
 
-    // Initialize speech recognition
+    // Updated recognition initialization for better iOS compatibility
     function initializeRecognition() {
         if (recognition) {
             try {
                 recognition.stop();
+                recognition = null;
             } catch (e) {
-                console.log('Recognition already stopped');
+                console.log('Previous recognition cleanup');
             }
         }
 
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        
+        if (!SpeechRecognition) {
+            console.error('Speech Recognition not supported');
+            return;
+        }
+        
         recognition = new SpeechRecognition();
         
-        // Enhanced recognition configuration
-        recognition.continuous = false;
-        recognition.interimResults = true;
-        recognition.maxAlternatives = 3;
-
-        // iOS-specific settings
+        // Base configuration - more suitable for hold-to-record
+        recognition.continuous = true; // Keep listening while held
+        recognition.interimResults = true; // Show results as they come
+        recognition.maxAlternatives = 1;
+        
+        // iOS-specific additional settings
         if (isIOS) {
+            // More conservative settings for iOS
             recognition.continuous = false;
             recognition.interimResults = false;
             recognition.maxAlternatives = 1;
             
-            // Additional iOS checks
-            if (!isHTTPS) {
+            // Check for HTTPS requirement
+            if (!isHTTPS && !window.location.hostname.includes('localhost')) {
                 console.error('iOS requires HTTPS for speech recognition');
                 const currentLang = getCurrentLanguage();
-                searchInput.placeholder = currentLang === 'ar' ? 
+                const errorMsg = currentLang === 'ar' ? 
                     'يرجى استخدام HTTPS للبحث الصوتي' : 
-                    'Please use HTTPS for voice search';
+                    'HTTPS required for voice search on iOS';
+                
+                if (searchInput) {
+                    searchInput.placeholder = errorMsg;
+                }
                 return;
             }
+        } else {
+            // Non-iOS devices can use more advanced features
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.maxAlternatives = 3;
         }
-
-        // Set up recognition event handlers
+        
+        // Event handlers
+        recognition.onstart = () => {
+            console.log('Recognition started');
+            isListening = true;
+        };
+        
         recognition.onresult = handleRecognitionResult;
         recognition.onend = handleRecognitionEnd;
         recognition.onerror = handleRecognitionError;
-        recognition.onaudiostart = handleAudioStart;
-        recognition.onaudioend = handleAudioEnd;
-        recognition.onspeechstart = handleSpeechStart;
-        recognition.onspeechend = handleSpeechEnd;
+        
+        // Additional iOS-specific handlers
+        if (isIOS) {
+            recognition.onspeechstart = () => {
+                console.log('iOS: Speech detected');
+            };
+            
+            recognition.onspeechend = () => {
+                console.log('iOS: Speech ended');
+            };
+            
+            recognition.onaudiostart = () => {
+                console.log('iOS: Audio started');
+            };
+            
+            recognition.onaudioend = () => {
+                console.log('iOS: Audio ended');
+            };
+        }
     }
 
     // Function to force reset voice search
@@ -243,14 +293,15 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Get the best result and alternatives
             let bestResult = result[0].transcript;
-            let confidence = result[0].confidence;
+            let confidence = result[0].confidence || 0.8; // Default confidence for iOS
             
             // Debug log the recognition result
             console.log('Recognition result:', {
                 transcript: bestResult,
                 confidence: confidence,
                 isFinal: result.isFinal,
-                isIOS: isIOS
+                isIOS: isIOS,
+                isHolding: isHolding
             });
             
             // If confidence is low and not on iOS, try alternatives
@@ -274,77 +325,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Check for bad words
             if (containsBadWords(words)) {
-                // Filter out bad words or use a general message
-                const currentLang = getCurrentLanguage();
-                const warningText = currentLang === 'ar' ?
-                    'اعد المحاولة' :
-                    'Try again';
-
-                // Either filter the content or show warning
-                searchInput.value = filterBadWords(words);
-                console.log('Bad words filtered:', searchInput.value);
-
-                // Optionally display a warning message
+                // Filter out bad words
+                words = filterBadWords(words);
+                console.log('Bad words filtered:', words);
                 console.warn('Bad words detected and filtered');
-            } else {
-                // Update the search input with processed spoken words
-                searchInput.value = words;
-                console.log('Updated search input:', searchInput.value);
             }
 
-            // On iOS, always treat results as final
-            if (isIOS || result.isFinal) {
-                // Only trigger search if content is appropriate
-                if (!containsBadWords(words)) {
-                    // Normalize the search text
-                    const normalizedWords = normalizeSearchText(words);
-                    console.log('Normalized words:', normalizedWords);
-                    
-                    // Update the input value with normalized text
-                    searchInput.value = normalizedWords;
-                    
-                    // Show confidence level in console for debugging
-                    console.log(`Recognition confidence: ${confidence}`);
-                    
-                    // Show loading state
-                    if (typeof showLoadingState === 'function') {
-                        showLoadingState();
-                    }
-                    
-                    // Create and dispatch multiple events to ensure mobile compatibility
-                    const events = [
-                        new Event('focus', { bubbles: true }),
-                        new InputEvent('input', {
-                            bubbles: true,
-                            cancelable: true,
-                            composed: true,
-                            data: normalizedWords,
-                            inputType: 'insertText',
-                            isComposing: false
-                        }),
-                        new Event('change', { bubbles: true })
-                    ];
-                    
-                    // Dispatch events in sequence
-                    events.forEach(event => {
-                        searchInput.dispatchEvent(event);
-                        console.log('Dispatched event:', event.type, 'with value:', normalizedWords);
-                    });
-                    
-                    // Use the same delay as manual typing (300ms)
-                    setTimeout(() => {
-                        // Force a filter update
-                        if (typeof filterArticles === 'function') {
-                            console.log('Calling filterArticles() with value:', normalizedWords);
-                            filterArticles();
-                        }
-                        
-                        // Hide loading state
-                        if (typeof hideLoadingState === 'function') {
-                            hideLoadingState();
-                        }
-                    }, 300);
-                }
+            // Update the search input with processed spoken words (interim results)
+            if (isHolding) {
+                searchInput.value = words;
+                console.log('Updated search input (interim):', searchInput.value);
+            }
+
+            // Process final result only when not holding or on iOS
+            if ((!isHolding && result.isFinal) || (isIOS && result.isFinal)) {
+                processVoiceSearchResult(words);
             }
         } catch (error) {
             console.error('Error processing speech results:', error);
@@ -352,21 +347,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to handle recognition end
-    function handleRecognitionEnd() {
-        console.log('Recognition ended, isIOS:', isIOS);
-        resetVoiceSearch();
-        
-        // On iOS, we need to ensure the search is triggered
-        if (isIOS && searchInput && searchInput.value) {
-            console.log('iOS: Triggering final search with value:', searchInput.value);
-            
+    // Function to process voice search results
+    function processVoiceSearchResult(words) {
+        // Only trigger search if content is appropriate
+        if (!containsBadWords(words) && words.trim()) {
             // Normalize the search text
-            const normalizedValue = normalizeSearchText(searchInput.value);
-            console.log('iOS: Normalized value:', normalizedValue);
+            const normalizedWords = normalizeSearchText(words);
+            console.log('Normalized words:', normalizedWords);
             
-            // Update the input value
-            searchInput.value = normalizedValue;
+            // Update the input value with normalized text
+            searchInput.value = normalizedWords;
             
             // Show loading state
             if (typeof showLoadingState === 'function') {
@@ -380,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     bubbles: true,
                     cancelable: true,
                     composed: true,
-                    data: normalizedValue,
+                    data: normalizedWords,
                     inputType: 'insertText',
                     isComposing: false
                 }),
@@ -390,14 +380,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Dispatch events in sequence
             events.forEach(event => {
                 searchInput.dispatchEvent(event);
-                console.log('iOS: Dispatched final event:', event.type, 'with value:', normalizedValue);
+                console.log('Dispatched event:', event.type, 'with value:', normalizedWords);
             });
             
             // Use the same delay as manual typing (300ms)
             setTimeout(() => {
                 // Force a filter update
                 if (typeof filterArticles === 'function') {
-                    console.log('iOS: Calling final filterArticles() with value:', normalizedValue);
+                    console.log('Calling filterArticles() with value:', normalizedWords);
                     filterArticles();
                 }
                 
@@ -409,17 +399,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to handle recognition errors
+    // Function to handle recognition end
+    function handleRecognitionEnd() {
+        console.log('Recognition ended, isIOS:', isIOS, 'isHolding:', isHolding);
+        
+        // On iOS, ensure the search is triggered if we have content
+        if (isIOS && searchInput && searchInput.value) {
+            console.log('iOS: Triggering final search with value:', searchInput.value);
+            processVoiceSearchResult(searchInput.value);
+        }
+        
+        // If we're not holding anymore, reset everything
+        if (!isHolding) {
+            resetVoiceSearch();
+        }
+    }
+
+    // Enhanced error handling for iOS
     function handleRecognitionError(event) {
         console.error('Speech recognition error:', {
             error: event.error,
             message: event.message,
             isIOS,
             isHTTPS,
-            isVercel
+            userAgent: navigator.userAgent
         });
         
-        // Provide user feedback based on error type
         const currentLang = getCurrentLanguage();
         let errorMessage = '';
         
@@ -427,35 +432,40 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'no-speech':
                 errorMessage = currentLang === 'ar' ? 
                     'لم يتم اكتشاف أي كلام' : 
-                    'No speech was detected';
+                    'No speech detected';
                 break;
             case 'audio-capture':
                 errorMessage = currentLang === 'ar' ? 
-                    'لم يتم العثور على ميكروفون' : 
-                    'No microphone was found';
+                    'لا يمكن الوصول للميكروفون' : 
+                    'Cannot access microphone';
                 break;
             case 'not-allowed':
                 errorMessage = currentLang === 'ar' ? 
-                    'يرجى السماح بالوصول إلى الميكروفون' : 
+                    'يرجى السماح بالوصول للميكروفون' : 
                     'Please allow microphone access';
                 break;
             case 'network':
                 errorMessage = currentLang === 'ar' ? 
-                    'خطأ في الاتصال بالشبكة' : 
-                    'Network error occurred';
+                    'خطأ في الشبكة' : 
+                    'Network error';
                 break;
             case 'service-not-allowed':
                 errorMessage = currentLang === 'ar' ? 
-                    'يرجى استخدام HTTPS للبحث الصوتي' : 
-                    'Please use HTTPS for voice search';
+                    'الخدمة غير متاحة' : 
+                    'Service not available';
+                break;
+            case 'start-failed':
+                errorMessage = currentLang === 'ar' ? 
+                    'فشل في بدء التسجيل' : 
+                    'Failed to start recording';
                 break;
             default:
                 errorMessage = currentLang === 'ar' ? 
-                    'حدث خطأ في التعرف على الصوت' : 
-                    'Speech recognition error occurred';
+                    'حدث خطأ، حاول مرة أخرى' : 
+                    'Error occurred, try again';
         }
         
-        // Show error message in search input
+        // Show error in placeholder
         if (searchInput) {
             searchInput.value = '';
             searchInput.placeholder = errorMessage;
@@ -468,23 +478,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         forceResetVoiceSearch();
-    }
-
-    // Audio event handlers
-    function handleAudioStart() {
-        console.log('Audio capturing started');
-    }
-
-    function handleAudioEnd() {
-        console.log('Audio capturing ended');
-    }
-
-    function handleSpeechStart() {
-        console.log('Speech detected');
-    }
-
-    function handleSpeechEnd() {
-        console.log('Speech ended');
     }
 
     // Function to provide feedback when recording starts/stops
@@ -509,169 +502,207 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to handle voice start
-    function handleVoiceStart(event) {
-        // Prevent default behavior for touch events
-        if (event.type === 'touchstart') {
-            event.preventDefault();
-        }
-
-        const currentTime = Date.now();
-        const timeSinceLastClick = currentTime - lastClickTime;
-        lastClickTime = currentTime;
-
-        // If double click detected (less than 300ms between clicks)
-        if (timeSinceLastClick < 300) {
-            forceResetVoiceSearch();
-            return;
-        }
-
-        // Prevent rapid clicks
-        if (isProcessing) {
-            return;
-        }
-        
+    // Function to start voice recognition
+    function startVoiceRecognition() {
         try {
-            isProcessing = true;
-
-            // If already listening, stop first
-            if (isListening) {
-                recognition.stop();
-                isProcessing = false;
-                return;
-            }
-
-            // Clear any existing timeout
-            if (clickTimeout) {
-                clearTimeout(clickTimeout);
-                clickTimeout = null;
-            }
-
-            // Initialize new recognition instance
+            // Initialize recognition with iOS-specific settings
             initializeRecognition();
-            
-            // Update language before starting recognition
             updateRecognitionLanguage();
             
-            // Set mobile-specific recognition settings
-            recognition.continuous = false;
-            recognition.interimResults = true;
-            recognition.maxAlternatives = 3;
+            if (!recognition) {
+                throw new Error('Failed to initialize recognition');
+            }
             
             // Start recognition
             recognition.start();
             isListening = true;
+            
+            // Update UI
             voiceSearchBtn.classList.add('listening');
             searchInput.classList.add('voice-listening');
-
-            // Provide feedback for recording start
+            voiceSearchBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>';
+            
+            // Provide feedback
             provideFeedback('start');
-
-            // Use appropriate language for placeholder
+            
+            // Update placeholder
             const currentLang = getCurrentLanguage();
-            const listeningText = currentLang === 'ar' ? 'جاري الاستماع...' : 'Listening...';
+            const listeningText = currentLang === 'ar' ? 'جاري الاستماع... (اتركه للتوقف)' : 'Listening... (release to stop)';
             searchInput.placeholder = listeningText;
-
-            voiceSearchBtn.innerHTML = '<i class="fas fa-stop"></i>';
-
-            // Reset processing flag after a short delay
-            setTimeout(() => {
-                isProcessing = false;
-            }, 300);
+            
+            console.log('Voice recognition started successfully');
+            
         } catch (error) {
-            console.error('Error starting speech recognition:', error);
-            forceResetVoiceSearch();
-            isProcessing = false;
+            console.error('Error starting voice recognition:', error);
+            handleRecognitionError({ error: 'start-failed' });
         }
     }
 
-    // Function to handle voice stop
-    function handleVoiceStop(event) {
-        // Prevent default behavior for touch events
-        if (event.type === 'touchend' || event.type === 'touchcancel') {
-            event.preventDefault();
+    // Function to stop voice recognition
+    function stopVoiceRecognition() {
+        try {
+            if (recognition && isListening) {
+                recognition.stop();
+                console.log('Voice recognition stopped by user');
+                
+                // Process final result if we have content
+                if (searchInput && searchInput.value) {
+                    processVoiceSearchResult(searchInput.value);
+                }
+            }
+        } catch (error) {
+            console.error('Error stopping voice recognition:', error);
         }
         
-        if (isListening) {
-            try {
-                recognition.stop();
-                // Provide feedback for recording stop
-                provideFeedback('stop');
-            } catch (error) {
-                console.error('Error stopping recognition:', error);
-                forceResetVoiceSearch();
-            }
+        resetVoiceSearch();
+    }
+
+    // Function to handle hold start
+    function handleHoldStart(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // Prevent if already processing
+        if (isProcessing || isListening) {
+            console.log('Already processing or listening, ignoring hold start');
+            return;
         }
+        
+        console.log('Hold start detected');
+        holdStartTime = Date.now();
+        isHolding = true;
+        
+        // Start hold timer
+        holdTimer = setTimeout(() => {
+            if (isHolding) {
+                console.log('Hold time reached, starting voice recognition');
+                isProcessing = true;
+                startVoiceRecognition();
+            }
+        }, minHoldTime);
+        
+        // Visual feedback for hold start
+        voiceSearchBtn.classList.add('holding');
+    }
+
+    // Function to handle hold end
+    function handleHoldEnd(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        console.log('Hold end detected');
+        const holdDuration = Date.now() - holdStartTime;
+        
+        // Clear hold timer
+        if (holdTimer) {
+            clearTimeout(holdTimer);
+            holdTimer = null;
+        }
+        
+        // Remove visual feedback
+        voiceSearchBtn.classList.remove('holding');
+        
+        // If we were holding for sufficient time and listening, stop recognition
+        if (isHolding && holdDuration >= minHoldTime && isListening) {
+            console.log('Stopping voice recognition after hold end');
+            stopVoiceRecognition();
+        } else if (isHolding && holdDuration < minHoldTime) {
+            console.log('Hold too short, ignoring');
+        }
+        
+        isHolding = false;
+        isProcessing = false;
     }
 
     // Helper function to reset voice search state
     function resetVoiceSearch() {
         isListening = false;
         isProcessing = false;
-        if (clickTimeout) {
-            clearTimeout(clickTimeout);
-            clickTimeout = null;
+        isHolding = false;
+        
+        if (holdTimer) {
+            clearTimeout(holdTimer);
+            holdTimer = null;
         }
+        
         if (voiceSearchBtn) {
-            voiceSearchBtn.classList.remove('listening');
+            voiceSearchBtn.classList.remove('listening', 'holding');
             voiceSearchBtn.innerHTML = '<i class="fas fa-microphone"></i>';
         }
+        
         if (searchInput) {
             searchInput.classList.remove('voice-listening');
             const currentLang = getCurrentLanguage();
-            const placeholder = currentLang === 'ar' ? 'بحث في الإنجازات...' : 'Search achievements...';
+            const placeholder = currentLang === 'ar' ? 'اضغط مع الاستمرار للبحث الصوتي...' : 'Hold to voice search...';
             searchInput.placeholder = placeholder;
         }
+        
+        // Provide stop feedback
+        provideFeedback('stop');
     }
-
-    // Initialize recognition on page load
-    initializeRecognition();
-
-    // Handle voice button click with debounce
-    voiceSearchBtn.addEventListener('mousedown', (event) => {
-        if (clickTimeout) {
-            clearTimeout(clickTimeout);
-        }
-        clickTimeout = setTimeout(() => {
-            handleVoiceStart(event);
-        }, 50);
-    });
-    
-    voiceSearchBtn.addEventListener('touchstart', (event) => {
-        if (clickTimeout) {
-            clearTimeout(clickTimeout);
-        }
-        clickTimeout = setTimeout(() => {
-            handleVoiceStart(event);
-        }, 50);
-    });
-    
-    // Add mouseup/touchend event listeners to stop recording
-    voiceSearchBtn.addEventListener('mouseup', handleVoiceStop);
-    voiceSearchBtn.addEventListener('touchend', handleVoiceStop);
-    
-    // Add mouseleave/touchcancel event listeners to stop recording if interaction ends
-    voiceSearchBtn.addEventListener('mouseleave', handleVoiceStop);
-    voiceSearchBtn.addEventListener('touchcancel', handleVoiceStop);
-
-    // Add safety timeout to force reset if stuck
-    setInterval(() => {
-        if (isListening && !isProcessing) {
-            const currentTime = Date.now();
-            if (currentTime - lastClickTime > 10000) { // Force reset if stuck for more than 10 seconds
-                forceResetVoiceSearch();
-            }
-        }
-    }, 1000);
 
     // Set language based on current language setting
     function updateRecognitionLanguage() {
+        if (!recognition) return;
+        
         const currentLang = getCurrentLanguage();
         // Use Egyptian Arabic for better accuracy with Egyptian dialect
         recognition.lang = currentLang === 'ar' ? 'ar-EG' : 'en-US';
         console.log(`Speech recognition language set to: ${recognition.lang}`);
     }
-    
+
+    // Initialize recognition on page load
+    initializeRecognition();
+
+    // Event handling for hold-to-record
+    if (isIOS) {
+        // iOS: Use touch events
+        voiceSearchBtn.addEventListener('touchstart', handleHoldStart, { passive: false });
+        voiceSearchBtn.addEventListener('touchend', handleHoldEnd, { passive: false });
+        voiceSearchBtn.addEventListener('touchcancel', handleHoldEnd, { passive: false });
+        
+        // Prevent context menu on long press
+        voiceSearchBtn.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+
+        // Handle iOS-specific page visibility changes
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && (isListening || isHolding)) {
+                console.log('Page hidden, stopping recognition');
+                forceResetVoiceSearch();
+            }
+        });
+        
+    } else {
+        // Desktop/Android: Use mouse events
+        voiceSearchBtn.addEventListener('mousedown', handleHoldStart);
+        voiceSearchBtn.addEventListener('mouseup', handleHoldEnd);
+        voiceSearchBtn.addEventListener('mouseleave', handleHoldEnd);
+        
+        // Also support touch events for Android
+        voiceSearchBtn.addEventListener('touchstart', handleHoldStart, { passive: false });
+        voiceSearchBtn.addEventListener('touchend', handleHoldEnd, { passive: false });
+        voiceSearchBtn.addEventListener('touchcancel', handleHoldEnd, { passive: false });
+    }
+
+    // Prevent click events from interfering
+    voiceSearchBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+
+    // Add safety timeout to force reset if stuck
+    setInterval(() => {
+        if (isListening && !isHolding) {
+            const currentTime = Date.now();
+            if (currentTime - holdStartTime > 30000) { // Force reset if stuck for more than 30 seconds
+                console.log('Safety timeout triggered, force reset');
+                forceResetVoiceSearch();
+            }
+        }
+    }, 1000);
+
     // Set initial language
     updateRecognitionLanguage();
 
@@ -689,6 +720,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Store original placeholder
-    searchInput.dataset.originalPlaceholder = searchInput.placeholder || '';
-}); 
+    // Store original placeholder and update it for hold-to-record
+    if (searchInput) {
+        const currentLang = getCurrentLanguage();
+        const holdPlaceholder = currentLang === 'ar' ? 'اضغط مع الاستمرار للبحث الصوتي...' : 'Hold to voice search...';
+        searchInput.placeholder = holdPlaceholder;
+        searchInput.dataset.originalPlaceholder = holdPlaceholder;
+        console.log("Voice search configured for hold-to-record", searchInput);
+    }
+});
