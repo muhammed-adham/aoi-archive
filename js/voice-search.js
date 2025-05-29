@@ -621,7 +621,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Provide stop feedback
         provideFeedback('stop');
     }
-
+    
     // Set language based on current language setting
     function updateRecognitionLanguage() {
         if (!recognition) return;
