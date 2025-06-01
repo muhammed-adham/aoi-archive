@@ -32,10 +32,19 @@ class DateRangePicker {
         this.render();
         this.attachEvents();
         
-        // Listen for language changes
-        document.addEventListener('languageChanged', (event) => {
+        // Listen for language changes at window level
+        window.addEventListener('languageChanged', (event) => {
             this.updateLanguage(event.detail.language);
         });
+
+        // Also listen for settings loaded event
+        window.addEventListener('settingsLoaded', (event) => {
+            this.updateLanguage(event.detail.language);
+        });
+
+        // Initial language setup
+        const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+        this.updateLanguage(currentLang);
     }
     
     render() {
@@ -587,7 +596,11 @@ class DateRangePicker {
         
         // Update navigation arrows
         this.updateNavigationArrows();
-        
+
+        // Force a re-render of the calendar to ensure all translations are applied
+        if (this.calendarOverlay.style.display === 'flex') {
+            this.renderCalendar();
+        }
     }
 }
 

@@ -131,7 +131,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         hiddenSelect.value = optionValue;
                         hiddenSelect.dispatchEvent(new Event('change', { bubbles: true }));
                     } else {
-                        console.error('Hidden select not found:', originalId);
                     }
                     
                     // Close dropdown
@@ -386,7 +385,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (typeof filterArticles === 'function') {
                 filterArticles();
             } else {
-                console.warn("filterArticles function not found - filter functionality may be available yet");
             }
         }, 200); // Small delay to ensure everything is properly set up
     });

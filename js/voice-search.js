@@ -23,14 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if running on Vercel
     const isVercel = window.location.hostname.includes('vercel.app');
 
-    console.log('Environment checks:', {
-        isIOS,
-        isHTTPS,
-        isVercel,
-        hostname: window.location.hostname,
-        protocol: window.location.protocol
-    });
-
     // Enhanced Audio Context for cross-platform sound generation
     let audioContext = null;
     let audioBuffers = {};
@@ -49,10 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Create sound buffers
                 createSoundBuffers();
                 isAudioInitialized = true;
-                console.log('Audio context initialized successfully');
             }
         } catch (error) {
-            console.warn('Audio context initialization failed:', error);
             // Fallback to HTML5 audio
             initializeHTMLAudio();
         }
@@ -64,9 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Create different sound types
         const sounds = {
-            start: { frequency: 800, duration: 0.1, type: 'sine' },
-            stop: { frequency: 600, duration: 0.15, type: 'sine' },
-            error: { frequency: 300, duration: 0.2, type: 'sawtooth' },
+            start: { frequency: 400, duration: 0.1, type: 'sine' },
+            stop: { frequency: 300, duration: 0.15, type: 'sine' },
+            error: { frequency: 600, duration: 0.2, type: 'sine' },
             success: { frequency: 1000, duration: 0.12, type: 'sine' }
         };
 
@@ -92,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Apply envelope to prevent clicks
                 const envelope = Math.sin(Math.PI * t / sound.duration);
-                channelData[i] = sample * envelope * 0.1; // Low volume
+                channelData[i] = sample * envelope * .5; // Low volume
             }
 
             audioBuffers[soundType] = buffer;
@@ -119,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
             htmlAudioElements[soundType] = audio;
         });
 
-        console.log('HTML5 Audio fallback initialized');
     }
 
     // Create beep sound as data URL
@@ -190,7 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 gainNode.gain.value = 0.1; // Low volume
                 
                 source.start(0);
-                console.log(`Played Web Audio sound: ${soundType}`);
             } else if (htmlAudioElements[soundType]) {
                 // HTML5 Audio fallback
                 const audio = htmlAudioElements[soundType];
@@ -199,20 +187,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (playPromise) {
                     playPromise.catch(error => {
-                        console.warn('HTML5 audio play failed:', error);
                     });
                 }
-                console.log(`Played HTML5 sound: ${soundType}`);
             }
         } catch (error) {
-            console.warn('Sound play failed:', error);
         }
     }
 
     // Enhanced vibration function with iOS optimization
     function triggerVibration(pattern) {
         if (!navigator.vibrate) {
-            console.log('Vibration not supported');
             return;
         }
 
@@ -225,9 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Use pattern for Android/other devices
                 navigator.vibrate(pattern);
             }
-            console.log('Vibration triggered:', pattern);
         } catch (error) {
-            console.warn('Vibration failed:', error);
         }
     }
 
@@ -274,13 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '') // Remove punctuation
             .replace(/\s+/g, ' ')  // Clean up any spaces left after removing punctuation
             .trim();
-
-        console.log('Enhanced text normalization:', {
-            original: text,
-            afterArabic: normalizeArabicText(text),
-            afterArticleRemoval: normalizedText,
-            final: normalizedText
-        });
 
         return normalizedText;
     }
@@ -371,7 +346,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 recognition.stop();
                 recognition = null;
             } catch (e) {
-                console.log('Previous recognition cleanup');
             }
         }
 
@@ -387,7 +361,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
         if (!SpeechRecognition) {
-            console.error('Speech Recognition not supported');
             return;
         }
 
@@ -401,7 +374,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Check HTTPS requirement
             if (!isHTTPS && !window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1')) {
-                console.error('iOS requires HTTPS for speech recognition');
                 const currentLang = getCurrentLanguage();
                 const errorMsg = currentLang === 'ar' ?
                     'يرجى استخدام HTTPS للبحث الصوتي' :
@@ -437,7 +409,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Enhanced recognition start handler
     function handleRecognitionStart() {
-        console.log('Recognition started');
         isListening = true;
         finalTranscript = '';
         interimResults = '';
@@ -450,7 +421,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isIOS) {
             forceStopTimer = setTimeout(() => {
                 if (isListening && !isHolding) {
-                    console.log('iOS: Force stopping recognition due to timeout');
                     forceResetVoiceSearch();
                 }
             }, 10000); // 10 seconds max for iOS
@@ -460,24 +430,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Enhanced recognition result handler
     function handleRecognitionResult(event) {
         try {
-            console.log('Recognition result event:', {
-                resultIndex: event.resultIndex,
-                resultsLength: event.results.length,
-                isIOS: isIOS
-            });
-
             let transcript = '';
             let isFinalResult = false;
 
             for (let i = event.resultIndex; i < event.results.length; ++i) {
                 const result = event.results[i];
                 const resultText = result[0].transcript;
-                
-                console.log(`Result ${i}:`, {
-                    text: resultText,
-                    isFinal: result.isFinal,
-                    confidence: result[0].confidence
-                });
 
                 if (result.isFinal) {
                     finalTranscript += resultText + ' ';
@@ -491,7 +449,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isIOS) {
                 if (isFinalResult && finalTranscript.trim()) {
                     transcript = finalTranscript.trim();
-                    console.log('iOS final transcript:', transcript);
                     processVoiceSearchResult(transcript);
                 }
             } else {
@@ -500,31 +457,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (containsBadWords(transcript)) {
                     transcript = filterBadWords(transcript);
-                    console.warn('Bad words detected and filtered');
                 }
                 
                 searchInput.value = transcript;
-                console.log('Live speech update:', { transcript, isFinal: isFinalResult });
-                
                 if (isFinalResult) {
                     processVoiceSearchResult(transcript);
                 }
             }
 
         } catch (error) {
-            console.error('Error processing speech results:', error);
             resetVoiceSearch();
         }
     }
 
     // Enhanced recognition end handler - KEY FIX for iOS
     function handleRecognitionEnd() {
-        console.log('Recognition ended', {
-            isIOS: isIOS,
-            isHolding: isHolding,
-            finalTranscript: finalTranscript,
-            inputValue: searchInput ? searchInput.value : 'no input'
-        });
 
         // Play stop sound and vibrate
         playSound('stop');
@@ -542,11 +489,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const transcriptToProcess = finalTranscript.trim() || currentValue.trim();
             
             if (transcriptToProcess && !containsBadWords(transcriptToProcess)) {
-                console.log('iOS: Processing final transcript on end:', transcriptToProcess);
                 processVoiceSearchResult(transcriptToProcess);
                 playSound('success'); // Success sound
             } else if (!transcriptToProcess) {
-                console.log('iOS: No transcript to process');
                 showNoSpeechMessage();
                 playSound('error'); // Error sound
             }
@@ -560,14 +505,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Enhanced error handling
     function handleRecognitionError(event) {
-        console.error('Speech recognition error:', {
-            error: event.error,
-            message: event.message,
-            isIOS,
-            isHTTPS,
-            userAgent: navigator.userAgent
-        });
-
         // Play error sound and vibrate
         playSound('error');
         triggerVibration([100, 50, 100]);
@@ -652,7 +589,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Enhanced voice search processing
     function processVoiceSearchResult(words) {
         if (!words || !words.trim()) {
-            console.log('Empty result, ignoring');
             return;
         }
 
@@ -660,12 +596,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (containsBadWords(words)) {
             words = filterBadWords(words);
-            console.warn('Bad words detected and filtered');
         }
 
         if (!containsBadWords(words) && words.trim()) {
             const normalizedWords = normalizeSearchText(words);
-            console.log('Normalized words:', normalizedWords);
 
             searchInput.value = normalizedWords;
 
@@ -682,7 +616,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const delay = isIOS ? 150 : 300;
             setTimeout(() => {
                 if (typeof filterArticles === 'function') {
-                    console.log('Calling filterArticles() with value:', normalizedWords);
                     filterArticles();
                 }
 
@@ -718,7 +651,6 @@ document.addEventListener('DOMContentLoaded', () => {
         events.forEach((event, index) => {
             setTimeout(() => {
                 searchInput.dispatchEvent(event);
-                console.log('Dispatched event:', event.type, 'with value:', normalizedWords);
             }, index * (isIOS ? 5 : 10));
         });
 
@@ -743,11 +675,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isIOS && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                 navigator.mediaDevices.getUserMedia({ audio: true })
                     .then(() => {
-                        console.log('iOS: Microphone permission granted');
                         startRecognitionAfterPermission();
                     })
                     .catch((error) => {
-                        console.error('iOS: Microphone permission denied:', error);
                         handleRecognitionError({ error: 'not-allowed' });
                     });
             } else {
@@ -755,7 +685,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
         } catch (error) {
-            console.error('Error starting voice recognition:', error);
             handleRecognitionError({ error: 'start-failed' });
         }
     }
@@ -777,10 +706,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const listeningText = currentLang === 'ar' ? 'جاري الاستماع... (اتركه للتوقف)' : 'Listening... (release to stop)';
             searchInput.placeholder = listeningText;
 
-            console.log('Voice recognition started successfully');
 
         } catch (error) {
-            console.error('Error in startRecognitionAfterPermission:', error);
             handleRecognitionError({ error: 'start-failed' });
         }
     }
@@ -790,10 +717,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             if (recognition && isListening) {
                 recognition.stop();
-                console.log('Voice recognition stopped by user');
             }
         } catch (error) {
-            console.error('Error stopping voice recognition:', error);
         }
     }
 
@@ -803,7 +728,6 @@ document.addEventListener('DOMContentLoaded', () => {
         event.stopPropagation();
 
         if (isProcessing || isListening) {
-            console.log('Already processing or listening, ignoring hold start');
             return;
         }
 
@@ -812,13 +736,11 @@ document.addEventListener('DOMContentLoaded', () => {
             initializeAudio();
         }
 
-        console.log('Hold start detected');
         holdStartTime = Date.now();
         isHolding = true;
 
         holdTimer = setTimeout(() => {
             if (isHolding) {
-                console.log('Hold time reached, starting voice recognition');
                 isProcessing = true;
                 startVoiceRecognition();
             }
@@ -835,7 +757,6 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         event.stopPropagation();
 
-        console.log('Hold end detected');
         const holdDuration = Date.now() - holdStartTime;
 
         if (holdTimer) {
@@ -848,14 +769,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // KEY FIX: Enhanced iOS handling
         if (isHolding) {
             if (isListening) {
-                console.log('Stopping voice recognition after hold end');
                 stopVoiceRecognition();
                 // For iOS, don't reset immediately - let onend handle it
                 if (!isIOS) {
                     setTimeout(() => resetVoiceSearch(), 100);
                 }
             } else if (holdDuration < minHoldTime) {
-                console.log('Hold too short, ignoring');
                 provideFeedback('error');
             }
         }
@@ -870,7 +789,6 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 recognition.stop();
             } catch (e) {
-                console.log('Force stop recognition');
             }
         }
         resetVoiceSearch();
@@ -878,7 +796,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Enhanced reset function
     function resetVoiceSearch() {
-        console.log('Resetting voice search state');
         
         isListening = false;
         isProcessing = false;
@@ -921,7 +838,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!recognition) return;
         const currentLang = getCurrentLanguage();
         recognition.lang = currentLang === 'ar' ? 'ar-EG' : 'en-US';
-        console.log(`Speech recognition language set to: ${recognition.lang}`);
     }
 
     // Initialize recognition
@@ -937,14 +853,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // iOS-specific page visibility handling
         document.addEventListener('visibilitychange', () => {
             if (document.hidden && (isListening || isHolding)) {
-                console.log('iOS: Page hidden, stopping recognition');
                 forceResetVoiceSearch();
             }
         });
 
         window.addEventListener('pagehide', () => {
             if (isListening || isHolding) {
-                console.log('iOS: Page hiding, stopping recognition');
                 forceResetVoiceSearch();
             }
         });
@@ -971,7 +885,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const timeoutDuration = isIOS ? 12000 : 30000;
             
             if (currentTime - holdStartTime > timeoutDuration) {
-                console.log('Safety timeout triggered, force reset');
                 forceResetVoiceSearch();
             }
         }
@@ -1000,24 +913,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // iOS debugging
     if (isIOS) {
-        console.log('iOS Voice Search Enhanced Debug Info:', {
-            webkitSpeechRecognition: typeof window.webkitSpeechRecognition,
-            speechRecognition: typeof window.SpeechRecognition,
-            isHTTPS: isHTTPS,
-            hostname: window.location.hostname,
-            userAgent: navigator.userAgent,
-            mediaDevices: typeof navigator.mediaDevices,
-            getUserMedia: typeof navigator.mediaDevices?.getUserMedia,
-            minHoldTime: minHoldTime
-        });
-
         // Test microphone access
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({ audio: true })
-                .then(() => console.log('iOS: Initial microphone test passed'))
-                .catch((error) => console.warn('iOS: Initial microphone test failed:', error));
+                .then()
+                .catch();
         }
     }
-
-    console.log('Enhanced voice search initialized successfully');
 });

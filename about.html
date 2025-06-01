@@ -5,25 +5,20 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--Link Page Loader-->
   <script src="js/settings-loader.js"></script>
+  <!--Link Font Bootstrap CDN-->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/all.min.css" />
-  <!--Link Font Awesome 6 Library-->
-  <link rel="stylesheet" href="css/styles.css" />
-  <!--Link Styles Sheet-->
-  <link rel="stylesheet" href="css/normalize.css" />
-  <!--Link Normalize-->
-  <link rel="stylesheet" href="css/date-range-picker.css" />
-  <!--Link Date Range Picker CSS-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <!--Link Font Awesome CDN-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <!--Link Styles Sheet-->
+  <link rel="stylesheet" href="css/styles.css" />
 
-  <title>Website Title</title>
+  <link rel="icon" href="images/favicon.png" type="image/x-icon">
+  <title>AOI</title>
 </head>
 
 <body>
-  <!--Start Header-->
-  <!-- Start Bootstrap Header -->
   <header class="py-3">
     <nav class="navbar navbar-expand-lg navbar-light container">
       <!-- Logo -->
@@ -81,7 +76,6 @@
       </div>
     </nav>
   </header>
-  <!-- End Bootstrap Header -->
 
   <main>
     <!-- Banner/Breadcrumbs -->
@@ -115,13 +109,16 @@
               </p>
               <div class="d-flex mt-4">
                 <div class="me-3">
-                  <span class="badge p-2 rounded-pill"><i class="fas fa-star me-1"></i> <span data-lang="leadership">Leadership</span></span>
+                  <span class="badge p-2 rounded-pill"><i class="fas fa-star me-1"></i> <span
+                      data-lang="leadership">Leadership</span></span>
                 </div>
                 <div class="me-3">
-                  <span class="badge p-2 rounded-pill"><i class="fas fa-gear me-1"></i> <span data-lang="engineering">Engineering</span></span>
+                  <span class="badge p-2 rounded-pill"><i class="fas fa-gear me-1"></i> <span
+                      data-lang="engineering">Engineering</span></span>
                 </div>
                 <div class="me-3">
-                  <span class="badge p-2 rounded-pill"><i class="fas fa-shield-alt me-1"></i> <span data-lang="military">Military</span></span>
+                  <span class="badge p-2 rounded-pill"><i class="fas fa-shield-alt me-1"></i> <span
+                      data-lang="military">Military</span></span>
                 </div>
               </div>
             </div>
@@ -167,7 +164,7 @@
                         class="fas fa-award text-warning me-2"></i> Silver Jubilee Medal for the October 1973 Victory
                     </li>
                   </ul>
- 
+
                   <div class="collapse" id="moreMedals">
                     <ul class="list-group list-group-flush medal-list">
                       <li class="list-group-item border-0 d-flex align-items-center px-0" data-lang="medal4"><i
@@ -186,10 +183,10 @@
                     </ul>
                   </div>
                   <button class="btn btn-link px-0 show-more-btn  mt-4" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#moreMedals" aria-expanded="false" aria-controls="moreMedals">
-                  <span class="btn-text" data-lang="showMore">Show More</span>
-                  <i class="fas fa-chevron-down arrow-icon"></i>
-                </button>
+                    data-bs-target="#moreMedals" aria-expanded="false" aria-controls="moreMedals">
+                    <span class="btn-text" data-lang="showMore">Show More</span>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -274,10 +271,10 @@
               </div>
             </div>
             <button class="btn btn-link show-more-btn px-0" type="button" data-bs-toggle="collapse"
-            data-bs-target="#morePositions" aria-expanded="false" aria-controls="morePositions">
-            <span class="btn-text" data-lang="showMore">Show More</span>
-            <i class="fas fa-chevron-down arrow-icon"></i>
-          </button>
+              data-bs-target="#morePositions" aria-expanded="false" aria-controls="morePositions">
+              <span class="btn-text" data-lang="showMore">Show More</span>
+              <i class="fas fa-chevron-down arrow-icon"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -292,441 +289,13 @@
     </div>
     <!--End Footer-->
   </main>
+
   <div class="scrollToTop"><i class="fa-solid fa-arrow-up"></i></div>
-  <script src="js/all.min.js"></script>
+
+  <!-- JS Files -->
   <script src="js/main.js"></script>
+  <script src="js/translations.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <script>
-    // Get references to the checkbox and body
-    const darkModeToggle = document.getElementById('chk');
-    const body = document.body;
-
-    // Check if dark mode is saved in local storage
-    if (localStorage.getItem('darkMode') === 'enabled') {
-      body.classList.add('dark-mode');
-      darkModeToggle.checked = true;
-    }
-
-    // Event listener for toggle
-    darkModeToggle.addEventListener('change', () => {
-      if (darkModeToggle.checked) {
-        body.classList.add('dark-mode');
-        localStorage.setItem('darkMode', 'enabled');  // Save preference in local storage
-      } else {
-        body.classList.remove('dark-mode');
-        localStorage.setItem('darkMode', 'disabled');
-      }
-    });
-
-  </script>
-  <script>
-    // Define translations
-    const translations = {
-      en: {
-        // Header / Navigation
-        home: "Home",
-        news: "Achievments",
-        about: "About Us",
-        features: "Features",
-        "other links": "Other Links",
-        gallary: "Gallary",
-        "team members": "Team Members",
-        services: "Services",
-        "our skills": "Our Skills",
-        "how it works": "How It Works",
-        events: "Events",
-        "pricing plans": "Pricing Plans",
-        "videos": "Videos",
-        stats: "Stats",
-        "request a discount": "Request a Discount",
-
-        // Badges
-        leadership: "Leadership",
-        engineering: "Engineering",
-        military: "Military",
-
-        // About page UI elements
-        viewAllMedals: "View all medals",
-        viewAllPositions: "View earlier positions",
-        chairmanTitle: "Chairman of the Arab Organization for Industrialization",
-
-        // Landing
-        landingTitle: "Major General Engineer/ Mokhtar Abdel Latif",
-        landingParagraph: "Chairman of the Board of Directors of the Arab Organization for Industrialization",
-
-        // Articles Section
-        latestArticles: " Achievments",
-        readMore: "Read More",
-
-        // Article Titles and Descriptions
-        article1Title: "Exploring the Desert",
-        article1Desc: "Discover the secrets of the world's most arid regions and how life adapts to survive.",
-        article2Title: "Cat Behavior Explained",
-        article2Desc: "Understand your feline friend better by learning the reasons behind common behaviors.",
-        article3Title: "Wildlife in the City",
-        article3Desc: "A look at how urban environments are home to surprising wildlife species.",
-        article4Title: "The Science of Sleep",
-        article4Desc: "Why do we sleep? Dive into the fascinating biology of rest and recovery.",
-        article5Title: "Ocean Wonders",
-        article5Desc: "Explore the mysterious depths of the ocean and the creatures that live within.",
-        article6Title: "Adventures in the Forest",
-        article6Desc: "Join us on a journey through lush forests full of beauty and biodiversity.",
-        article7Title: "Technology and Nature",
-        article7Desc: "How modern innovations are helping to preserve the natural world.",
-        article8Title: "Photographing Wildlife",
-        article8Desc: "Tips and techniques for capturing stunning wildlife photos in any environment.",
-        article9Title: "The Art of Night Photography",
-        article9Desc: "Learn how to capture stunning images in the dark using simple settings.",
-        article10Title: "Journey in the Alps",
-        article10Desc: "Enjoy the breathtaking beauty of the snow-covered mountain peaks.",
-        article11Title: "Future Technology",
-        article11Desc: "Learn about the latest innovations that will change our lives in the coming years.",
-        article12Title: "Life in the Arctic",
-        article12Desc: "Discover how animals and humans survive in the harshest environment on Earth.",
-        article13Title: "Beginner's Guide to Farming",
-        article13Desc: "Start your own home farming journey and learn the best practices for success.",
-        article14Title: "Rainforests: Nature's Treasures",
-        article14Desc: "Learn about the incredible biodiversity of rainforests and their importance.",
-        article15Title: "Astronomy for Beginners",
-        article15Desc: "Start your journey into astronomy and learn about planets, stars, and galaxies.",
-        article16Title: "How to Care for Your Houseplants",
-        article16Desc: "Your daily guide to keeping your plants healthy throughout the seasons.",
-        article17Title: "Artificial Intelligence in Our Lives",
-        article17Desc: "How AI is changing the way we work, communicate, and learn.",
-        article18Title: "The Smart Traveler's Guide",
-        article18Desc: "Smart tips for traveling on a budget while having an unforgettable experience.",
-        news_links: " News Links",
-
-        // Filters
-        filterTitle: "Title:",
-        filterDay: "Day:",
-        filterMonth: "Month:",
-        filterYear: "Year:",
-        applyFilter: "Apply Filter",
-        all: "All",
-
-        // Months
-        month1: "January",
-        month2: "February",
-        month3: "March",
-        month4: "April",
-        month5: "May",
-        month6: "June",
-        month7: "July",
-        month8: "August",
-        month9: "September",
-        month10: "October",
-        month11: "November",
-        month12: "December",
-
-        bioTitle: "Major General Eng",
-        bioTitle1: "Mokhtar Abdel Latif",
-        bioIntro: "Major General Mokhtar Abdel Latif assumed the position of Chairman of the Arab Organization for Industrialization, succeeding General Abdel Moneim El-Terras in 2022.",
-        militaryEduTitle: "Military Education",
-        militaryEduDesc: "He received military education in Egypt and graduated from the Military Technical College with a specialization in Chemical and Nuclear Engineering (Class 14 and Military Class 66).",
-        positionsHeldTitle: "Positions Held",
-        pos1: "Head of the Chemical Warfare Training Branch.",
-        pos2: "Commander of the 7th Missile Regiment.",
-        pos3: "Commander of the 1st Chemical Warfare Group.",
-        pos4: "Director of Safi Natural Water Factory in Siwa.",
-        pos5: "General Manager of the National Company for Intermediate Chemicals.",
-        pos6: "General Manager of Al-Nasr Company for Bottling Natural Water (Safi).",
-        pos7: "Director of Production Department at Al-Nasr Company for Intermediate Chemicals.",
-        pos8: "Chairman of Al-Nasr Company for Intermediate Chemicals.",
-        pos9: "Appointed Chairman of the Arab Organization for Industrialization in 2022.",
-        medalsTitle: "Medals and Decorations",
-        medal1: "Long Service and Good Conduct Medal.",
-        medal2: "Silver Jubilee Medal for the Liberation of Sinai – April 25.",
-        medal3: "Silver Jubilee Medal for the October 1973 Victory.",
-        medal4: "50th Anniversary Medal for the July 23, 1952 Revolution.",
-        medal5: "January 25 Revolution Medal.",
-        medal6: "June 30, 2013 Medal.",
-        medal7: "Second Class Military Duty Decoration.",
-        medal8: "Excellent Service Decoration.",
-        medal9: "Order of the Republic – Second Class.",
-        showMore: "View More",
-        showLess: "Show Less"
-      },
-
-      ar: {
-        // Header / Navigation
-        home: " الرئيسية",
-        news: "الانجازات",
-        about: "  معلومات عنا",
-        features: "مميزات",
-        "other links": "روابط أخرى",
-        gallary: "معرض الصور",
-        "team members": "أعضاء الفريق",
-        services: "خدمات",
-        "our skills": "مهاراتنا",
-        "how it works": "كيف يعمل",
-        events: "الأحداث",
-        "pricing plans": "خطط الأسعار",
-        "videos": "معرض الفيديوهات",
-        stats: "الإحصائيات",
-        "request a discount": "طلب خصم",
-
-        // Badges
-        leadership: "القيادة",
-        engineering: "الهندسة",
-        military: "العسكرية",
-
-        // About page UI elements
-        viewAllMedals: "عرض جميع الميداليات",
-        viewAllPositions: "عرض المناصب السابقة",
-        chairmanTitle: "رئيس مجلس إدارة الهيئة العربية للتصنيع",
-
-        // Landing
-        landingTitle: "اللواء مهندس / مختار عبد اللطيف",
-        landingParagraph: "رئيس مجلس إدارة الهيئة العربية للتصنيع",
-
-        // Articles Section
-        latestArticles: " الانجازات ",
-        readMore: "اقرأ المزيد",
-
-        // Article Titles and Descriptions
-        article1Title: "استكشاف الصحراء",
-        article1Desc: "اكتشف أسرار المناطق الأكثر جفافًا في العالم وكيف تتكيف الحياة للبقاء.",
-        article2Title: "شرح سلوك القطط",
-        article2Desc: "افهم صديقك القط بشكل أفضل من خلال التعرف على أسباب السلوكيات الشائعة.",
-        article3Title: "الحياة البرية في المدينة",
-        article3Desc: "نظرة على كيف أن البيئات الحضرية تأوي أنواعًا مدهشة من الحياة البرية.",
-        article4Title: "علم النوم",
-        article4Desc: "لماذا ننام؟ استكشف البيولوجيا المدهشة للراحة والتعافي.",
-        article5Title: "عجائب المحيط",
-        article5Desc: "استكشف أعماق المحيط الغامضة والمخلوقات التي تعيش فيها.",
-        article6Title: "مغامرات في الغابة",
-        article6Desc: "انضم إلينا في رحلة عبر الغابات المورقة المليئة بالجمال والتنوع البيولوجي.",
-        article7Title: "التكنولوجيا والطبيعة",
-        article7Desc: "كيف تساعد الابتكارات الحديثة في الحفاظ على العالم الطبيعي.",
-        article8Title: "تصوير الحياة البرية",
-        article8Desc: "نصائح وتقنيات لالتقاط صور مذهلة للحياة البرية في أي بيئة.",
-        article9Title: "فن التصوير الليلي",
-        article9Desc: "تعلم كيفية التقاط صور رائعة في الظلام باستخدام الإعدادات البسيطة.",
-        article10Title: "رحلة إلى جبال الألب",
-        article10Desc: "استمتع بجمال قمم الجبال المغطاة بالثلوج.",
-        article11Title: "تكنولوجيا المستقبل",
-        article11Desc: "تعرف على أحدث الابتكارات التي ستغير حياتنا في السنوات القادمة.",
-        article12Title: "الحياة في القطب الشمالي",
-        article12Desc: "اكتشف كيف ينجو الحيوانات والبشر في أقسى بيئة على وجه الأرض.",
-        article13Title: "دليل المبتدئين في الزراعة",
-        article13Desc: "ابدأ رحلتك الزراعية في المنزل وتعلم أفضل الممارسات للنجاح.",
-        article14Title: "الغابات المطيرة: كنوز الطبيعة",
-        article14Desc: "تعرف على التنوع البيولوجي المدهش للغابات المطيرة وأهميتها.",
-        article15Title: "الفلك للمبتدئين",
-        article15Desc: "ابدأ رحلتك في علم الفلك وتعلم عن الكواكب والنجوم والمجرات.",
-        article16Title: "كيفية العناية بالنباتات المنزلية",
-        article16Desc: "دليلك اليومي للحفاظ على صحة نباتاتك طوال الفصول.",
-        article17Title: "الذكاء الاصطناعي في حياتنا",
-        article17Desc: "كيف يغير الذكاء الاصطناعي الطريقة التي نعمل بها ونتواصل بها ونتعلم.",
-        article18Title: "دليل المسافر الذكي",
-        article18Desc: "نصائح ذكية للسفر بميزانية محدودة مع تجربة لا تُنسى.",
-        news_links: "لينكات الصحف",
-
-        // Filters
-        filterTitle: "العنوان:",
-        filterDay: "اليوم:",
-        filterMonth: "الشهر:",
-        filterYear: "السنة:",
-        applyFilter: "تطبيق الفلتر",
-        all: "الكل",
-
-        // Months
-        month1: "يناير",
-        month2: "فبراير",
-        month3: "مارس",
-        month4: "أبريل",
-        month5: "مايو",
-        month6: "يونيو",
-        month7: "يوليو",
-        month8: "أغسطس",
-        month9: "سبتمبر",
-        month10: "أكتوبر",
-        month11: "نوفمبر",
-        month12: "ديسمبر",
-        bioTitle: `اللواء مهندس`,
-        bioTitle1: `مختار عبد اللطيف`,
-        bioIntro: "تولى اللواء مختار عبد اللطيف منصب رئيس مجلس إدارة الهيئة العربية للتصنيع خلفًا للواء عبد المنعم التراس عام 2022.",
-        militaryEduTitle: "التعليم العسكري",
-        militaryEduDesc: "تلقى تعليمه العسكري في مصر وتخرج من الكلية الفنية العسكرية بتخصص الهندسة الكيميائية والنووية (الدفعة 14 العسكرية و66 الكلية).",
-        positionsHeldTitle: "المناصب التي شغلها",
-        pos1: "رئيس فرع تدريب الحرب الكيميائية.",
-        pos2: "قائد الكتيبة السابعة صواريخ.",
-        pos3: "قائد المجموعة الأولى للحرب الكيميائية.",
-        pos4: "مدير مصنع مياه صافي بسيوة.",
-        pos5: "المدير العام للشركة الوطنية للكيماويات الوسيطة.",
-        pos6: "المدير العام لشركة النصر لتعبئة المياه الطبيعية (صافي).",
-        pos7: "مدير إدارة الإنتاج بشركة النصر للكيماويات الوسيطة.",
-        pos8: "رئيس مجلس إدارة شركة النصر للكيماويات الوسيطة.",
-        pos9: "تم تعيينه رئيسًا للهيئة العربية للتصنيع عام 2022.",
-        medalsTitle: "الأوسمة والنياشين",
-        medal1: "ميدالية الخدمة الطويلة والقدوة الحسنة.",
-        medal2: "ميدالية اليوبيل الفضي لتحرير سيناء – 25 أبريل.",
-        medal3: "ميدالية اليوبيل الفضي لنصر أكتوبر 1973.",
-        medal4: "ميدالية اليوبيل الذهبي لثورة 23 يوليو 1952.",
-        medal5: "ميدالية ثورة 25 يناير.",
-        medal6: "ميدالية 30 يونيو 2013.",
-        medal7: "نوط الواجب العسكري من الطبقة الثانية.",
-        medal8: "نوط الخدمة الممتازة.",
-        medal9: "وسام الجمهورية من الطبقة الثانية.",
-        showMore: "عرض المزيد",
-        showLess: "عرض أقل"
-      }
-    };
-
-    // Language toggling functionality
-    function updateLanguage(language) {
-      // ... existing language update code ...
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      // Check for saved language preference
-      const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
-      const langToggle = document.getElementById("chklang");
-
-      // Set initial state based on saved preference
-      if (savedLanguage === 'ar') {
-        langToggle.checked = true;
-      }
-
-      // Make sure translations are fully initialized before filters are created
-      document.dispatchEvent(new CustomEvent('translationsLoaded', { 
-        detail: { language: savedLanguage }
-      }));
-      
-      // Update language on page load
-      updateLanguage(savedLanguage);
-
-      // Add change event listener
-      if (langToggle) {
-        langToggle.addEventListener("change", function () {
-          const selectedLanguage = this.checked ? "ar" : "en";
-          
-          // Save language preference
-          localStorage.setItem('selectedLanguage', selectedLanguage);
-          
-          // Update language immediately
-          updateLanguage(selectedLanguage);
-          
-          // Update any dependent components
-          if (window.updateFilterDropdowns) {
-            window.updateFilterDropdowns(selectedLanguage);
-          }
-          
-          if (window.updateDateRangePicker) {
-            window.updateDateRangePicker(selectedLanguage);
-          }
-        });
-      }
-    });
-  </script>
-
-  <style>
-    .show-more-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--bs-primary);
-      transition: all 0.3s ease;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .show-more-btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .show-more-btn .arrow-icon {
-      transition: transform 0.3s ease;
-    }
-
-    .show-more-btn[aria-expanded="true"] .arrow-icon {
-      transform: rotate(180deg);
-    }
-
-    .show-more-btn[aria-expanded="true"] .btn-text {
-      content: attr(data-lang="showLess");
-    }
-
-    /* Medal list styling */
-    .medal-list .list-group-item {
-      position: relative;
-      padding-left: 1.5rem !important;
-      padding-right: 0 !important;
-    }
-
-    .medal-list .list-group-item::before {
-      content: "•";
-      position: absolute;
-      left: 0;
-      color: var(--text-primary);
-      font-size: 1.2em;
-    }
-
-    /* RTL support for Arabic */
-    [lang="ar"] .medal-list .list-group-item {
-      padding-left: 0 !important;
-      padding-right: 1.5rem !important;
-    }
-
-    [lang="ar"] .medal-list .list-group-item::before {
-      left: auto;
-      right: 0;
-    }
-
-    /* Dark mode support */
-    .dark-mode .show-more-btn {
-      color: var(--primary-color);
-    }
-
-    .dark-mode .show-more-btn:hover {
-      color: var(--primary-hover);
-    }
-
-    .dark-mode .medal-list .list-group-item::before {
-      color: var(--primary-color);
-    }
-  </style>
-
-  <script>
-    // Add this to your existing script
-    document.addEventListener('DOMContentLoaded', function() {
-      const showMoreButtons = document.querySelectorAll('.show-more-btn');
-      let currentLang = localStorage.getItem('selectedLanguage') || 'en';
-      
-      showMoreButtons.forEach(button => {
-        const btnText = button.querySelector('.btn-text');
-        const collapseId = button.getAttribute('data-bs-target');
-        const collapseElement = document.querySelector(collapseId);
-        
-        // Set initial text
-        btnText.textContent = translations[currentLang].showMore;
-        
-        // Listen for collapse events
-        collapseElement.addEventListener('show.bs.collapse', function () {
-          btnText.textContent = translations[currentLang].showLess;
-        });
-
-        collapseElement.addEventListener('hide.bs.collapse', function () {
-          btnText.textContent = translations[currentLang].showMore;
-        });
-      });
-
-      // Update button text when language changes
-      const languageToggle = document.getElementById('chklang');
-      if (languageToggle) {
-        languageToggle.addEventListener('change', function() {
-          currentLang = this.checked ? 'ar' : 'en';
-          showMoreButtons.forEach(button => {
-            const btnText = button.querySelector('.btn-text');
-            const isExpanded = button.getAttribute('aria-expanded') === 'true';
-            btnText.textContent = translations[currentLang][isExpanded ? 'showLess' : 'showMore'];
-          });
-        });
-      }
-    });
-  </script>
 
 </body>
 
