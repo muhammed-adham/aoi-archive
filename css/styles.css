@@ -4965,6 +4965,7 @@ html.theme-transitioning * {
 }
 
 #voice-search {
+  type: "button"; /* Ensure it doesn't submit forms */
     background: none;
     border: none;
     color: #666;

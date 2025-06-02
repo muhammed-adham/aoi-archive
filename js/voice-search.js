@@ -8,6 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // Remove any form-related attributes
+    searchInput.removeAttribute('form');
+    searchInput.removeAttribute('formaction');
+    searchInput.removeAttribute('formmethod');
+    searchInput.removeAttribute('formtarget');
+    searchInput.removeAttribute('formenctype');
+    searchInput.removeAttribute('formnovalidate');
+
     // Check if browser supports speech recognition
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
         voiceSearchBtn.style.display = 'none';
@@ -108,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
             audio.volume = 0.1;
             htmlAudioElements[soundType] = audio;
         });
-
     }
 
     // Create beep sound as data URL
@@ -187,10 +194,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (playPromise) {
                     playPromise.catch(error => {
+                        console.error('Audio play failed:', error);
                     });
                 }
             }
         } catch (error) {
+            console.error('Sound play error:', error);
         }
     }
 
@@ -210,6 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 navigator.vibrate(pattern);
             }
         } catch (error) {
+            console.error('Vibration error:', error);
         }
     }
 
@@ -217,18 +227,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function normalizeArabicText(text) {
         if (!text || typeof text !== 'string') return text || '';
 
-        // Arabic character normalization mapping - Enhanced for better search matching
+        // Enhanced Arabic character normalization mapping
         const normalizationMap = {
-            // Alif forms - normalize all to bare alif
-            'أ': 'ا', 'إ': 'ا', 'آ': 'ا', 'ٱ': 'ا',
+            // Alif forms
+            'أ': 'ا', 'إ': 'ا', 'آ': 'ا', 'ٱ': 'ا', 'ٵ': 'ا', 'ٲ': 'ا',
             // Hamza forms
-            'ؤ': 'و', 'ئ': 'ي',
-            // Taa marbuta and haa - key fix for غابه/الغابه matching
-            'ة': 'ه', 'ه': 'ه',
+            'ؤ': 'و', 'ئ': 'ي', 'ء': '',
+            // Taa marbuta and haa
+            'ة': 'ه', 'ۀ': 'ه', 'ہ': 'ه', 'ۃ': 'ه',
             // Yaa and Alif Maqsura
-            'ى': 'ي',
+            'ى': 'ي', 'ۍ': 'ي', 'ێ': 'ي', 'ې': 'ي', 'ۑ': 'ي',
             // Kaf variations
-            'ك': 'ك', 'ڪ': 'ك',
+            'ك': 'ك', 'ڪ': 'ك', 'ګ': 'ك', 'ڬ': 'ك', 'ڭ': 'ك', 'ڮ': 'ك',
             // Remove all diacritics (tashkeel)
             'َ': '', 'ُ': '', 'ِ': '', 'ّ': '', 'ً': '', 'ٌ': '', 'ٍ': '', 'ْ': '',
             'ٓ': '', 'ٔ': '', 'ٕ': '', 'ٖ': '', 'ٗ': '', '٘': '', 'ٙ': '', 'ٚ': '', 'ٛ': '', 'ٜ': '', 'ٝ': '', 'ٞ': '', 'ٟ': ''
@@ -248,14 +258,12 @@ document.addEventListener('DOMContentLoaded', () => {
         normalizedText = normalizedText.toLowerCase();
 
         // Remove Arabic definite articles for better matching (ال، الـ)
-        normalizedText = normalizedText.replace(/^ال+/g, '').replace(/\bال+/g, '');
+        // normalizedText = normalizedText.replace(/^ال+/g, '').replace(/\bال+/g, '');
 
-        // Remove extra spaces and special characters
+        // Clean up the text while preserving spaces
         normalizedText = normalizedText
             .replace(/\s+/g, ' ')  // Replace multiple spaces with single space
-            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '') // Remove punctuation
-            .replace(/\s+/g, ' ')  // Clean up any spaces left after removing punctuation
-            .trim();
+            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ''); // Remove punctuation
 
         return normalizedText;
     }
@@ -346,6 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 recognition.stop();
                 recognition = null;
             } catch (e) {
+                console.error('Error stopping recognition:', e);
             }
         }
 
@@ -466,13 +475,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
         } catch (error) {
+            console.error('Recognition result error:', error);
             resetVoiceSearch();
         }
     }
 
     // Enhanced recognition end handler - KEY FIX for iOS
     function handleRecognitionEnd() {
-
         // Play stop sound and vibrate
         playSound('stop');
         triggerVibration([30, 50, 30]);
@@ -628,37 +637,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Enhanced event triggering for better mobile compatibility
     function triggerSearchEvents(normalizedWords) {
-        searchInput.focus();
-
-        const events = [
-            new Event('focus', { bubbles: true }),
-            new InputEvent('input', {
-                bubbles: true,
-                cancelable: true,
-                composed: true,
-                data: normalizedWords,
-                inputType: 'insertText',
-                isComposing: false
-            }),
-            new Event('change', { bubbles: true }),
-            new KeyboardEvent('keyup', { 
-                bubbles: true, 
-                key: 'Enter', 
-                keyCode: 13 
-            })
-        ];
-
-        events.forEach((event, index) => {
-            setTimeout(() => {
-                searchInput.dispatchEvent(event);
-            }, index * (isIOS ? 5 : 10));
+        // Set the value directly
+        searchInput.value = normalizedWords;
+        
+        // Create and dispatch input event
+        const event = new InputEvent('input', {
+            bubbles: true,
+            cancelable: true,
+            composed: true,
+            data: normalizedWords,
+            inputType: 'insertText',
+            isComposing: false
         });
+        
+        searchInput.dispatchEvent(event);
 
-        // Force value assignment for iOS
-        setTimeout(() => {
-            searchInput.value = normalizedWords;
-            searchInput.dispatchEvent(new Event('input', { bubbles: true }));
-        }, isIOS ? 25 : 50);
+        // Trigger filter function if it exists
+        if (typeof filterArticles === 'function') {
+            filterArticles();
+        } else if (typeof filterVideos === 'function') {
+            filterVideos();
+        }
     }
 
     // Enhanced start voice recognition
@@ -685,6 +684,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
         } catch (error) {
+            console.error('Start recognition error:', error);
             handleRecognitionError({ error: 'start-failed' });
         }
     }
@@ -706,8 +706,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const listeningText = currentLang === 'ar' ? 'جاري الاستماع... (اتركه للتوقف)' : 'Listening... (release to stop)';
             searchInput.placeholder = listeningText;
 
-
         } catch (error) {
+            console.error('Start recognition after permission error:', error);
             handleRecognitionError({ error: 'start-failed' });
         }
     }
@@ -719,6 +719,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 recognition.stop();
             }
         } catch (error) {
+            console.error('Stop recognition error:', error);
         }
     }
 
@@ -789,6 +790,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 recognition.stop();
             } catch (e) {
+                console.error('Force stop recognition error:', e);
             }
         }
         resetVoiceSearch();
@@ -796,7 +798,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Enhanced reset function
     function resetVoiceSearch() {
-        
         isListening = false;
         isProcessing = false;
         isHolding = false;
@@ -837,7 +838,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateRecognitionLanguage() {
         if (!recognition) return;
         const currentLang = getCurrentLanguage();
-        recognition.lang = currentLang === 'ar' ? 'ar-EG' : 'en-US';
+        recognition.lang = currentLang === 'ar' ? 'ar-SA' : 'en-US'; // Changed to ar-SA for better Arabic support
     }
 
     // Initialize recognition
@@ -911,13 +912,48 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // NEW: Add input event listener for manual edits
+    let isProcessingInput = false;
+    searchInput.addEventListener('input', (e) => {
+        if (isProcessingInput) return;
+        isProcessingInput = true;
+
+        try {
+            if (!isListening) {
+                const normalizedText = normalizeSearchText(searchInput.value);
+                triggerSearchEvents(normalizedText);
+            }
+        } finally {
+            isProcessingInput = false;
+        }
+    });
+
+    // Remove any existing event listeners from other files
+    const oldInputListeners = searchInput.oninput;
+    searchInput.oninput = null;
+
+    // Remove any existing event listeners from articles-filter.js and video-filters.js
+    if (typeof filterArticles === 'function') {
+        const articlesFilter = document.querySelector('#articles-filter');
+        if (articlesFilter) {
+            articlesFilter.removeEventListener('input', filterArticles);
+        }
+    }
+
+    if (typeof filterVideos === 'function') {
+        const videoFilters = document.querySelector('#video-filters');
+        if (videoFilters) {
+            videoFilters.removeEventListener('input', filterVideos);
+        }
+    }
+
     // iOS debugging
     if (isIOS) {
         // Test microphone access
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({ audio: true })
-                .then()
-                .catch();
+                .then(() => console.log('Microphone access granted'))
+                .catch(() => console.log('Microphone access denied'));
         }
     }
 });
