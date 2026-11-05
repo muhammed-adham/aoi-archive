@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Option A – Refined Corporate</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f8fb;--surface:#fff;--ink:#0f1c2e;--muted:#5d6b7f;--line:#e4e9f0;--brand:#0267c1;--brand-2:#0a9bd8;--accent:#f26b1d;--shadow:0 1px 2px rgba(15,28,46,.04),0 8px 24px rgba(15,28,46,.07);--r:16px}
+:root[data-theme=dark]{--bg:#0d141d;--surface:#151e2b;--ink:#eef3f9;--muted:#9aa9bd;--line:#223044;--brand:#4aa8ff;--brand-2:#38c6f4;--shadow:0 8px 24px rgba(0,0,0,.35)}
+*{box-sizing:border-box;margin:0}
+body{font-family:Cairo,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;transition:background .3s,color .3s}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1200px;margin:auto;padding:0 24px}
+/* nav */
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--surface) 82%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:32px;height:72px}
+nav img{height:48px}
+nav ul{display:flex;gap:6px;list-style:none;padding:0;margin-inline-end:auto}
+nav li a{padding:8px 16px;border-radius:999px;font-weight:600;color:var(--muted)}
+nav li a.active,nav li a:hover{background:color-mix(in srgb,var(--brand) 12%,transparent);color:var(--brand)}
+.tools{display:flex;gap:8px}
+.tools button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;font:600 14px Cairo}
+/* hero */
+.hero{padding:64px 0 40px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;color:var(--brand);background:color-mix(in srgb,var(--brand) 10%,transparent);padding:6px 14px;border-radius:999px}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.hero h1{font-size:clamp(34px,5vw,56px);line-height:1.15;font-weight:800;margin:18px 0 14px}
+.hero h1 span{background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);font-size:18px;max-width:520px}
+.cta{display:flex;gap:12px;margin-top:28px}
+.btn{padding:13px 26px;border-radius:12px;font-weight:700;border:1px solid var(--line)}
+.btn.p{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:0 8px 20px color-mix(in srgb,var(--brand) 35%,transparent)}
+.stats{display:flex;gap:36px;margin-top:40px}
+.stats b{display:block;font-size:30px;font-weight:800}
+.stats small{color:var(--muted)}
+.photo{position:relative}
+.photo img{width:100%;border-radius:28px;box-shadow:var(--shadow);aspect-ratio:4/3.4;object-fit:cover;object-position:70% 20%}
+.photo::before{content:"";position:absolute;inset:24px -18px -18px 24px;border-radius:28px;background:linear-gradient(135deg,var(--brand),var(--brand-2));opacity:.18;z-index:-1}
+/* toolbar */
+h2.sec{font-size:30px;font-weight:800;margin:56px 0 6px}
+.sub{color:var(--muted);margin-bottom:24px}
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px;box-shadow:var(--shadow)}
+.toolbar input{flex:1;min-width:220px;border:0;background:transparent;padding:10px 12px;font:600 15px Cairo;color:var(--ink);outline:0}
+.toolbar select{border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:10px 14px;border-radius:10px;font:600 14px Cairo}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 8px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--muted);padding:7px 16px;border-radius:999px;font:600 14px Cairo;cursor:pointer}
+.chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.count{color:var(--muted);font-size:14px;margin:14px 0 18px}
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);transition:transform .25s}
+.card:hover{transform:translateY(-6px)}
+.card .im{aspect-ratio:16/10;overflow:hidden;position:relative}
+.card img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.card:hover img{transform:scale(1.06)}
+.tag{position:absolute;top:14px;inset-inline-start:14px;background:var(--surface);color:var(--brand);font-weight:700;font-size:12px;padding:4px 12px;border-radius:999px}
+.card .b{padding:20px}
+.card time{font-size:13px;color:var(--muted)}
+.card h3{font-size:19px;line-height:1.4;margin:6px 0 8px}
+.card p{color:var(--muted);font-size:15px}
+.card a.more{display:inline-block;margin-top:14px;color:var(--brand);font-weight:700}
+footer{margin-top:80px;background:var(--surface);border-top:1px solid var(--line);padding:36px 0;color:var(--muted);text-align:center}
+@media(max-width:900px){.hero .wrap{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}nav ul{display:none}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.stats{gap:20px}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <img src="../images/3.png" alt="AOI">
+  <ul><li><a class="active" href="#" data-en="Home" data-ar="الرئيسية">Home</a></li><li><a href="#" data-en="Videos" data-ar="الفيديوهات">Videos</a></li><li><a href="#" data-en="About" data-ar="عن اللواء">About</a></li></ul>
+  <div class="tools"><button data-toggle-theme>☾</button><button data-toggle-lang>عربي</button></div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div>
+    <span class="eyebrow" data-en="Chairman of the Board · AOI" data-ar="رئيس مجلس الإدارة · الهيئة العربية للتصنيع">Chairman of the Board · AOI</span>
+    <h1><small style="display:block;font-size:.45em;font-weight:700;color:var(--muted)" data-en="Major General Engineer" data-ar="اللواء مهندس">Major General Engineer</small><span data-en="Mokhtar Abdel Latif" data-ar="مختار عبد اللطيف">Mokhtar Abdel Latif</span></h1>
+    <p data-en="Leading the Arab Organization for Industrialization toward a new era of defense, industry and technology." data-ar="يقود الهيئة العربية للتصنيع نحو مرحلة جديدة من الصناعات الدفاعية والتكنولوجيا.">Leading the Arab Organization for Industrialization toward a new era of defense, industry and technology.</p>
+    <div class="cta"><a class="btn p" href="#a" data-en="Explore Achievements" data-ar="استكشف الإنجازات">Explore Achievements</a><a class="btn" href="#" data-en="Watch Videos" data-ar="شاهد الفيديوهات">Watch Videos</a></div>
+    <div class="stats"><div><b>18</b><small data-en="Achievements" data-ar="إنجاز">Achievements</small></div><div><b>6</b><small data-en="Videos" data-ar="فيديو">Videos</small></div><div><b>8</b><small data-en="Sectors" data-ar="قطاعات">Sectors</small></div></div>
+  </div>
+  <div class="photo"><img src="../images/1.jpeg" alt=""></div>
+</div></header>
+
+<main class="wrap" id="a">
+  <h2 class="sec" data-en="Latest Achievements" data-ar="أحدث الإنجازات">Latest Achievements</h2>
+  <p class="sub" data-en="Milestones across defense, industry and international cooperation." data-ar="محطات بارزة في الدفاع والصناعة والتعاون الدولي.">Milestones across defense, industry and international cooperation.</p>
+  <div class="toolbar">
+    <input placeholder="Search achievements…" data-ph-en="Search achievements…" data-ph-ar="ابحث في الإنجازات…">
+    <select><option>Newest first</option><option>Oldest first</option></select>
+    <select><option>Any date</option><option>2024</option><option>2023</option></select>
+  </div>
+  <div class="chips"><button class="chip on" data-en="All" data-ar="الكل">All</button><button class="chip" data-en="Military" data-ar="عسكري">Military</button><button class="chip" data-en="Defense" data-ar="دفاع">Defense</button><button class="chip" data-en="Industry" data-ar="صناعة">Industry</button><button class="chip" data-en="Technology" data-ar="تكنولوجيا">Technology</button><button class="chip" data-en="International" data-ar="علاقات دولية">International</button></div>
+  <div class="count">18 <span data-en="events found" data-ar="حدث">events found</span></div>
+  <div class="grid">
+    <article class="card"><div class="im"><img src="../images/news/1.jpg" alt=""><span class="tag" data-en="Military" data-ar="عسكري">Military</span></div><div class="b"><time>2023-12-10</time><h3 data-en="New production line inaugurated" data-ar="افتتاح خط إنتاج جديد">New production line inaugurated</h3><p data-en="A modern facility expanding local manufacturing capacity." data-ar="منشأة حديثة توسّع القدرات الإنتاجية المحلية.">A modern facility expanding local manufacturing capacity.</p><a class="more" href="#" data-en="Read more →" data-ar="اقرأ المزيد ←">Read more →</a></div></article>
+    <article class="card"><div class="im"><img src="../images/news/2.jpg" alt=""><span class="tag" data-en="Defense" data-ar="دفاع">Defense</span></div><div class="b"><time>2024-01-05</time><h3 data-en="Strategic defense partnership signed" data-ar="توقيع شراكة دفاعية استراتيجية">Strategic defense partnership signed</h3><p data-en="Agreement strengthens joint development programs." data-ar="اتفاقية تعزز برامج التطوير المشتركة.">Agreement strengthens joint development programs.</p><a class="more" href="#" data-en="Read more →" data-ar="اقرأ المزيد ←">Read more →</a></div></article>
+    <article class="card"><div class="im"><img src="../images/news/3.jpg" alt=""><span class="tag" data-en="Technology" data-ar="تكنولوجيا">Technology</span></div><div class="b"><time>2024-02-18</time><h3 data-en="Advanced technology center opens" data-ar="افتتاح مركز التكنولوجيا المتقدمة">Advanced technology center opens</h3><p data-en="Research and engineering under one roof." data-ar="البحث والهندسة تحت سقف واحد.">Research and engineering under one roof.</p><a class="more" href="#" data-en="Read more →" data-ar="اقرأ المزيد ←">Read more →</a></div></article>
+    <article class="card"><div class="im"><img src="../images/news/4.jpg" alt=""><span class="tag" data-en="Industry" data-ar="صناعة">Industry</span></div><div class="b"><time>2024-03-02</time><h3 data-en="Industrial exports reach new high" data-ar="الصادرات الصناعية تسجل رقماً قياسياً">Industrial exports reach new high</h3><p data-en="Growth across civil and defense product lines." data-ar="نمو في خطوط الإنتاج المدنية والدفاعية.">Growth across civil and defense product lines.</p><a class="more" href="#" data-en="Read more →" data-ar="اقرأ المزيد ←">Read more →</a></div></article>
+    <article class="card"><div class="im"><img src="../images/news/5.jpg" alt=""><span class="tag" data-en="International" data-ar="علاقات دولية">International</span></div><div class="b"><time>2024-03-21</time><h3 data-en="Delegation visits partner nations" data-ar="وفد يزور الدول الشريكة">Delegation visits partner nations</h3><p data-en="Expanding cooperation across regions." data-ar="توسيع التعاون بين المناطق.">Expanding cooperation across regions.</p><a class="more" href="#" data-en="Read more →" data-ar="اقرأ المزيد ←">Read more →</a></div></article>
+    <article class="card"><div class="im"><img src="../images/news/6.jpg" alt=""><span class="tag" data-en="Development" data-ar="تنمية">Development</span></div><div class="b"><time>2024-04-09</time><h3 data-en="Workforce training program launched" data-ar="إطلاق برنامج تدريب الكوادر">Workforce training program launched</h3><p data-en="Building the next generation of engineers." data-ar="بناء جيل جديد من المهندسين.">Building the next generation of engineers.</p><a class="more" href="#" data-en="Read more →" data-ar="اقرأ المزيد ←">Read more →</a></div></article>
+  </div>
+</main>
+<footer><div class="wrap">© 2026 Arab Organization for Industrialization</div></footer>
+<script src="shared.js"></script>
+</body>
+</html>

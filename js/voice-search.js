@@ -39,13 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize audio context (iOS requires user interaction first)
     function initializeAudio() {
         if (isAudioInitialized) return;
-        
+
         try {
             // Use webkit prefix for older iOS versions
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             if (AudioContext) {
                 audioContext = new AudioContext();
-                
+
                 // Create sound buffers
                 createSoundBuffers();
                 isAudioInitialized = true;
@@ -179,19 +179,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Web Audio API (preferred for iOS)
                 const source = audioContext.createBufferSource();
                 const gainNode = audioContext.createGain();
-                
+
                 source.buffer = audioBuffers[soundType];
                 source.connect(gainNode);
                 gainNode.connect(audioContext.destination);
                 gainNode.gain.value = 0.1; // Low volume
-                
+
                 source.start(0);
             } else if (htmlAudioElements[soundType]) {
                 // HTML5 Audio fallback
                 const audio = htmlAudioElements[soundType];
                 audio.currentTime = 0;
                 const playPromise = audio.play();
-                
+
                 if (playPromise) {
                     playPromise.catch(error => {
                         console.error('Audio play failed:', error);
@@ -223,28 +223,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Enhanced Arabic text normalization with better matching
+    // Alternative approach for better performance on large texts
     function normalizeArabicText(text) {
         if (!text || typeof text !== 'string') return text || '';
 
-        // Enhanced Arabic character normalization mapping
-        const normalizationMap = {
-            // Alif forms
-            'أ': 'ا', 'إ': 'ا', 'آ': 'ا', 'ٱ': 'ا', 'ٵ': 'ا', 'ٲ': 'ا',
-            // Hamza forms
-            'ؤ': 'و', 'ئ': 'ي', 'ء': '',
-            // Taa marbuta and haa
-            'ة': 'ه', 'ۀ': 'ه', 'ہ': 'ه', 'ۃ': 'ه',
-            // Yaa and Alif Maqsura
-            'ى': 'ي', 'ۍ': 'ي', 'ێ': 'ي', 'ې': 'ي', 'ۑ': 'ي',
-            // Kaf variations
-            'ك': 'ك', 'ڪ': 'ك', 'ګ': 'ك', 'ڬ': 'ك', 'ڭ': 'ك', 'ڮ': 'ك',
-            // Remove all diacritics (tashkeel)
-            'َ': '', 'ُ': '', 'ِ': '', 'ّ': '', 'ً': '', 'ٌ': '', 'ٍ': '', 'ْ': '',
-            'ٓ': '', 'ٔ': '', 'ٕ': '', 'ٖ': '', 'ٗ': '', '٘': '', 'ٙ': '', 'ٚ': '', 'ٛ': '', 'ٜ': '', 'ٝ': '', 'ٞ': '', 'ٟ': ''
-        };
-
-        return text.split('').map(char => normalizationMap[char] || char).join('');
+        return text
+            .replace(/[أإآٱٵٲ]/g, 'ا')
+            .replace(/ؤ/g, 'و')
+            .replace(/ئ/g, 'ي')
+            .replace(/ء/g, '')
+            .replace(/[ةۀہۃ]/g, 'ه')
+            .replace(/[ىۍێېۑ]/g, 'ي')
+            .replace(/[ڪګڬڭڮ]/g, 'ك')
+            .replace(/[ًٌٍَُِّْٕٖٜٟٓٔٗ٘ٙٚٛٝٞ]/g, '');
     }
 
     // Enhanced search text normalization for better Arabic matching
@@ -312,19 +303,83 @@ document.addEventListener('DOMContentLoaded', () => {
         return filteredText;
     }
 
-    // Function to remove duplicate consecutive words
+    // Enhanced function to remove duplicate consecutive words
     function removeDuplicateWords(text) {
-        if (!text) return text;
-        const words = text.split(/\s+/);
+        if (!text || typeof text !== 'string') return text;
+
+        // First normalize the text to ensure consistent comparison
+        const { normalized } = TextNormalizer.normalizeSearchText(text);
+
+        // Split into words and remove empty strings
+        const words = normalized.split(/\s+/).filter(word => word.length > 0);
+
+        // Use a more robust deduplication approach
         const result = [];
+        let lastWord = '';
+
         for (let i = 0; i < words.length; i++) {
-            if (i === 0 || words[i].toLowerCase() !== words[i - 1].toLowerCase()) {
-                result.push(words[i]);
+            const currentWord = words[i];
+
+            // Skip if this word is the same as the last word
+            if (currentWord === lastWord) {
+                continue;
             }
+
+            // Check for similar words (e.g., "real" and "really")
+            if (lastWord && (
+                currentWord.startsWith(lastWord) ||
+                lastWord.startsWith(currentWord) ||
+                // Add Levenshtein distance check for similar words
+                levenshteinDistance(currentWord, lastWord) <= 2
+            )) {
+                // Keep the longer word if they're similar
+                if (currentWord.length > lastWord.length) {
+                    result[result.length - 1] = currentWord;
+                    lastWord = currentWord;
+                }
+                continue;
+            }
+
+            result.push(currentWord);
+            lastWord = currentWord;
         }
+
         return result.join(' ');
     }
 
+    // Helper function to calculate Levenshtein distance between two strings
+    function levenshteinDistance(a, b) {
+        if (a.length === 0) return b.length;
+        if (b.length === 0) return a.length;
+
+        const matrix = [];
+
+        // Initialize matrix
+        for (let i = 0; i <= b.length; i++) {
+            matrix[i] = [i];
+        }
+        for (let j = 0; j <= a.length; j++) {
+            matrix[0][j] = j;
+        }
+
+        // Fill matrix
+        for (let i = 1; i <= b.length; i++) {
+            for (let j = 1; j <= a.length; j++) {
+                if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                    matrix[i][j] = matrix[i - 1][j - 1];
+                } else {
+                    matrix[i][j] = Math.min(
+                        matrix[i - 1][j - 1] + 1, // substitution
+                        matrix[i][j - 1] + 1,     // insertion
+                        matrix[i - 1][j] + 1      // deletion
+                    );
+                }
+            }
+        }
+
+        return matrix[b.length][a.length];
+    }
+    
     // Helper function to get the current language
     function getCurrentLanguage() {
         const storedLanguage = localStorage.getItem('selectedLanguage');
@@ -380,7 +435,7 @@ document.addEventListener('DOMContentLoaded', () => {
             recognition.continuous = false; // Critical for iOS
             recognition.interimResults = false; // iOS has issues with interim results
             recognition.maxAlternatives = 1;
-            
+
             // Check HTTPS requirement
             if (!isHTTPS && !window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1')) {
                 const currentLang = getCurrentLanguage();
@@ -463,11 +518,11 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 transcript = finalTranscript + interimResults;
                 transcript = removeDuplicateWords(transcript.trim());
-                
+
                 if (containsBadWords(transcript)) {
                     transcript = filterBadWords(transcript);
                 }
-                
+
                 searchInput.value = transcript;
                 if (isFinalResult) {
                     processVoiceSearchResult(transcript);
@@ -496,7 +551,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isIOS) {
             const currentValue = searchInput ? searchInput.value : '';
             const transcriptToProcess = finalTranscript.trim() || currentValue.trim();
-            
+
             if (transcriptToProcess && !containsBadWords(transcriptToProcess)) {
                 processVoiceSearchResult(transcriptToProcess);
                 playSound('success'); // Success sound
@@ -639,7 +694,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function triggerSearchEvents(normalizedWords) {
         // Set the value directly
         searchInput.value = normalizedWords;
-        
+
         // Create and dispatch input event
         const event = new InputEvent('input', {
             bubbles: true,
@@ -649,7 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
             inputType: 'insertText',
             isComposing: false
         });
-        
+
         searchInput.dispatchEvent(event);
 
         // Trigger filter function if it exists
@@ -748,7 +803,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, minHoldTime);
 
         voiceSearchBtn.classList.add('holding');
-        
+
         // Immediate visual feedback
         provideFeedback('start');
     }
@@ -884,7 +939,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isListening && !isHolding) {
             const currentTime = Date.now();
             const timeoutDuration = isIOS ? 12000 : 30000;
-            
+
             if (currentTime - holdStartTime > timeoutDuration) {
                 forceResetVoiceSearch();
             }

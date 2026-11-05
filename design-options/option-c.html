@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Option C – Bold Industrial</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* palette taken from the AOI logo: charcoal, orange, steel */
+:root{--bg:#f2f2ef;--surface:#fff;--ink:#16181c;--muted:#6b6f76;--line:#16181c;--orange:#ff6a13;--steel:#8fa3b8;--dark:#16181c;--on-dark:#fff}
+:root[data-theme=dark]{--bg:#0e0f12;--surface:#181a1f;--ink:#f4f4f1;--muted:#9a9ea6;--line:#f4f4f1;--dark:#000}
+*{box-sizing:border-box;margin:0}
+body{font-family:Cairo,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;transition:.3s}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1280px;margin:auto;padding:0 28px}
+nav{border-bottom:2px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px;gap:20px}
+nav img{height:52px}
+nav ul{display:flex;list-style:none;padding:0;gap:4px;font-weight:900;text-transform:uppercase;font-size:14px}
+nav li a{display:block;padding:10px 18px}
+nav li a.active,nav li a:hover{background:var(--orange);color:#fff}
+.tools button{border:2px solid var(--line);background:none;color:var(--ink);height:40px;min-width:40px;padding:0 10px;font:900 13px Cairo;cursor:pointer;margin-inline-start:6px}
+.tools button:hover{background:var(--ink);color:var(--bg)}
+/* bento hero */
+.bento{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(120px,auto);gap:16px;padding:28px 0}
+.tile{border:2px solid var(--line);background:var(--surface);overflow:hidden;position:relative}
+.t-title{grid-column:span 7;grid-row:span 3;padding:44px;background:var(--dark);color:var(--on-dark);display:flex;flex-direction:column;justify-content:flex-end;border-color:var(--dark)}
+.t-title small{color:var(--orange);font-weight:900;letter-spacing:.18em;text-transform:uppercase}
+.t-title h1{font-size:clamp(40px,6.4vw,92px);line-height:.98;font-weight:900;margin:14px 0 18px;text-transform:uppercase}
+.t-title h1 span{color:var(--orange)}
+.t-title p{color:#c9ccd2;max-width:480px;font-size:18px}
+.t-photo{grid-column:span 5;grid-row:span 3;padding:0}
+.t-photo img{width:100%;height:100%;object-fit:cover;object-position:75% 20%;display:block}
+.stat{grid-column:span 3;padding:22px;display:flex;flex-direction:column;justify-content:space-between;min-height:140px}
+.stat b{font-size:56px;line-height:1;font-weight:900}
+.stat span{font-weight:700;color:var(--muted);text-transform:uppercase;font-size:13px;letter-spacing:.08em}
+.stat.o{background:var(--orange);border-color:var(--orange);color:#fff}.stat.o span{color:#fff}
+.stat.s{background:var(--steel);border-color:var(--steel);color:#10151b}.stat.s span{color:#10151b}
+/* marquee */
+.marq{background:var(--orange);color:#fff;font-weight:900;text-transform:uppercase;letter-spacing:.2em;font-size:14px;padding:12px 0;overflow:hidden;white-space:nowrap}
+.marq span{display:inline-block;animation:m 28s linear infinite;padding-inline-start:100%}
+@keyframes m{to{transform:translateX(-100%)}}
+html[dir=rtl] .marq span{animation-direction:reverse}
+/* list */
+.bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin:56px 0 20px}
+.bar h2{font-size:clamp(32px,4vw,56px);font-weight:900;text-transform:uppercase;line-height:1}
+.bar h2 span{color:var(--orange)}
+.search{display:flex;border:2px solid var(--line);background:var(--surface);min-width:320px}
+.search input{flex:1;border:0;padding:13px 16px;background:none;color:var(--ink);font:700 15px Cairo;outline:0}
+.search button{border:0;border-inline-start:2px solid var(--line);background:var(--orange);color:#fff;padding:0 18px;cursor:pointer}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.chip{border:2px solid var(--line);background:none;color:var(--ink);padding:7px 16px;font:900 13px Cairo;text-transform:uppercase;cursor:pointer}
+.chip.on,.chip:hover{background:var(--ink);color:var(--bg)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{border:2px solid var(--line);background:var(--surface);display:flex;flex-direction:column;transition:.2s;position:relative}
+.card:hover{transform:translate(-6px,-6px);box-shadow:6px 6px 0 var(--orange)}
+html[dir=rtl] .card:hover{transform:translate(6px,-6px);box-shadow:-6px 6px 0 var(--orange)}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;border-bottom:2px solid var(--line);display:block}
+.card .b{padding:18px 20px 22px;display:flex;flex-direction:column;flex:1}
+.card .m{display:flex;justify-content:space-between;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.1em}
+.card .m i{font-style:normal;color:var(--orange)}
+.card h3{font-size:22px;line-height:1.25;font-weight:900;margin:10px 0 8px}
+.card p{color:var(--muted);font-size:15px;flex:1}
+.card a{margin-top:16px;font-weight:900;text-transform:uppercase;font-size:13px;letter-spacing:.08em;display:flex;justify-content:space-between;border-top:2px solid var(--line);padding-top:12px}
+.card a:hover{color:var(--orange)}
+footer{margin-top:80px;background:var(--dark);color:#fff;padding:44px 0}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+footer img{height:56px}
+@media(max-width:900px){.t-title,.t-photo{grid-column:span 12}.t-photo{min-height:340px}.stat{grid-column:span 6}.grid{grid-template-columns:1fr 1fr}nav ul{display:none}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.t-title{padding:26px}}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><img src="../images/3.png" alt="AOI">
+  <ul><li><a class="active" href="#" data-en="Home" data-ar="الرئيسية">Home</a></li><li><a href="#" data-en="Videos" data-ar="الفيديوهات">Videos</a></li><li><a href="#" data-en="About" data-ar="عن اللواء">About</a></li></ul>
+  <div class="tools"><button data-toggle-theme>☾</button><button data-toggle-lang>عربي</button></div>
+</div></nav>
+
+<div class="wrap"><section class="bento">
+  <div class="tile t-title"><small data-en="Chairman · Arab Organization for Industrialization" data-ar="رئيس الهيئة العربية للتصنيع">Chairman · Arab Organization for Industrialization</small>
+    <h1><span data-en="Mokhtar" data-ar="مختار">Mokhtar</span> <br><span style="color:inherit" data-en="Abdel Latif" data-ar="عبد اللطيف">Abdel Latif</span></h1>
+    <p data-en="Major General Engineer. Driving defense, industry and technology forward." data-ar="اللواء مهندس. يدفع الصناعات الدفاعية والتكنولوجيا إلى الأمام.">Major General Engineer. Driving defense, industry and technology forward.</p></div>
+  <div class="tile t-photo"><img src="../images/1.jpeg" alt=""></div>
+  <div class="tile stat o"><b>18</b><span data-en="Achievements" data-ar="إنجاز">Achievements</span></div>
+  <div class="tile stat"><b>06</b><span data-en="Videos" data-ar="فيديو">Videos</span></div>
+  <div class="tile stat s"><b>08</b><span data-en="Sectors" data-ar="قطاعات">Sectors</span></div>
+  <div class="tile stat"><b>2022</b><span data-en="Chairman since" data-ar="رئيساً منذ">Chairman since</span></div>
+</section></div>
+<div class="marq"><span data-en="Military ✦ Defense ✦ Industry ✦ Technology ✦ International Relations ✦ Development ✦ Security ✦ Leadership ✦ " data-ar="عسكري ✦ دفاع ✦ صناعة ✦ تكنولوجيا ✦ علاقات دولية ✦ تنمية ✦ أمن ✦ قيادة ✦ ">Military ✦ Defense ✦ Industry ✦ Technology ✦ International Relations ✦ Development ✦ Security ✦ Leadership ✦ </span></div>
+
+<main class="wrap">
+  <div class="bar"><h2><span data-en="Latest" data-ar="أحدث">Latest</span> <span style="color:inherit" data-en="Achievements" data-ar="الإنجازات">Achievements</span></h2>
+    <div class="search"><input placeholder="Search…" data-ph-en="Search achievements…" data-ph-ar="ابحث في الإنجازات…"><button>🎤</button></div></div>
+  <div class="chips"><button class="chip on" data-en="All" data-ar="الكل">All</button><button class="chip" data-en="Military" data-ar="عسكري">Military</button><button class="chip" data-en="Defense" data-ar="دفاع">Defense</button><button class="chip" data-en="Industry" data-ar="صناعة">Industry</button><button class="chip" data-en="Technology" data-ar="تكنولوجيا">Technology</button><button class="chip" data-en="International" data-ar="علاقات دولية">International</button></div>
+  <div class="grid">
+    <article class="card"><img src="../images/news/1.jpg" alt=""><div class="b"><div class="m"><span data-en="Military" data-ar="عسكري">Military</span><i>2023-12-10</i></div><h3 data-en="New production line inaugurated" data-ar="افتتاح خط إنتاج جديد">New production line inaugurated</h3><p data-en="A modern facility expanding local manufacturing capacity." data-ar="منشأة حديثة توسّع القدرات الإنتاجية المحلية.">A modern facility expanding local manufacturing capacity.</p><a href="#"><span data-en="Read more" data-ar="اقرأ المزيد">Read more</span><span>→</span></a></div></article>
+    <article class="card"><img src="../images/news/2.jpg" alt=""><div class="b"><div class="m"><span data-en="Defense" data-ar="دفاع">Defense</span><i>2024-01-05</i></div><h3 data-en="Strategic defense partnership" data-ar="شراكة دفاعية استراتيجية">Strategic defense partnership</h3><p data-en="Agreement strengthens joint development programs." data-ar="اتفاقية تعزز برامج التطوير المشتركة.">Agreement strengthens joint development programs.</p><a href="#"><span data-en="Read more" data-ar="اقرأ المزيد">Read more</span><span>→</span></a></div></article>
+    <article class="card"><img src="../images/news/3.jpg" alt=""><div class="b"><div class="m"><span data-en="Technology" data-ar="تكنولوجيا">Technology</span><i>2024-02-18</i></div><h3 data-en="Advanced technology center opens" data-ar="افتتاح مركز التكنولوجيا المتقدمة">Advanced technology center opens</h3><p data-en="Research and engineering under one roof." data-ar="البحث والهندسة تحت سقف واحد.">Research and engineering under one roof.</p><a href="#"><span data-en="Read more" data-ar="اقرأ المزيد">Read more</span><span>→</span></a></div></article>
+    <article class="card"><img src="../images/news/4.jpg" alt=""><div class="b"><div class="m"><span data-en="Industry" data-ar="صناعة">Industry</span><i>2024-03-02</i></div><h3 data-en="Industrial exports hit a record" data-ar="الصادرات الصناعية تسجل رقماً قياسياً">Industrial exports hit a record</h3><p data-en="Growth across civil and defense product lines." data-ar="نمو في خطوط الإنتاج المدنية والدفاعية.">Growth across civil and defense product lines.</p><a href="#"><span data-en="Read more" data-ar="اقرأ المزيد">Read more</span><span>→</span></a></div></article>
+    <article class="card"><img src="../images/news/5.jpg" alt=""><div class="b"><div class="m"><span data-en="International" data-ar="علاقات دولية">International</span><i>2024-03-21</i></div><h3 data-en="Delegation visits partner nations" data-ar="وفد يزور الدول الشريكة">Delegation visits partner nations</h3><p data-en="Expanding cooperation across regions." data-ar="توسيع التعاون بين المناطق.">Expanding cooperation across regions.</p><a href="#"><span data-en="Read more" data-ar="اقرأ المزيد">Read more</span><span>→</span></a></div></article>
+    <article class="card"><img src="../images/news/6.jpg" alt=""><div class="b"><div class="m"><span data-en="Development" data-ar="تنمية">Development</span><i>2024-04-09</i></div><h3 data-en="Workforce training program" data-ar="برنامج تدريب الكوادر">Workforce training program</h3><p data-en="Building the next generation of engineers." data-ar="بناء جيل جديد من المهندسين.">Building the next generation of engineers.</p><a href="#"><span data-en="Read more" data-ar="اقرأ المزيد">Read more</span><span>→</span></a></div></article>
+  </div>
+</main>
+<footer><div class="wrap"><img src="../images/3-white.png" alt="AOI"><span>© 2026 Arab Organization for Industrialization</span></div></footer>
+<script src="shared.js"></script>
+</body>
+</html>

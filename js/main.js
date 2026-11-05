@@ -293,27 +293,29 @@ function dotsOuting() {
   });
 }
 
-// Hide and Show Header
+// Hide and Show Header: hides fully on scroll down, returns on scroll up
 function hidingShowingHeader() {
-  let header = document.querySelector("header");
-  let section1 = document.querySelector("#articles");
-  let section2 = document.querySelector(".footer");
-  let scroll1 = window.scrollY;
+  const header = document.querySelector("header");
+  if (!header) return;
 
-  document.addEventListener("scroll", () => {
-    if (
-      this.scrollY >= section1.offsetTop &&
-      this.screenY <= section2.offsetTop
-    ) {
-      if (scroll1 > this.scrollY) {
-        header.style.top = "0";
-        scroll1 = this.scrollY;
-      } else {
-        header.style.top = "-100px";
-        scroll1 = this.scrollY;
-      }
+  const THRESHOLD = 8; // ignore tiny scroll jitters
+  let lastY = window.scrollY;
+
+  function update() {
+    const y = Math.max(window.scrollY, 0);
+    const delta = y - lastY;
+    const menuOpen = header.querySelector(".navbar-collapse.show");
+
+    if (y <= header.offsetHeight || menuOpen) {
+      header.classList.remove("header-hidden");
+      lastY = y;
+    } else if (Math.abs(delta) > THRESHOLD) {
+      header.classList.toggle("header-hidden", delta > 0);
+      lastY = y;
     }
-  });
+  }
+
+  window.addEventListener("scroll", update, { passive: true });
 }
 
 // Other Links Button On Mobile Screens
@@ -482,45 +484,13 @@ const LangSystem = {
   },
 
   updateLandingPage(lang) {
-    const landingTitle1 = document.getElementById('landing-title1');
-    const landingTitle2 = document.getElementById('landing-title2');
-    const landingParagraph = document.getElementById('landing-paragraph');
-
-    // Clear existing content
-    if (landingTitle1) landingTitle1.textContent = '';
-    if (landingTitle2) landingTitle2.textContent = '';
-    if (landingParagraph) landingParagraph.textContent = '';
-
-    // Animate first title (h3)
-    if (landingTitle1) {
-      const titleKey = landingTitle1.getAttribute('data-lang');
-      const titleTranslation = translations[lang][titleKey];
-      if (titleTranslation) {
-        typeText(landingTitle1, titleTranslation, 50);
-      }
-    }
-
-    // Animate second title (h1)
-    if (landingTitle2) {
-      const titleKey = landingTitle2.getAttribute('data-lang');
-      const titleTranslation = translations[lang][titleKey];
-      if (titleTranslation) {
-        setTimeout(() => {
-          typeText(landingTitle2, titleTranslation, 50);
-        }, 500);
-      }
-    }
-
-    // Animate paragraph
-    if (landingParagraph) {
-      const paraKey = landingParagraph.getAttribute('data-lang');
-      const paraTranslation = translations[lang][paraKey];
-      if (paraTranslation) {
-        setTimeout(() => {
-          typeText(landingParagraph, paraTranslation, 30);
-        }, 1000);
-      }
-    }
+    // Hero text is set instantly (no typing animation)
+    ['landing-title1', 'landing-title2', 'landing-paragraph'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const translation = translations[lang][el.getAttribute('data-lang')];
+      if (translation) el.textContent = translation;
+    });
   }
 };
 
@@ -1191,6 +1161,16 @@ function initializeOverlay() {
             section.classList.add('hidden-content');
           }
         });
+
+        // When Videos or News is selected nothing inside the images/description
+        // layout is visible any more: hide the whole layout box too, so it does not
+        // leave an empty gap above the section that should now sit right below the filters.
+        const detailsLayout = document.querySelector('.details-layout');
+        if (detailsLayout) {
+          const anyVisible = Array.from(detailsLayout.querySelectorAll('[data-content-type]'))
+            .some(section => !section.classList.contains('hidden-content'));
+          detailsLayout.classList.toggle('hidden-content', !anyVisible);
+        }
 
         // Trigger window resize to ensure sliders update properly
         window.dispatchEvent(new Event('resize'));

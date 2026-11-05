@@ -1,5 +1,6 @@
 // Initialize filters when the document is ready
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM Content Loaded - Initializing filters');
 
     // Wait a brief moment to ensure custom dropdowns have initialized
     setTimeout(() => {
@@ -11,75 +12,60 @@ document.addEventListener('DOMContentLoaded', () => {
         const clearFiltersBtn = document.getElementById('clear-filters');
         const searchInput = document.getElementById('search-input');
 
+        console.log('Filter elements:', {
+            categoryFilter,
+            sortByFilter,
+            startDateInput,
+            endDateInput,
+            clearFiltersBtn,
+            searchInput
+        });
+
         // Add loading indicator and listing states containers if not already present
         initializeListingStates();
 
         // Add event listeners to search input
         if (searchInput) {
-            // Handle both input and change events for better mobile compatibility
-            ['input', 'change'].forEach(eventType => {
-                searchInput.addEventListener(eventType, function () {
-                    // Show loading state
-                    showLoadingState();
-
-                    // Use a slight delay to mimic search process
-                    setTimeout(() => {
-                        filterArticles();
-                        hideLoadingState();
-                    }, 300);
-                });
+            searchInput.addEventListener('input', function() {
+                console.log('Search input changed:', this.value);
+                filterContent(); // Call filterContent directly
             });
         }
 
         // Add event listeners to all filter inputs
         if (categoryFilter) {
-            categoryFilter.addEventListener('change', function () {
-                showLoadingState();
-                setTimeout(() => {
-                    filterArticles();
-                    hideLoadingState();
-                }, 300);
+            categoryFilter.addEventListener('change', function() {
+                console.log('Category filter changed:', this.value);
+                filterContent();
             });
         }
 
         if (sortByFilter) {
-            sortByFilter.addEventListener('change', function () {
-                showLoadingState();
-                setTimeout(() => {
-                    filterArticles();
-                    hideLoadingState();
-                }, 300);
+            sortByFilter.addEventListener('change', function() {
+                console.log('Sort filter changed:', this.value);
+                filterContent();
             });
         }
 
         if (startDateInput) {
-            startDateInput.addEventListener('change', function () {
-                showLoadingState();
-                setTimeout(() => {
-                    filterArticles();
-                    hideLoadingState();
-                }, 300);
+            startDateInput.addEventListener('change', function() {
+                console.log('Start date changed:', this.value);
+                filterContent();
             });
         }
 
         if (endDateInput) {
-            endDateInput.addEventListener('change', function () {
-                showLoadingState();
-                setTimeout(() => {
-                    filterArticles();
-                    hideLoadingState();
-                }, 300);
+            endDateInput.addEventListener('change', function() {
+                console.log('End date changed:', this.value);
+                filterContent();
             });
         }
 
         // Add event listener to clear filters button
         if (clearFiltersBtn) {
-            clearFiltersBtn.addEventListener('click', function () {
-                showLoadingState();
-                setTimeout(() => {
-                    clearFilters();
-                    hideLoadingState();
-                }, 300);
+            clearFiltersBtn.addEventListener('click', function() {
+                console.log('Clear filters clicked');
+                clearFilters();
             });
         }
 
@@ -87,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateFilterButtonState();
 
         // Run initial filter
-        filterArticles();
+        filterContent();
     }, 200);
 
     // Listen for language changes and update filters accordingly
@@ -105,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Update the filters UI and re-apply filtering
-            filterArticles();
+            filterContent();
             updateFilterButtonState();
         }, 100);
     });
@@ -113,23 +99,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to initialize listing states
 function initializeListingStates() {
-    // Make sure we're working with the articles container
-    const articlesContainer = document.querySelector('#articles .container');
-    if (!articlesContainer) return;
+    // Make sure we're working with the content container
+    const contentContainer = document.querySelector('#articles .container, #videos .video-grid');
+    if (!contentContainer) return;
 
     // Add listing-container class if it doesn't have it
-    if (!articlesContainer.classList.contains('listing-container')) {
-        articlesContainer.classList.add('listing-container');
+    if (!contentContainer.classList.contains('listing-container')) {
+        contentContainer.classList.add('listing-container');
     }
 
     // Check if we already have the loading state element
-    let loadingState = articlesContainer.querySelector('.listing-state.loading');
+    let loadingState = contentContainer.querySelector('.listing-state.loading');
     if (!loadingState) {
         loadingState = document.createElement('div');
         loadingState.className = 'listing-state loading';
         loadingState.innerHTML = `
         `;
-        articlesContainer.appendChild(loadingState);
+        contentContainer.appendChild(loadingState);
     }
 
     // Check if we already have the no results message element
@@ -145,51 +131,53 @@ function initializeListingStates() {
             'لم يتم العثور على نتائج للبحث. حاول تعديل معايير البحث والفلترة.' :
             'No results found. Try adjusting your search and filter criteria.';
 
-        articlesContainer.appendChild(noResults);
+        contentContainer.appendChild(noResults);
     }
 }
 
 // Function to show loading state
 function showLoadingState() {
-    const articlesContainer = document.querySelector('#articles .container');
-    if (!articlesContainer) return;
+    const contentContainer = document.querySelector('#articles .container, #videos .video-grid');
+    if (!contentContainer) return;
 
-    const loadingState = articlesContainer.querySelector('.listing-state.loading');
-    const articles = articlesContainer.querySelectorAll('.box');
+    const loadingState = contentContainer.querySelector('.listing-state.loading');
+    const contentItems = contentContainer.querySelectorAll('.box, .video-card-wrapper');
 
-    // Only show loading state if we have articles to filter
-    if (loadingState && articles.length > 0) {
+    // Only show loading state if we have items to filter
+    if (loadingState && contentItems.length > 0) {
         loadingState.style.display = 'flex';
 
-        // Optional: temporarly reduce opacity of article items
-        articles.forEach(article => {
-            article.style.opacity = '0.5';
-            article.style.pointerEvents = 'none'; // Prevent interaction during loading
+        // Optional: temporarily reduce opacity of content items
+        contentItems.forEach(item => {
+            item.style.opacity = '0.5';
+            item.style.pointerEvents = 'none'; // Prevent interaction during loading
         });
     }
 }
 
 // Function to hide loading state
 function hideLoadingState() {
-    const articlesContainer = document.querySelector('#articles .container');
-    if (!articlesContainer) return;
+    const contentContainer = document.querySelector('#articles .container, #videos .video-grid');
+    if (!contentContainer) return;
 
-    const loadingState = articlesContainer.querySelector('.listing-state.loading');
-    const articles = articlesContainer.querySelectorAll('.box');
+    const loadingState = contentContainer.querySelector('.listing-state.loading');
+    const contentItems = contentContainer.querySelectorAll('.box, .video-card-wrapper');
 
     if (loadingState) {
         loadingState.style.display = 'none';
     }
 
-    // Restore opacity of article items
-    articles.forEach(article => {
-        article.style.opacity = '1';
-        article.style.pointerEvents = 'auto'; // Re-enable interaction
+    // Restore opacity of content items
+    contentItems.forEach(item => {
+        item.style.opacity = '1';
+        item.style.pointerEvents = 'auto'; // Re-enable interaction
     });
 }
 
-// Function to filter articles based on selected criteria
-function filterArticles() {
+// Function to filter content based on selected criteria
+function filterContent() {
+    console.log('filterContent called');
+    
     // Get the current values from filter elements
     const categoryFilter = document.getElementById('category-filter');
     const sortByFilter = document.getElementById('sort-by');
@@ -202,106 +190,94 @@ function filterArticles() {
     const sortBy = sortByFilter ? sortByFilter.value : 'date-desc';
     const startDate = startDateInput ? startDateInput.value : '';
     const endDate = endDateInput ? endDateInput.value : '';
-    let searchTerm = searchInput ? searchInput.value : '';
+    let searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
 
+    console.log('Filter values:', {
+        category,
+        sortBy,
+        startDate,
+        endDate,
+        searchTerm
+    });
 
+    // Get all content elements
+    const contentContainer = document.querySelector('#articles .container, #videos .video-grid');
+    console.log('Content container:', contentContainer);
 
-    // Normalize search term if we have the normalization function
-    if (window.normalizeSearchText) {
-        searchTerm = window.normalizeSearchText(searchTerm);
-
+    if (!contentContainer) {
+        console.log('No content container found');
+        return;
     }
 
-    // Get all article elements
-    const articlesContainer = document.querySelector('#articles .container');
-    if (!articlesContainer) return;
+    const contentItems = contentContainer.querySelectorAll('.box, .video-card-wrapper');
+    console.log('Content items found:', contentItems.length);
 
-    const articles = articlesContainer.querySelectorAll('.box');
-    const articlesArray = Array.from(articles);
+    const contentArray = Array.from(contentItems);
     let visibleCount = 0;
-    const totalCount = articlesArray.length;
+    const totalCount = contentArray.length;
 
-    // Filter articles
-    articlesArray.forEach(article => {
-        const articleDate = new Date(article.dataset.date);
-        const articleCategory = article.dataset.category;
-        let articleTitle = article.dataset.title;
-        const articleTitleElement = article.querySelector('h3');
-        const articleDesc = article.querySelector('p');
-        let articleTitleText = articleTitleElement ? articleTitleElement.textContent : '';
-        let articleDescText = articleDesc ? articleDesc.textContent : '';
+    // Filter content items
+    contentArray.forEach(item => {
+        const itemDate = new Date(item.dataset.date);
+        const itemCategory = item.dataset.category;
+        let itemTitle = item.dataset.title;
+        const itemTitleElement = item.querySelector('h3, .video-card-title');
+        const itemDesc = item.querySelector('p');
+        let itemTitleText = itemTitleElement ? itemTitleElement.textContent.toLowerCase() : '';
+        let itemDescText = itemDesc ? itemDesc.textContent.toLowerCase() : '';
 
-        // Normalize article text if we have the normalization function
-        if (window.normalizeSearchText) {
-            articleTitle = window.normalizeSearchText(articleTitle);
-            articleTitleText = window.normalizeSearchText(articleTitleText);
-            articleDescText = window.normalizeSearchText(articleDescText);
+        console.log('Item data:', {
+            date: itemDate,
+            category: itemCategory,
+            title: itemTitle,
+            titleText: itemTitleText,
+            descText: itemDescText
+        });
 
-        }
+        let showItem = true;
 
-        let showArticle = true;
-
-        // Filter by search term - more lenient matching for voice input
+        // Filter by search term
         if (searchTerm) {
-            // Split search term into words and filter out very common words
-            const commonWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'with', 'by', 'about'];
-            const searchWords = searchTerm.toLowerCase().split(/\s+/)
-                .filter(word => word.length > 1 && !commonWords.includes(word));
-
-
-            // Calculate required match threshold based on search length
-            const requiredMatches = Math.max(1, Math.ceil(searchWords.length * 0.6)); // Require 60% of words to match
-
-            // Count matches for each word
-            let matchCount = 0;
-            searchWords.forEach(word => {
-                // Try exact word match first
-                const exactMatch = articleTitle.toLowerCase().split(/\s+/).includes(word) ||
-                    articleTitleText.toLowerCase().split(/\s+/).includes(word) ||
-                    articleDescText.toLowerCase().split(/\s+/).includes(word);
-
-                if (exactMatch) {
-                    matchCount++;
-                    return;
-                }
-
-                // If no exact match, try partial match
-                const partialMatch = articleTitle.toLowerCase().includes(word) ||
-                    articleTitleText.toLowerCase().includes(word) ||
-                    articleDescText.toLowerCase().includes(word);
-
-                if (partialMatch) {
-                    matchCount++;
-                }
-            });
-
-            // Show article only if it meets the required match threshold
-            if (matchCount < requiredMatches) {
-                showArticle = false;
+            const matchesSearch = 
+                itemTitleText.includes(searchTerm) || 
+                itemDescText.includes(searchTerm) ||
+                (itemTitle && itemTitle.toLowerCase().includes(searchTerm));
+            
+            if (!matchesSearch) {
+                console.log('Hiding item due to search term mismatch:', searchTerm);
+                showItem = false;
             }
         }
 
         // Filter by category - only hide if category is selected and doesn't match
-        if (category && category !== '' && category !== 'all' && articleCategory !== category) {
-            showArticle = false;
+        if (category && category !== '' && category !== 'all' && itemCategory !== category) {
+            console.log('Hiding item due to category mismatch:', itemCategory, category);
+            showItem = false;
         }
 
         // Filter by date range
-        if (startDate && new Date(startDate) > articleDate) {
-            showArticle = false;
+        if (startDate && new Date(startDate) > itemDate) {
+            console.log('Hiding item due to start date:', itemDate, startDate);
+            showItem = false;
         }
-        if (endDate && new Date(endDate) < articleDate) {
-            showArticle = false;
+        if (endDate && new Date(endDate) < itemDate) {
+            console.log('Hiding item due to end date:', itemDate, endDate);
+            showItem = false;
         }
 
-        // Show/hide article
-        article.style.display = showArticle ? 'block' : 'none';
-        if (showArticle) visibleCount++;
+        // Show/hide item
+        item.style.display = showItem ? 'block' : 'none';
+        if (showItem) visibleCount++;
     });
 
-    // Sort articles
-    const visibleArticles = articlesArray.filter(article => article.style.display !== 'none');
-    visibleArticles.sort((a, b) => {
+    console.log('Filter results:', {
+        totalItems: totalCount,
+        visibleItems: visibleCount
+    });
+
+    // Sort content items
+    const visibleItems = contentArray.filter(item => item.style.display !== 'none');
+    visibleItems.sort((a, b) => {
         const aDate = new Date(a.dataset.date);
         const bDate = new Date(b.dataset.date);
         const aTitle = a.dataset.title;
@@ -321,10 +297,10 @@ function filterArticles() {
         }
     });
 
-    // Reorder articles in the DOM
-    if (articlesContainer) {
-        visibleArticles.forEach(article => {
-            articlesContainer.appendChild(article);
+    // Reorder items in the DOM
+    if (contentContainer) {
+        visibleItems.forEach(item => {
+            contentContainer.appendChild(item);
         });
     }
 
@@ -341,14 +317,14 @@ function filterArticles() {
         }
     }
 
-    // Update the article count in the counter
-    const articleCountElement = document.getElementById('article-count');
+    // Update the content count in the counter
+    const contentCountElement = document.getElementById('article-count');
 
-    if (articleCountElement) {
+    if (contentCountElement) {
         // Update the count
-        articleCountElement.textContent = visibleCount;
+        contentCountElement.textContent = visibleCount;
 
-        // Highlight the counter if filtered (not showing all articles)
+        // Highlight the counter if filtered (not showing all items)
         const counterContainer = document.querySelector('.article-counter');
         if (counterContainer) {
             if (visibleCount < totalCount) {
@@ -399,21 +375,21 @@ function clearFilters() {
         }
     }
 
-    // Show all articles
-    const articlesContainer = document.querySelector('#articles .container');
-    if (!articlesContainer) return;
+    // Show all content items
+    const contentContainer = document.querySelector('#articles .container, #videos .video-grid');
+    if (!contentContainer) return;
 
-    const articles = articlesContainer.querySelectorAll('.box');
-    articles.forEach(article => {
-        article.style.display = 'block';
+    const contentItems = contentContainer.querySelectorAll('.box, .video-card-wrapper');
+    contentItems.forEach(item => {
+        item.style.display = 'block';
     });
 
-    // Update article counter
-    const articleCountElement = document.getElementById('article-count');
+    // Update content counter
+    const contentCountElement = document.getElementById('article-count');
 
-    if (articleCountElement) {
-        // Update the count to show all articles
-        articleCountElement.textContent = articles.length;
+    if (contentCountElement) {
+        // Update the count to show all items
+        contentCountElement.textContent = contentItems.length;
     }
 
     // Remove filtered highlight
@@ -430,7 +406,7 @@ function clearFilters() {
     }
 
     // Reset filter state
-    filterArticles();
+    filterContent();
 
     // Disable the clear filters button
     if (clearFiltersBtn) {
@@ -446,10 +422,10 @@ function updateCounterIcon(isFiltered) {
     if (isFiltered) {
         // Change to a filtered state icon
         counterIcon.classList.remove('fa-filter');
-        counterIcon.classList.add('fa-funnel-dollar');
+        counterIcon.classList.add('fa-filter-circle-xmark');
     } else {
         // Change back to default icon
-        counterIcon.classList.remove('fa-funnel-dollar');
+        counterIcon.classList.remove('fa-filter-circle-xmark');
         counterIcon.classList.add('fa-filter');
     }
 }

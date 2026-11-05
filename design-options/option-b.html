@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Option B – Executive Editorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f4;--surface:#fff;--ink:#14213d;--muted:#666d7a;--line:#e6e0d4;--gold:#b8923c;--navy:#0b1630;--on-navy:#f3efe6;--hero-ov:linear-gradient(90deg,rgba(11,22,48,.94) 25%,rgba(11,22,48,.45) 70%,rgba(11,22,48,.2))}
+:root[data-theme=dark]{--bg:#0a1122;--surface:#101a30;--ink:#f1ece0;--muted:#a3abbb;--line:#1f2c47;--gold:#d4ad55;--navy:#060c1a}
+*{box-sizing:border-box;margin:0}
+body{font-family:Cairo,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;transition:.3s}
+html[dir=rtl] .serif{font-family:Cairo}
+.serif{font-family:'Playfair Display',Georgia,serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:auto;padding:0 28px}
+/* top bar */
+.top{background:var(--navy);color:var(--on-navy);font-size:13px}
+.top .wrap{display:flex;justify-content:space-between;align-items:center;height:38px}
+.top button{background:none;border:0;color:var(--gold);cursor:pointer;font:700 13px Cairo;margin-inline-start:14px}
+header.nav{background:var(--bg);border-bottom:1px solid var(--line)}
+header.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:88px}
+header.nav img{height:60px}
+header.nav ul{display:flex;gap:40px;list-style:none;padding:0;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:14px}
+header.nav li a{padding:6px 0;border-bottom:2px solid transparent}
+header.nav li a.active,header.nav li a:hover{border-color:var(--gold);color:var(--gold)}
+/* hero full-bleed */
+.hero{position:relative;min-height:620px;color:#fff;display:flex;align-items:center;background:var(--navy) url(../images/1.jpeg) right center/auto 100% no-repeat}
+html[dir=rtl] .hero{background-position:left center}
+.hero::before{content:"";position:absolute;inset:0;background:var(--hero-ov)}
+html[dir=rtl] .hero::before{background:linear-gradient(270deg,rgba(11,22,48,.94) 25%,rgba(11,22,48,.45) 70%,rgba(11,22,48,.2))}
+.hero .wrap{position:relative;padding-block:80px}
+.hero .kicker{color:var(--gold);letter-spacing:.22em;text-transform:uppercase;font-weight:700;font-size:13px;display:flex;align-items:center;gap:14px}
+.hero .kicker::before{content:"";width:48px;height:1px;background:var(--gold)}
+.hero h1{font-size:clamp(40px,6vw,76px);line-height:1.08;font-weight:700;margin:18px 0;max-width:min(560px,55%)}
+.hero p{max-width:min(440px,50%);font-size:19px;color:#dfe3ec}
+.hero .btn{display:inline-block;margin-top:30px;padding:15px 34px;background:var(--gold);color:#0b1630;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:13px}
+/* stats ribbon */
+.ribbon{background:var(--navy);color:var(--on-navy)}
+.ribbon .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.ribbon div{padding:28px 20px;border-inline-end:1px solid rgba(255,255,255,.1);text-align:center}
+.ribbon div:last-child{border:0}
+.ribbon b{display:block;font-size:34px;color:var(--gold)}
+.ribbon small{opacity:.75;letter-spacing:.08em;text-transform:uppercase;font-size:12px}
+/* section */
+.head{display:flex;justify-content:space-between;align-items:end;margin:72px 0 28px;border-bottom:1px solid var(--line);padding-bottom:18px;gap:20px;flex-wrap:wrap}
+.head h2{font-size:40px;line-height:1.1}
+.head h2 em{color:var(--gold);font-style:normal}
+.search{display:flex;border:1px solid var(--line);background:var(--surface);min-width:300px}
+.search input{flex:1;border:0;padding:12px 16px;background:none;color:var(--ink);font:600 15px Cairo;outline:0}
+.search button{border:0;background:var(--navy);color:var(--gold);padding:0 18px;cursor:pointer}
+.tabs{display:flex;gap:28px;flex-wrap:wrap;margin-bottom:34px;font-weight:700;font-size:14px;letter-spacing:.05em;text-transform:uppercase}
+.chip{background:none;border:0;color:var(--muted);font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;padding:4px 0;border-bottom:2px solid transparent}
+.chip.on{color:var(--gold);border-color:var(--gold)}
+/* editorial grid */
+.feature{display:grid;grid-template-columns:1.4fr 1fr;gap:0;background:var(--surface);border:1px solid var(--line);margin-bottom:34px}
+.feature img{width:100%;height:100%;object-fit:cover;min-height:340px}
+.feature .t{padding:44px;display:flex;flex-direction:column;justify-content:center}
+.meta{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.feature h3{font-size:34px;line-height:1.2;margin:12px 0}
+.feature p{color:var(--muted)}
+.more{margin-top:20px;font-weight:700;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
+.card img{width:100%;aspect-ratio:3/2;object-fit:cover;filter:saturate(.9);transition:.4s}
+.card:hover img{filter:saturate(1.15);transform:scale(1.02)}
+.card .im{overflow:hidden}
+.card h3{font-size:22px;line-height:1.3;margin:12px 0 6px}
+.card p{color:var(--muted);font-size:15px}
+.card{border-top:3px solid transparent;padding-top:0}
+.card:hover h3{color:var(--gold)}
+footer{margin-top:90px;background:var(--navy);color:var(--on-navy);padding:48px 0;text-align:center}
+footer img{height:56px;filter:brightness(0) invert(1);opacity:.9;margin-bottom:12px}
+@media(max-width:900px){.feature,.grid{grid-template-columns:1fr}.ribbon .wrap{grid-template-columns:1fr 1fr}header.nav ul{display:none}.feature .t{padding:28px}}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap"><span data-en="Official site of the AOI Chairman" data-ar="الموقع الرسمي لرئيس الهيئة العربية للتصنيع">Official site of the AOI Chairman</span><span><button data-toggle-theme>☾</button><button data-toggle-lang>عربي</button></span></div></div>
+<header class="nav"><div class="wrap">
+  <img src="../images/3.png" alt="AOI">
+  <ul><li><a class="active" href="#" data-en="Home" data-ar="الرئيسية">Home</a></li><li><a href="#" data-en="Videos" data-ar="الفيديوهات">Videos</a></li><li><a href="#" data-en="About" data-ar="عن اللواء">About</a></li></ul>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <div class="kicker" data-en="Chairman · Arab Organization for Industrialization" data-ar="رئيس الهيئة العربية للتصنيع">Chairman · Arab Organization for Industrialization</div>
+  <h1 class="serif" data-en="Major General Eng. Mokhtar Abdel Latif" data-ar="اللواء مهندس مختار عبد اللطيف">Major General Eng. Mokhtar Abdel Latif</h1>
+  <p data-en="A record of leadership, engineering and national industry — building capability for the future." data-ar="سجل من القيادة والهندسة والصناعة الوطنية — نبني القدرات من أجل المستقبل.">A record of leadership, engineering and national industry — building capability for the future.</p>
+  <a class="btn" href="#a" data-en="View Achievements" data-ar="عرض الإنجازات">View Achievements</a>
+</div></section>
+<div class="ribbon"><div class="wrap"><div><b class="serif">18</b><small data-en="Achievements" data-ar="إنجاز">Achievements</small></div><div><b class="serif">6</b><small data-en="Videos" data-ar="فيديو">Videos</small></div><div><b class="serif">8</b><small data-en="Sectors" data-ar="قطاعات">Sectors</small></div><div><b class="serif">2022</b><small data-en="Chairman since" data-ar="رئيساً منذ">Chairman since</small></div></div></div>
+
+<main class="wrap" id="a">
+  <div class="head">
+    <h2 class="serif"><span data-en="Latest" data-ar="أحدث">Latest</span> <em data-en="Achievements" data-ar="الإنجازات">Achievements</em></h2>
+    <div class="search"><input placeholder="Search…" data-ph-en="Search achievements…" data-ph-ar="ابحث في الإنجازات…"><button>🎤</button></div>
+  </div>
+  <div class="tabs"><button class="chip on" data-en="All" data-ar="الكل">All</button><button class="chip" data-en="Military" data-ar="عسكري">Military</button><button class="chip" data-en="Defense" data-ar="دفاع">Defense</button><button class="chip" data-en="Industry" data-ar="صناعة">Industry</button><button class="chip" data-en="Technology" data-ar="تكنولوجيا">Technology</button><button class="chip" data-en="International" data-ar="علاقات دولية">International</button></div>
+
+  <article class="feature"><img src="../images/news/7.jpg" alt=""><div class="t"><span class="meta" data-en="Featured · Industry · 2024" data-ar="مميز · صناعة · 2024">Featured · Industry · 2024</span><h3 class="serif" data-en="Industrial exports reach a new record" data-ar="الصادرات الصناعية تسجل رقماً قياسياً جديداً">Industrial exports reach a new record</h3><p data-en="Growth across civil and defense product lines marks a milestone year for the organization." data-ar="نمو عبر خطوط الإنتاج المدنية والدفاعية يمثل عاماً فارقاً للهيئة.">Growth across civil and defense product lines marks a milestone year for the organization.</p><a class="more" href="#" data-en="Read the story →" data-ar="اقرأ الخبر ←">Read the story →</a></div></article>
+
+  <div class="grid">
+    <article class="card"><div class="im"><img src="../images/news/1.jpg" alt=""></div><span class="meta" data-en="Military · 2023-12-10" data-ar="عسكري · 2023-12-10">Military · 2023-12-10</span><h3 class="serif" data-en="New production line inaugurated" data-ar="افتتاح خط إنتاج جديد">New production line inaugurated</h3><p data-en="A modern facility expanding local manufacturing capacity." data-ar="منشأة حديثة توسّع القدرات الإنتاجية المحلية.">A modern facility expanding local manufacturing capacity.</p></article>
+    <article class="card"><div class="im"><img src="../images/news/2.jpg" alt=""></div><span class="meta" data-en="Defense · 2024-01-05" data-ar="دفاع · 2024-01-05">Defense · 2024-01-05</span><h3 class="serif" data-en="Strategic defense partnership" data-ar="شراكة دفاعية استراتيجية">Strategic defense partnership</h3><p data-en="Agreement strengthens joint development programs." data-ar="اتفاقية تعزز برامج التطوير المشتركة.">Agreement strengthens joint development programs.</p></article>
+    <article class="card"><div class="im"><img src="../images/news/3.jpg" alt=""></div><span class="meta" data-en="Technology · 2024-02-18" data-ar="تكنولوجيا · 2024-02-18">Technology · 2024-02-18</span><h3 class="serif" data-en="Advanced technology center opens" data-ar="افتتاح مركز التكنولوجيا المتقدمة">Advanced technology center opens</h3><p data-en="Research and engineering under one roof." data-ar="البحث والهندسة تحت سقف واحد.">Research and engineering under one roof.</p></article>
+    <article class="card"><div class="im"><img src="../images/news/4.jpg" alt=""></div><span class="meta" data-en="International · 2024-03-21" data-ar="علاقات دولية · 2024-03-21">International · 2024-03-21</span><h3 class="serif" data-en="Delegation visits partner nations" data-ar="وفد يزور الدول الشريكة">Delegation visits partner nations</h3><p data-en="Expanding cooperation across regions." data-ar="توسيع التعاون بين المناطق.">Expanding cooperation across regions.</p></article>
+    <article class="card"><div class="im"><img src="../images/news/5.jpg" alt=""></div><span class="meta" data-en="Development · 2024-04-09" data-ar="تنمية · 2024-04-09">Development · 2024-04-09</span><h3 class="serif" data-en="Workforce training program" data-ar="برنامج تدريب الكوادر">Workforce training program</h3><p data-en="Building the next generation of engineers." data-ar="بناء جيل جديد من المهندسين.">Building the next generation of engineers.</p></article>
+    <article class="card"><div class="im"><img src="../images/news/6.jpg" alt=""></div><span class="meta" data-en="Security · 2024-05-02" data-ar="أمن · 2024-05-02">Security · 2024-05-02</span><h3 class="serif" data-en="Security systems modernization" data-ar="تحديث منظومات الأمن">Security systems modernization</h3><p data-en="Next-generation protection for critical sites." data-ar="حماية من الجيل الجديد للمواقع الحيوية.">Next-generation protection for critical sites.</p></article>
+  </div>
+</main>
+<footer><img src="../images/3-white.png" alt="AOI"><div>© 2026 Arab Organization for Industrialization</div></footer>
+<script src="shared.js"></script>
+</body>
+</html>

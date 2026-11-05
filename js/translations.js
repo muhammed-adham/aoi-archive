@@ -3,7 +3,8 @@ const translations = {
     // Header / Navigation
     home: "Home",
     news: "Achievments",
-    about: "About Us",
+    about: "About the Chairman",
+    aboutShort: "Chairman",
     videos: "Videos",
 
     // Filters
@@ -57,60 +58,94 @@ const translations = {
 
     // =================// Home page content //=================//
     // Landing
-    landingTitle1: "Major GeneralEngineer",
+    heroEyebrow: "Chairman of the Board · AOI",
+    heroExplore: "Achievements",
+    heroWatch: "Videos",
+    watchOnYoutube: "Watch on YouTube",
+    closeVideo: "Close video",
+    playVideo: "Play",
+    showMoreBtn: "Show more",
+    footer_copyright: "Arab Organization for Industrialization • AOI",
+    statAchievements: "Achievements",
+    statVideos: "Videos",
+    statSectors: "Sectors",
+    themeLabel: "Theme",
+    langLabel: "Language",
+    landingTitle1: "Major General Engineer",
     landingTitle2: "Mokhtar Abdel Latif",
-    landingParagraph: "Chairman of the Board of Directors of the Arab Organization for Industrialization",
+    landingParagraph:
+      "Chairman of the Board of Directors of the Arab Organization for Industrialization",
 
     // Articles Section
-    latestArticles: " Achievments",
+    latestArticles: "Achievements",
     readMore: "Read More",
 
     // Article Titles and Descriptions
     article1Title: "Exploring the Desert",
-    article1Desc: "Discover the secrets of the world's most arid regions and how life adapts to survive.",
+    article1Desc:
+      "Discover the secrets of the world's most arid regions and how life adapts to survive.",
     article2Title: "Cat Behavior Explained",
-    article2Desc: "Understand your feline friend better by learning the reasons behind common behaviors.",
+    article2Desc:
+      "Understand your feline friend better by learning the reasons behind common behaviors.",
     article3Title: "Wildlife in the City",
-    article3Desc: "A look at how urban environments are home to surprising wildlife species.",
+    article3Desc:
+      "A look at how urban environments are home to surprising wildlife species.",
     article4Title: "The Science of Sleep",
-    article4Desc: "Why do we sleep? Dive into the fascinating biology of rest and recovery.",
+    article4Desc:
+      "Why do we sleep? Dive into the fascinating biology of rest and recovery.",
     article5Title: "Ocean Wonders",
-    article5Desc: "Explore the mysterious depths of the ocean and the creatures that live within.",
+    article5Desc:
+      "Explore the mysterious depths of the ocean and the creatures that live within.",
     article6Title: "Adventures in the Forest",
-    article6Desc: "Join us on a journey through lush forests full of beauty and biodiversity.",
+    article6Desc:
+      "Join us on a journey through lush forests full of beauty and biodiversity.",
     article7Title: "Technology and Nature",
-    article7Desc: "How modern innovations are helping to preserve the natural world.",
+    article7Desc:
+      "How modern innovations are helping to preserve the natural world.",
     article8Title: "Photographing Wildlife",
-    article8Desc: "Tips and techniques for capturing stunning wildlife photos in any environment.",
+    article8Desc:
+      "Tips and techniques for capturing stunning wildlife photos in any environment.",
     article9Title: "The Art of Night Photography",
-    article9Desc: "Learn how to capture stunning images in the dark using simple settings.",
+    article9Desc:
+      "Learn how to capture stunning images in the dark using simple settings.",
     article10Title: "Journey in the Alps",
-    article10Desc: "Enjoy the breathtaking beauty of the snow-covered mountain peaks.",
+    article10Desc:
+      "Enjoy the breathtaking beauty of the snow-covered mountain peaks.",
     article11Title: "Future Technology",
-    article11Desc: "Learn about the latest innovations that will change our lives in the coming years.",
+    article11Desc:
+      "Learn about the latest innovations that will change our lives in the coming years.",
     article12Title: "Life in the Arctic",
-    article12Desc: "Discover how animals and humans survive in the harshest environment on Earth.",
+    article12Desc:
+      "Discover how animals and humans survive in the harshest environment on Earth.",
     article13Title: "Beginner's Guide to Farming",
-    article13Desc: "Start your own home farming journey and learn the best practices for success.",
+    article13Desc:
+      "Start your own home farming journey and learn the best practices for success.",
     article14Title: "Rainforests: Nature's Treasures",
-    article14Desc: "Learn about the incredible biodiversity of rainforests and their importance.",
+    article14Desc:
+      "Learn about the incredible biodiversity of rainforests and their importance.",
     article15Title: "Astronomy for Beginners",
-    article15Desc: "Start your journey into astronomy and learn about planets, stars, and galaxies.",
+    article15Desc:
+      "Start your journey into astronomy and learn about planets, stars, and galaxies.",
     article16Title: "How to Care for Your Houseplants",
-    article16Desc: "Your daily guide to keeping your plants healthy throughout the seasons.",
+    article16Desc:
+      "Your daily guide to keeping your plants healthy throughout the seasons.",
     article17Title: "Artificial Intelligence in Our Lives",
-    article17Desc: "How AI is changing the way we work, communicate, and learn.",
+    article17Desc:
+      "How AI is changing the way we work, communicate, and learn.",
     article18Title: "The Smart Traveler's Guide",
-    article18Desc: "Smart tips for traveling on a budget while having an unforgettable experience.",
+    article18Desc:
+      "Smart tips for traveling on a budget while having an unforgettable experience.",
     news_links: " News Links",
 
     // =================// About page content //=================//
     bioTitle: "Major General Eng",
     bioTitle1: "Mokhtar Abdel Latif",
-    bioIntro: "Major General Mokhtar Abdel Latif assumed the position of Chairman of the Arab Organization for Industrialization, succeeding General Abdel Moneim El-Terras in 2022.",
-    militaryEduTitle: "Military Education",
-    militaryEduDesc: "He received military education in Egypt and graduated from the Military Technical College with a specialization in Chemical and Nuclear Engineering (Class 14 and Military Class 66).",
-    positionsHeldTitle: "Positions Held",
+    bioIntro:
+      "Major General Mokhtar Abdel Latif assumed the position of Chairman of the Arab Organization for Industrialization, succeeding General Abdel Moneim El-Terras in 2022.",
+    militaryEduTitle: "Academic Journey",
+    militaryEduDesc:
+      "He received military education in Egypt and graduated from the Military Technical College with a specialization in Chemical and Nuclear Engineering (Class 14 and Military Class 66).",
+    positionsHeldTitle: "Experience & Positions",
     pos1: "Head of the Chemical Warfare Training Branch.",
     pos2: "Commander of the 7th Missile Regiment.",
     pos3: "Commander of the 1st Chemical Warfare Group.",
@@ -167,17 +202,23 @@ const translations = {
     noResultsTitle: "No Results Found",
     noResultsDesc: "Try adjusting your filters or search criteria.",
     videosFound: "Videos Found",
-    noResultsFound: "No videos match your search criteria. Please try different filters.",
+    noResultsFound:
+      "No videos match your search criteria. Please try different filters.",
 
     // Video titles
-    video1: "Kader Factory for Advanced Industries - Arab Organization for Industrialization",
-    video2: "The Container | Kader Factory for Manufacturing Armored Vehicles, Equipped Cars and Heavy Equipment",
-    video3: "Major General Amr Abdel Aziz, Chairman of Kader Factory, Explains the Most Important Products",
+    video1:
+      "Kader Factory for Advanced Industries - Arab Organization for Industrialization",
+    video2:
+      "The Container | Kader Factory for Manufacturing Armored Vehicles, Equipped Cars and Heavy Equipment",
+    video3:
+      "Major General Amr Abdel Aziz, Chairman of Kader Factory, Explains the Most Important Products",
     video4: "Manufacturing Aircraft Engine Parts in Egypt",
-    video5: "Tour Inside the Electronics Factory of the Arab Organization for Industrialization",
+    video5:
+      "Tour Inside the Electronics Factory of the Arab Organization for Industrialization",
     video6: "Arab Organization for Industrialization - Arabic Film Version",
     video7: "Interview with Kader Factory CEO on Electric Scooters by AOI",
-    video8: "Kader Factory for Advanced Industries - Arab Organization for Industrialization",
+    video8:
+      "Kader Factory for Advanced Industries - Arab Organization for Industrialization",
     video9: "News: AOI Success in Producing Wooden Molds for Buses",
     video10: "Engines Factory - Arab Organization for Industrialization",
 
@@ -191,8 +232,10 @@ const translations = {
 
     // Image Description
     about_achievement: "About This Achievement",
-    achievement_desc_p1: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus ducimus explicabo reiciendis officia! Provident illo quas voluptas hic repudiandae repellendus molestias dolorum! Quia consectetur fuga voluptate at ratione, beatae illum.",
-    achievement_desc_p2: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus ducimus explicabo reiciendis officia! Provident illo quas voluptas hic repudiandae repellendus molestias dolorum! Quia consectetur fuga voluptate at ratione, beatae illum.",
+    achievement_desc_p1:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus ducimus explicabo reiciendis officia! Provident illo quas voluptas hic repudiandae repellendus molestias dolorum! Quia consectetur fuga voluptate at ratione, beatae illum.",
+    achievement_desc_p2:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus ducimus explicabo reiciendis officia! Provident illo quas voluptas hic repudiandae repellendus molestias dolorum! Quia consectetur fuga voluptate at ratione, beatae illum.",
     date_label: "Date:",
     achievement_date: "March 15, 2023",
     location_label: "Location:",
@@ -209,22 +252,24 @@ const translations = {
 
     // Video Section
     related_videos: "Related Videos",
-    achievement_overview: "Achievement Overview - Industrial Development Project",
+    achievement_overview:
+      "Achievement Overview - Industrial Development Project",
     project_lead_interview: "Interview with Project Lead Engineer",
     completion_ceremony: "Project Completion Ceremony Highlights",
     behind_scenes: "Behind the Scenes: Project Development",
     impact_analysis: "Impact Analysis: Community Benefits",
     fullscreen: "Fullscreen",
     watch_video: "Play Video",
-    close: "Close"
+    close: "Close",
   },
 
   ar: {
     // Header / Navigation
     home: " الرئيسية",
     news: "الانجازات",
-    about: "  معلومات عنا",
-    videos: "معرض الفيديوهات",
+    about: "معلومات عن رئيس الهيئة",
+    aboutShort: "عن الرئيس",
+    videos: "الفيديوهات",
 
     // Filters
     filterTitle: "العنوان:",
@@ -277,9 +322,22 @@ const translations = {
 
     // =================// Home page content //=================//
     // Landing
+    heroEyebrow: "رئيس مجلس الإدارة · الهيئة العربية للتصنيع",
+    heroExplore: "الإنجازات",
+    heroWatch: "الفيديوهات",
+    watchOnYoutube: "شاهد على يوتيوب",
+    closeVideo: "إغلاق الفيديو",
+    playVideo: "تشغيل",
+    showMoreBtn: "عرض المزيد",
+    footer_copyright: "الهيئة العربية للتصنيع • AOI",
+    statAchievements: "إنجاز",
+    statVideos: "فيديو",
+    statSectors: "قطاعات",
+    themeLabel: "المظهر",
+    langLabel: "اللغة",
     landingTitle1: "اللواء مهندس",
-    landingTitle2: "مختار عبد اللطيف",
-    landingParagraph: "رئيس مجلس إدارة الهيئة العربية للتصنيع",
+    landingTitle2: " محمد عبد الفتاح محمد أبو بكر",
+    landingParagraph: "تولى اللواء محمد عبد الفتاح محمد أبو بكر منصب رئيس مجلس إدارة الهيئة العربية للتصنيع خلفًا للواء مختار عبد اللطيف عام 2026.",
 
     // Articles Section
     latestArticles: " الانجازات ",
@@ -287,29 +345,36 @@ const translations = {
 
     // Article Titles and Descriptions
     article1Title: "استكشاف الصحراء",
-    article1Desc: "اكتشف أسرار المناطق الأكثر جفافًا في العالم وكيف تتكيف الحياة للبقاء.",
+    article1Desc:
+      "اكتشف أسرار المناطق الأكثر جفافًا في العالم وكيف تتكيف الحياة للبقاء.",
     article2Title: "شرح سلوك القطط",
-    article2Desc: "افهم صديقك القط بشكل أفضل من خلال التعرف على أسباب السلوكيات الشائعة.",
+    article2Desc:
+      "افهم صديقك القط بشكل أفضل من خلال التعرف على أسباب السلوكيات الشائعة.",
     article3Title: "الحياة البرية في المدينة",
-    article3Desc: "نظرة على كيف أن البيئات الحضرية تأوي أنواعًا مدهشة من الحياة البرية.",
+    article3Desc:
+      "نظرة على كيف أن البيئات الحضرية تأوي أنواعًا مدهشة من الحياة البرية.",
     article4Title: "علم النوم",
     article4Desc: "لماذا ننام؟ استكشف البيولوجيا المدهشة للراحة والتعافي.",
     article5Title: "عجائب المحيط",
     article5Desc: "استكشف أعماق المحيط الغامضة والمخلوقات التي تعيش فيها.",
     article6Title: "مغامرات في الغابة",
-    article6Desc: "انضم إلينا في رحلة عبر الغابات المورقة المليئة بالجمال والتنوع البيولوجي.",
+    article6Desc:
+      "انضم إلينا في رحلة عبر الغابات المورقة المليئة بالجمال والتنوع البيولوجي.",
     article7Title: "التكنولوجيا والطبيعة",
     article7Desc: "كيف تساعد الابتكارات الحديثة في الحفاظ على العالم الطبيعي.",
     article8Title: "تصوير الحياة البرية",
     article8Desc: "نصائح وتقنيات لالتقاط صور مذهلة للحياة البرية في أي بيئة.",
     article9Title: "فن التصوير الليلي",
-    article9Desc: "تعلم كيفية التقاط صور رائعة في الظلام باستخدام الإعدادات البسيطة.",
+    article9Desc:
+      "تعلم كيفية التقاط صور رائعة في الظلام باستخدام الإعدادات البسيطة.",
     article10Title: "رحلة إلى جبال الألب",
     article10Desc: "استمتع بجمال قمم الجبال المغطاة بالثلوج.",
     article11Title: "تكنولوجيا المستقبل",
-    article11Desc: "تعرف على أحدث الابتكارات التي ستغير حياتنا في السنوات القادمة.",
+    article11Desc:
+      "تعرف على أحدث الابتكارات التي ستغير حياتنا في السنوات القادمة.",
     article12Title: "الحياة في القطب الشمالي",
-    article12Desc: "اكتشف كيف ينجو الحيوانات والبشر في أقسى بيئة على وجه الأرض.",
+    article12Desc:
+      "اكتشف كيف ينجو الحيوانات والبشر في أقسى بيئة على وجه الأرض.",
     article13Title: "دليل المبتدئين في الزراعة",
     article13Desc: "ابدأ رحلتك الزراعية في المنزل وتعلم أفضل الممارسات للنجاح.",
     article14Title: "الغابات المطيرة: كنوز الطبيعة",
@@ -319,18 +384,21 @@ const translations = {
     article16Title: "كيفية العناية بالنباتات المنزلية",
     article16Desc: "دليلك اليومي للحفاظ على صحة نباتاتك طوال الفصول.",
     article17Title: "الذكاء الاصطناعي في حياتنا",
-    article17Desc: "كيف يغير الذكاء الاصطناعي الطريقة التي نعمل بها ونتواصل بها ونتعلم.",
+    article17Desc:
+      "كيف يغير الذكاء الاصطناعي الطريقة التي نعمل بها ونتواصل بها ونتعلم.",
     article18Title: "دليل المسافر الذكي",
     article18Desc: "نصائح ذكية للسفر بميزانية محدودة مع تجربة لا تُنسى.",
     news_links: "لينكات الصحف",
 
     // =================// About page content //=================//
     bioTitle: `اللواء مهندس`,
-    bioTitle1: `مختار عبد اللطيف`,
-    bioIntro: "تولى اللواء مختار عبد اللطيف منصب رئيس مجلس إدارة الهيئة العربية للتصنيع خلفًا للواء عبد المنعم التراس عام 2022.",
-    militaryEduTitle: "التعليم العسكري",
-    militaryEduDesc: "تلقى تعليمه العسكري في مصر وتخرج من الكلية الفنية العسكرية بتخصص الهندسة الكيميائية والنووية (الدفعة 14 العسكرية و66 الكلية).",
-    positionsHeldTitle: "المناصب التي شغلها",
+    bioTitle1: ` محمد عبد الفتاح محمد أبو بكر`,
+    bioIntro:
+      "تولى اللواء محمد عبد الفتاح محمد أبو بكر منصب رئيس مجلس إدارة الهيئة العربية للتصنيع خلفًا للواء مختار عبد اللطيف عام 2026.",
+    militaryEduTitle: "المسيرة العلمية",
+    militaryEduDesc:
+      "تلقى تعليمه العسكري في مصر وتخرج من الكلية الفنية العسكرية بتخصص الهندسة الكيميائية والنووية (الدفعة 14 العسكرية و66 الكلية).",
+    positionsHeldTitle: "الخبرات والمناصب",
     pos1: "رئيس فرع تدريب الحرب الكيميائية.",
     pos2: "قائد الكتيبة السابعة صواريخ.",
     pos3: "قائد المجموعة الأولى للحرب الكيميائية.",
@@ -387,25 +455,32 @@ const translations = {
     noResultsTitle: "لم يتم العثور على نتائج",
     noResultsDesc: "حاول تعديل المرشحات أو معايير البحث.",
     videosFound: "فيديوهات وجدت",
-    noResultsFound: "لا توجد فيديوهات تطابق معايير البحث. يرجى تجربة فلاتر مختلفة.",
+    noResultsFound:
+      "لا توجد فيديوهات تطابق معايير البحث. يرجى تجربة فلاتر مختلفة.",
 
     // Video titles
     video1: "مصنع قادر للصناعات المتطورة - الهيئة العربية للتصنيع",
-    video2: "الكونتينر | مصنع قادر لتصنيع المدرعات والسيارات المجهزة والمعدات الثقيلة قصة فخر لكل مصري",
-    video3: "لواء أركان حرب عمرو عبد العزيز رئيس مجلس إدارة مصنع قادر يوضح أهم وأبرز المنتجات في المصنع",
+    video2:
+      "الكونتينر | مصنع قادر لتصنيع المدرعات والسيارات المجهزة والمعدات الثقيلة قصة فخر لكل مصري",
+    video3:
+      "لواء أركان حرب عمرو عبد العزيز رئيس مجلس إدارة مصنع قادر يوضح أهم وأبرز المنتجات في المصنع",
     video4: "تصنيع قطع غيار محركات الطائرات في مصر",
-    video5: "جولة داخل مصنع الإلكترونيات التابع للهيئة العربية للتصنيع مع اللواء أ.ح مهندس / أحمد عبد العزيز",
+    video5:
+      "جولة داخل مصنع الإلكترونيات التابع للهيئة العربية للتصنيع مع اللواء أ.ح مهندس / أحمد عبد العزيز",
     video6: "الهيئة العربية للتصنيع. نسخة الفيلم باللغة العربية",
-    video7: "مداخلة ر م إ مصنع قادر لموقع الوطن بشأن موضوع الإسكوتر الكهربائي إنتاج الهيئة العربية للتصنيع",
+    video7:
+      "مداخلة ر م إ مصنع قادر لموقع الوطن بشأن موضوع الإسكوتر الكهربائي إنتاج الهيئة العربية للتصنيع",
     video8: "مصنع قادر للصناعات المتطورة - التابع للهيئة العربية للتصنيع",
-    video9: "الأخبار نجاح الهيئة العربية للتصنيع في إنتاج الإسطمبات الخشبية للأوتوبيسات",
+    video9:
+      "الأخبار نجاح الهيئة العربية للتصنيع في إنتاج الإسطمبات الخشبية للأوتوبيسات",
     video10: "مصنع المحركات - الهيئة العربية للتصنيع",
 
     // =================// Details page content //=================//
     // Header / Navigation
     home: " الرئيسية",
     news: "الانجازات",
-    about: "  معلومات عنا",
+    about: "معلومات عن رئيس الهيئة",
+    aboutShort: "عن الرئيس",
     features: "مميزات",
     "other links": "روابط أخرى",
     gallary: "الأنجاز",
@@ -415,7 +490,7 @@ const translations = {
     "how it works": "كيف يعمل",
     events: "الأحداث",
     "pricing plans": "خطط الأسعار",
-    "videos": "معرض الفيديوهات",
+    videos: "الفيديوهات",
     stats: "الإحصائيات",
     "request a discount": "طلب خصم",
 
@@ -428,8 +503,10 @@ const translations = {
 
     // Image Description
     about_achievement: "عن هذا الإنجاز",
-    achievement_desc_p1: "لوريم إيبسوم هو نص وهمي يستخدم في صناعة الطباعة والتنضيد. كان لوريم إيبسوم ولايزال المعيار للنص الوهمي منذ القرن الخامس عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف.",
-    achievement_desc_p2: "لوريم إيبسوم هو نص وهمي يستخدم في صناعة الطباعة والتنضيد. كان لوريم إيبسوم ولايزال المعيار للنص الوهمي منذ القرن الخامس عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف.",
+    achievement_desc_p1:
+      "لوريم إيبسوم هو نص وهمي يستخدم في صناعة الطباعة والتنضيد. كان لوريم إيبسوم ولايزال المعيار للنص الوهمي منذ القرن الخامس عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف.",
+    achievement_desc_p2:
+      "لوريم إيبسوم هو نص وهمي يستخدم في صناعة الطباعة والتنضيد. كان لوريم إيبسوم ولايزال المعيار للنص الوهمي منذ القرن الخامس عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف.",
     date_label: "التاريخ:",
     achievement_date: "١٥ مارس ٢٠٢٣",
     location_label: "الموقع:",
@@ -453,9 +530,9 @@ const translations = {
     impact_analysis: "تحليل التأثير: فوائد المجتمع",
     fullscreen: "عرض بملء الشاشة",
     watch_video: "مشاهدة الفيديو",
-    close: "إغلاق"
-  }
+    close: "إغلاق",
+  },
 };
 
 // Make translations available globally
-window.translations = translations; 
+window.translations = translations;
