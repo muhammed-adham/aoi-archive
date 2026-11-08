@@ -3,8 +3,9 @@ const translations = {
     // Header / Navigation
     home: "Home",
     news: "Achievments",
-    about: "About the Chairman",
+    about: "Chairman | Major General Mohamed Abdel Fattah",
     aboutShort: "Chairman",
+    aboutNav: "Chairman",
     videos: "Videos",
 
     // Filters
@@ -31,26 +32,6 @@ const translations = {
 
     // Search and filters
     search_placeholder: "Search achievements...",
-    searchPlaceholder: "Search achievements...",
-    category: "Category",
-    allCategories: "All Categories",
-    military: "Military",
-    defense: "Defense",
-    industry: "Industry",
-    technology: "Technology",
-    international: "International Relations",
-    development: "Development",
-    security: "Security",
-    leadership: "Leadership",
-    dateRange: "Date Range",
-    sortBy: "Sort By",
-    dateNewest: "Date (Newest First)",
-    dateOldest: "Date (Oldest First)",
-    titleAZ: "Title (A-Z)",
-    titleZA: "Title (Z-A)",
-    clearFilters: "Clear All Filters",
-    noResultsTitle: "No Results Found",
-    noResultsDesc: "Try adjusting your filters or search criteria.",
     showingArticles: "Showing",
     ofArticles: "of",
     articles: "articles",
@@ -169,9 +150,7 @@ const translations = {
     showLess: "Show Less",
 
     // Badges
-    leadership: "Leadership",
     engineering: "Engineering",
-    military: "Military",
 
     // About page UI elements
     viewAllMedals: "View all medals",
@@ -265,11 +244,6 @@ const translations = {
 
   ar: {
     // Header / Navigation
-    home: " الرئيسية",
-    news: "الانجازات",
-    about: "معلومات عن رئيس الهيئة",
-    aboutShort: "عن الرئيس",
-    videos: "الفيديوهات",
 
     // Filters
     filterTitle: "العنوان:",
@@ -295,26 +269,6 @@ const translations = {
 
     // Search and filters
     search_placeholder: "ابحث عن الإنجازات...",
-    searchPlaceholder: "ابحث عن الإنجازات...",
-    category: "الفئة",
-    allCategories: "كل الفئات",
-    military: "عسكري",
-    defense: "دفاع",
-    industry: "صناعة",
-    technology: "تكنولوجيا",
-    international: "العلاقات الدولية",
-    development: "تنمية",
-    security: "أمن",
-    leadership: "قيادة",
-    dateRange: "نطاق التاريخ",
-    sortBy: "ترتيب حسب",
-    dateNewest: "التاريخ (الأحدث أولاً)",
-    dateOldest: "التاريخ (الأقدم أولاً)",
-    titleAZ: "العنوان (أ - ي)",
-    titleZA: "العنوان (ي - أ)",
-    clearFilters: "مسح جميع الفلاتر",
-    noResultsTitle: "لم يتم العثور على نتائج",
-    noResultsDesc: "حاول تعديل الفلاتر أو معايير البحث.",
     showingArticles: "عرض",
     ofArticles: "من",
     articles: "مقالات",
@@ -422,9 +376,7 @@ const translations = {
     showLess: "عرض أقل",
 
     // Badges
-    leadership: "القيادة",
     engineering: "الهندسة",
-    military: "العسكرية",
 
     // About page UI elements
     viewAllMedals: "عرض جميع الميداليات",
@@ -432,7 +384,7 @@ const translations = {
     chairmanTitle: "رئيس مجلس إدارة الهيئة العربية للتصنيع",
 
     // Video page content
-    video_library: "مكتبة الفيديو",
+    video_library: "الفيديوهات",
     search_videos_placeholder: "البحث عن الفيديوهات...",
     searchPlaceholder: "البحث عن الفيديوهات...",
     allCategories: "جميع الفئات",
@@ -479,8 +431,9 @@ const translations = {
     // Header / Navigation
     home: " الرئيسية",
     news: "الانجازات",
-    about: "معلومات عن رئيس الهيئة",
+    about: " رئيس الهيئة | اللواء محمد عبد الفتاح",
     aboutShort: "عن الرئيس",
+    aboutNav: "رئيس الهيئة",
     features: "مميزات",
     "other links": "روابط أخرى",
     gallary: "الأنجاز",

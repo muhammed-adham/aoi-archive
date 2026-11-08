@@ -1,3 +1,5 @@
+/* exported showLoadingState, hideLoadingState, filterVideos, updateFilterButtonState
+   (shared with voice-search.js and the other filter scripts, so they must stay global) */
 // Initialize filters when the document is ready
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -95,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 200);
     
     // Listen for language changes and update filters accordingly
-    document.addEventListener('translationsLoaded', (event) => {
+    document.addEventListener('translationsLoaded', () => {
         // Give some time for the translations to be applied to the DOM
         setTimeout(() => {
             // If you have custom dropdowns, refresh them here
@@ -442,7 +444,8 @@ document.addEventListener('DOMContentLoaded', () => {
         thumbnail.addEventListener('click', function() {
             const imgSrc = thumbnail.querySelector('img').src;
             // Extract video ID from YouTube thumbnail URL
-            const videoId = imgSrc.match(/\/vi\/([^\/]+)\//) ? imgSrc.match(/\/vi\/([^\/]+)\//)[1] : null;
+            const videoIdMatch = imgSrc.match(/\/vi\/([^/]+)\//);
+            const videoId = videoIdMatch ? videoIdMatch[1] : null;
             
             if (videoId) {
                 iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;

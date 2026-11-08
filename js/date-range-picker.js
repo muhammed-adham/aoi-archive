@@ -1,3 +1,5 @@
+/* exported filterArticles
+   (called by the other filter scripts, so it must stay global) */
 // Date Range Picker with Presets
 
 class DateRangePicker {

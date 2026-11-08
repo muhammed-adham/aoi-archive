@@ -1,98 +1,98 @@
-// "Show more" paging for the home (articles) and videos pages.
-// Shows 9 cards, then 9 more per click. It works on top of the existing filters:
-// cards the filter hides keep their inline display:none; cards beyond the limit get
-// the .paged-out class. Whenever the filters change (the result counter is rewritten)
-// the page resets to the first 9.
-(function () {
-  var PAGE = 12;
+'use strict';
 
-  var isVideos = !!document.getElementById('videos');
-  var itemSelector = isVideos ? '#videos .video-card-wrapper' : '#articles .box';
-  var anchor = isVideos
+/**
+ * "Show more" paging for the home (articles) and videos pages.
+ *
+ * Shows PAGE_SIZE cards, then PAGE_SIZE more per click. It works on top of the existing filters:
+ * cards that a filter hides keep their inline `display: none`; cards beyond the limit get the
+ * `.paged-out` class. Whenever the filters change (they rewrite the result counter) the list goes
+ * back to the first page.
+ */
+(() => {
+  const PAGE_SIZE = 12;
+
+  const isVideos = Boolean(document.getElementById('videos'));
+  const itemSelector = isVideos ? '#videos .video-card-wrapper' : '#articles .box';
+  const anchor = isVideos
     ? document.getElementById('videos')
     : document.querySelector('#articles > .container:not(.aoi-tools)');
   if (!anchor || !document.querySelector(itemSelector)) return;
 
-  var shown = PAGE;
+  let shown = PAGE_SIZE;
 
-  // ---- UI ----
-  var wrap = document.createElement('div');
-  wrap.className = 'show-more' + (isVideos ? '' : ' show-more--page');
+  // ---- markup ----
+  const wrap = document.createElement('div');
+  wrap.className = isVideos ? 'show-more' : 'show-more show-more--page';
   wrap.hidden = true;
-  wrap.innerHTML =
-    '<p class="show-more__status" role="status" aria-live="polite"></p>' +
-    '<div class="show-more__bar" aria-hidden="true"><span></span></div>' +
-    '<button type="button" class="show-more__btn"><i class="fas fa-plus" aria-hidden="true"></i><span></span></button>';
-  anchor.insertAdjacentElement('afterend', wrap);
+  wrap.innerHTML = `
+    <p class="show-more__status" role="status" aria-live="polite"></p>
+    <div class="show-more__bar" aria-hidden="true"><span></span></div>
+    <button type="button" class="show-more__btn"><i class="fas fa-plus" aria-hidden="true"></i><span></span></button>`;
+  anchor.after(wrap);
 
-  var statusEl = wrap.querySelector('.show-more__status');
-  var barFill = wrap.querySelector('.show-more__bar span');
-  var btn = wrap.querySelector('.show-more__btn');
-  var btnLabel = btn.querySelector('span');
+  const statusEl = wrap.querySelector('.show-more__status');
+  const barFill = wrap.querySelector('.show-more__bar span');
+  const button = wrap.querySelector('.show-more__btn');
+  const buttonLabel = button.querySelector('span');
 
-  function t(key, fallback) {
-    var lang = localStorage.getItem('selectedLanguage') === 'ar' ? 'ar' : 'en';
-    try {
-      return (translations[lang] && translations[lang][key]) || fallback;
-    } catch (e) {
-      return fallback;
-    }
-  }
+  // ---- helpers ----
+  const text = (key, fallback) => {
+    const lang = localStorage.getItem('selectedLanguage') === 'ar' ? 'ar' : 'en';
+    return window.translations?.[lang]?.[key] || fallback;
+  };
 
-  function matching() {
-    return Array.prototype.filter.call(document.querySelectorAll(itemSelector), function (el) {
-      return el.style.display !== 'none';
-    });
-  }
+  // cards the filters currently allow, in DOM order
+  const matching = () => [...document.querySelectorAll(itemSelector)].filter((el) => el.style.display !== 'none');
 
-  function render(total, visible) {
-    btnLabel.textContent = t('showMoreBtn', 'Show more');
-    statusEl.textContent = t('showingArticles', 'Showing') + ' ' + visible + ' ' + t('ofArticles', 'of') + ' ' + total;
-    barFill.style.width = (total ? Math.round((visible / total) * 100) : 0) + '%';
-  }
+  const render = (total, visible) => {
+    buttonLabel.textContent = text('showMoreBtn', 'Show more');
+    statusEl.textContent = `${text('showingArticles', 'Showing')} ${visible} ${text('ofArticles', 'of')} ${total}`;
+    barFill.style.width = `${total ? Math.round((visible / total) * 100) : 0}%`;
+  };
 
-  function apply(previouslyShown) {
-    var list = matching();
-    var total = list.length;
-    var visible = Math.min(shown, total);
+  const update = (previouslyShown) => {
+    const list = matching();
+    const total = list.length;
+    const visible = Math.min(shown, total);
 
-    list.forEach(function (el, i) {
-      var out = i >= shown;
-      el.classList.toggle('paged-out', out);
+    list.forEach((el, index) => {
+      const hidden = index >= shown;
+      el.classList.toggle('paged-out', hidden);
+
       // animate only the cards revealed by this click
-      if (!out && typeof previouslyShown === 'number' && i >= previouslyShown) {
+      if (!hidden && typeof previouslyShown === 'number' && index >= previouslyShown) {
         el.classList.remove('is-revealed');
-        void el.offsetWidth; // restart animation
+        void el.offsetWidth; // restart the animation
         el.classList.add('is-revealed');
       }
     });
 
-    wrap.hidden = total <= PAGE;
-    btn.hidden = visible >= total;
+    wrap.hidden = total <= PAGE_SIZE;
+    button.hidden = visible >= total;
     render(total, visible);
-  }
+  };
 
-  btn.addEventListener('click', function () {
-    var prev = shown;
-    shown += PAGE;
-    apply(prev);
+  // ---- events ----
+  button.addEventListener('click', () => {
+    const previous = shown;
+    shown += PAGE_SIZE;
+    update(previous);
   });
 
-  // filters / search / sort rewrite the counter -> back to the first page
-  var counter = document.getElementById('article-count');
+  // filters, search and sort rewrite the counter: go back to the first page
+  const counter = document.getElementById('article-count');
   if (counter) {
-    new MutationObserver(function () {
-      shown = PAGE;
-      apply();
+    new MutationObserver(() => {
+      shown = PAGE_SIZE;
+      update();
     }).observe(counter, { childList: true, characterData: true, subtree: true });
   }
 
-  window.addEventListener('languageChanged', function () {
-    var list = matching();
+  window.addEventListener('languageChanged', () => {
+    const list = matching();
     render(list.length, Math.min(shown, list.length));
   });
 
-  apply();
-  // filter scripts initialise after this one on some pages
-  setTimeout(function () { apply(); }, 400);
+  update();
+  setTimeout(update, 400); // the filter scripts initialise after this one
 })();

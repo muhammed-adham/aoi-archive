@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
     waitForTranslations(function() {
         // Check if we're in Arabic/RTL mode using consistent method
         const currentLang = localStorage.getItem('selectedLanguage') || 'en';
-        const isRTL = currentLang === 'ar';
         
         // Function to get translation for a key
         function getTranslation(key, defaultText) {
@@ -130,7 +129,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (hiddenSelect) {
                         hiddenSelect.value = optionValue;
                         hiddenSelect.dispatchEvent(new Event('change', { bubbles: true }));
-                    } else {
                     }
                     
                     // Close dropdown
@@ -384,7 +382,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // Manually call filterArticles to ensure initial state is correct
             if (typeof filterArticles === 'function') {
                 filterArticles();
-            } else {
             }
         }, 200); // Small delay to ensure everything is properly set up
     });

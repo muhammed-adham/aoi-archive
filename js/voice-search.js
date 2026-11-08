@@ -29,11 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const isHTTPS = window.location.protocol === 'https:';
 
     // Check if running on Vercel
-    const isVercel = window.location.hostname.includes('vercel.app');
 
     // Enhanced Audio Context for cross-platform sound generation
     let audioContext = null;
-    let audioBuffers = {};
+    const audioBuffers = {};
     let isAudioInitialized = false;
 
     // Initialize audio context (iOS requires user interaction first)
@@ -50,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 createSoundBuffers();
                 isAudioInitialized = true;
             }
-        } catch (error) {
+        } catch {
             // Fallback to HTML5 audio
             initializeHTMLAudio();
         }
@@ -98,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // HTML5 Audio fallback for devices that don't support Web Audio API
-    let htmlAudioElements = {};
+    const htmlAudioElements = {};
 
     function initializeHTMLAudio() {
         // Create data URLs for different sound types
@@ -254,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clean up the text while preserving spaces
         normalizedText = normalizedText
             .replace(/\s+/g, ' ')  // Replace multiple spaces with single space
-            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ''); // Remove punctuation
+            .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, ''); // Remove punctuation
 
         return normalizedText;
     }
@@ -308,7 +307,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!text || typeof text !== 'string') return text;
 
         // First normalize the text to ensure consistent comparison
-        const { normalized } = TextNormalizer.normalizeSearchText(text);
+        // TextNormalizer is not defined anywhere in the project: fall back to plain whitespace normalisation
+        const normalized = typeof TextNormalizer !== 'undefined'
+            ? TextNormalizer.normalizeSearchText(text).normalized
+            : text.replace(/\s+/g, ' ').trim();
 
         // Split into words and remove empty strings
         const words = normalized.split(/\s+/).filter(word => word.length > 0);
@@ -396,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let holdTimer = null;
     let isHolding = false;
     let holdStartTime = 0;
-    let minHoldTime = isIOS ? 150 : 200; // Shorter for iOS
+    const minHoldTime = isIOS ? 150 : 200; // Shorter for iOS
     let finalTranscript = '';
     let interimResults = '';
     let recognitionTimeout = null;
@@ -459,16 +461,6 @@ document.addEventListener('DOMContentLoaded', () => {
         recognition.onend = handleRecognitionEnd;
         recognition.onerror = handleRecognitionError;
 
-        // Additional iOS-specific handlers
-        if (isIOS) {
-            recognition.onspeechstart = () => console.log('iOS: Speech detected');
-            recognition.onspeechend = () => console.log('iOS: Speech ended');
-            recognition.onaudiostart = () => console.log('iOS: Audio started');
-            recognition.onaudioend = () => console.log('iOS: Audio ended');
-            recognition.onnomatch = () => console.log('iOS: No match found');
-            recognition.onsoundstart = () => console.log('iOS: Sound started');
-            recognition.onsoundend = () => console.log('iOS: Sound ended');
-        }
     }
 
     // Enhanced recognition start handler
@@ -731,7 +723,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     .then(() => {
                         startRecognitionAfterPermission();
                     })
-                    .catch((error) => {
+                    .catch(() => {
                         handleRecognitionError({ error: 'not-allowed' });
                     });
             } else {
@@ -969,7 +961,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // NEW: Add input event listener for manual edits
     let isProcessingInput = false;
-    searchInput.addEventListener('input', (e) => {
+    searchInput.addEventListener('input', () => {
         if (isProcessingInput) return;
         isProcessingInput = true;
 
@@ -984,7 +976,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Remove any existing event listeners from other files
-    const oldInputListeners = searchInput.oninput;
     searchInput.oninput = null;
 
     // Remove any existing event listeners from articles-filter.js and video-filters.js
@@ -1008,7 +999,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({ audio: true })
                 .then(() => console.log('Microphone access granted'))
-                .catch(() => console.log('Microphone access denied'));
+                .catch(() => {});
         }
     }
 });

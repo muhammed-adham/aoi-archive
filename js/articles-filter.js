@@ -1,6 +1,7 @@
+/* exported showLoadingState, hideLoadingState, updateFilterButtonState
+   (shared with voice-search.js and the other filter scripts, so they must stay global) */
 // Initialize filters when the document is ready
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM Content Loaded - Initializing filters');
 
     // Wait a brief moment to ensure custom dropdowns have initialized
     setTimeout(() => {
@@ -12,14 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const clearFiltersBtn = document.getElementById('clear-filters');
         const searchInput = document.getElementById('search-input');
 
-        console.log('Filter elements:', {
-            categoryFilter,
-            sortByFilter,
-            startDateInput,
-            endDateInput,
-            clearFiltersBtn,
-            searchInput
-        });
 
         // Add loading indicator and listing states containers if not already present
         initializeListingStates();
@@ -27,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add event listeners to search input
         if (searchInput) {
             searchInput.addEventListener('input', function() {
-                console.log('Search input changed:', this.value);
                 filterContent(); // Call filterContent directly
             });
         }
@@ -35,28 +27,24 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add event listeners to all filter inputs
         if (categoryFilter) {
             categoryFilter.addEventListener('change', function() {
-                console.log('Category filter changed:', this.value);
                 filterContent();
             });
         }
 
         if (sortByFilter) {
             sortByFilter.addEventListener('change', function() {
-                console.log('Sort filter changed:', this.value);
                 filterContent();
             });
         }
 
         if (startDateInput) {
             startDateInput.addEventListener('change', function() {
-                console.log('Start date changed:', this.value);
                 filterContent();
             });
         }
 
         if (endDateInput) {
             endDateInput.addEventListener('change', function() {
-                console.log('End date changed:', this.value);
                 filterContent();
             });
         }
@@ -64,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add event listener to clear filters button
         if (clearFiltersBtn) {
             clearFiltersBtn.addEventListener('click', function() {
-                console.log('Clear filters clicked');
                 clearFilters();
             });
         }
@@ -77,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 200);
 
     // Listen for language changes and update filters accordingly
-    document.addEventListener('translationsLoaded', (event) => {
+    document.addEventListener('translationsLoaded', () => {
         // Give some time for the translations to be applied to the DOM
         setTimeout(() => {
             // If you have custom dropdowns, refresh them here
@@ -176,7 +163,6 @@ function hideLoadingState() {
 
 // Function to filter content based on selected criteria
 function filterContent() {
-    console.log('filterContent called');
     
     // Get the current values from filter elements
     const categoryFilter = document.getElementById('category-filter');
@@ -190,27 +176,17 @@ function filterContent() {
     const sortBy = sortByFilter ? sortByFilter.value : 'date-desc';
     const startDate = startDateInput ? startDateInput.value : '';
     const endDate = endDateInput ? endDateInput.value : '';
-    let searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
 
-    console.log('Filter values:', {
-        category,
-        sortBy,
-        startDate,
-        endDate,
-        searchTerm
-    });
 
     // Get all content elements
     const contentContainer = document.querySelector('#articles .container, #videos .video-grid');
-    console.log('Content container:', contentContainer);
 
     if (!contentContainer) {
-        console.log('No content container found');
         return;
     }
 
     const contentItems = contentContainer.querySelectorAll('.box, .video-card-wrapper');
-    console.log('Content items found:', contentItems.length);
 
     const contentArray = Array.from(contentItems);
     let visibleCount = 0;
@@ -220,19 +196,12 @@ function filterContent() {
     contentArray.forEach(item => {
         const itemDate = new Date(item.dataset.date);
         const itemCategory = item.dataset.category;
-        let itemTitle = item.dataset.title;
+        const itemTitle = item.dataset.title;
         const itemTitleElement = item.querySelector('h3, .video-card-title');
         const itemDesc = item.querySelector('p');
-        let itemTitleText = itemTitleElement ? itemTitleElement.textContent.toLowerCase() : '';
-        let itemDescText = itemDesc ? itemDesc.textContent.toLowerCase() : '';
+        const itemTitleText = itemTitleElement ? itemTitleElement.textContent.toLowerCase() : '';
+        const itemDescText = itemDesc ? itemDesc.textContent.toLowerCase() : '';
 
-        console.log('Item data:', {
-            date: itemDate,
-            category: itemCategory,
-            title: itemTitle,
-            titleText: itemTitleText,
-            descText: itemDescText
-        });
 
         let showItem = true;
 
@@ -244,24 +213,20 @@ function filterContent() {
                 (itemTitle && itemTitle.toLowerCase().includes(searchTerm));
             
             if (!matchesSearch) {
-                console.log('Hiding item due to search term mismatch:', searchTerm);
                 showItem = false;
             }
         }
 
         // Filter by category - only hide if category is selected and doesn't match
         if (category && category !== '' && category !== 'all' && itemCategory !== category) {
-            console.log('Hiding item due to category mismatch:', itemCategory, category);
             showItem = false;
         }
 
         // Filter by date range
         if (startDate && new Date(startDate) > itemDate) {
-            console.log('Hiding item due to start date:', itemDate, startDate);
             showItem = false;
         }
         if (endDate && new Date(endDate) < itemDate) {
-            console.log('Hiding item due to end date:', itemDate, endDate);
             showItem = false;
         }
 
@@ -270,10 +235,6 @@ function filterContent() {
         if (showItem) visibleCount++;
     });
 
-    console.log('Filter results:', {
-        totalItems: totalCount,
-        visibleItems: visibleCount
-    });
 
     // Sort content items
     const visibleItems = contentArray.filter(item => item.style.display !== 'none');

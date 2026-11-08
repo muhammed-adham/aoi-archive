@@ -1,8 +1,7 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!--Link Page Loader-->
@@ -22,11 +21,15 @@
     <link rel="stylesheet" href="css/theme.css" />
 
     <link rel="icon" href="images/favicon.png" type="image/x-icon" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:wght@300;400;500;600;700;800;900&family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <title>AOI</title>
   </head>
 
   <body>
-    <header class="py-3">
+    <header class="pb-3">
       <nav class="navbar navbar-expand-lg navbar-light container">
         <!-- Logo -->
         <a class="navbar-brand" href="index.html">
@@ -50,13 +53,13 @@
         <div class="collapse navbar-collapse" id="mainNavbar">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 mainNav">
             <li class="">
-              <a class="headLinks active" aria-current="page" href="index.html" data-lang="home"></a>
+              <a class="headLinks active" aria-current="page" href="index.html"><i class="fa-solid fa-house" aria-hidden="true"></i><span data-lang="home"></span></a>
             </li>
             <li class="">
-              <a class="headLinks" href="videos.html" data-lang="videos"></a>
+              <a class="headLinks" href="videos.html"><i class="fa-solid fa-play" aria-hidden="true"></i><span data-lang="videos"></span></a>
             </li>
             <li class="">
-              <a class="headLinks" href="about.html" data-lang="about"></a>
+              <a class="headLinks" href="about.html"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span data-lang="aboutNav"></span></a>
             </li>
           </ul>
 
@@ -102,7 +105,7 @@
       </div>
 
       <!--Start Details Content-->
-      <div id="details-content" style="padding-top: 40px">
+      <div id="details-content">
         <div class="container">
           <h2 class="mainTitle" data-lang="gallary"></h2>
 
@@ -315,7 +318,6 @@
               <iframe
                 id="mainVideoPlayer"
                 src="https://www.youtube.com/embed/VIDEO_ID_1"
-                frameborder="0"
                 allowfullscreen
               ></iframe>
               <button
@@ -518,7 +520,6 @@
             <iframe
               id="videoFrame"
               src=""
-              frameborder="0"
               allowfullscreen
             ></iframe>
           </div>
@@ -603,6 +604,7 @@
 
     <!-- JS Files -->
     <script src="js/bottom-nav.js"></script>
+    <script src="js/sidebar.js"></script>
     <script src="js/main.js"></script>
     <script src="js/translations.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

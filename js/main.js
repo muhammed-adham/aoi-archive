@@ -1,33 +1,5 @@
-// On Load
-function onLoad() {
-  let isDark = window.localStorage.getItem("isDark?");
-  let checkBox = document.querySelector(".checkbox");
-  let checkBox1 = document.querySelector(".checkbox1");
-  let checkBox2 = document.querySelector(".checkbox2");
-  let html = document.querySelector("html");
-  let body = document.querySelector("body");
-
-  // Make sure we have all the required elements
-  if (html && body) {
-    // Set initial state immediately
-    if (isDark === "true") {
-      html.classList.add("darkMode");
-      body.classList.add("dark-mode");
-      if (checkBox) checkBox.checked = true;
-      if (checkBox1) checkBox1.checked = true;
-      if (checkBox2) checkBox2.checked = true;
-    } else {
-      html.classList.remove("darkMode");
-      body.classList.remove("dark-mode");
-      if (checkBox) checkBox.checked = false;
-      if (checkBox1) checkBox1.checked = false;
-      if (checkBox2) checkBox2.checked = false;
-    }
-
-    // Update navbar brand image immediately
-    updateNavbarBrandImage(isDark === "true");
-  }
-}
+/* exported changeImage, changeOverlayImage, closeFullscreenOverlay, openVideoModal, closeVideoModal, playInMainPlayer
+   (these are called from inline onclick handlers in details.html, so they must stay global) */
 
 // Function to update navbar brand image
 function updateNavbarBrandImage(isDark) {
@@ -140,158 +112,10 @@ function setupThemeToggle() {
   });
 }
 
-// Events Count Down
-function countDown() {
-  let countdownDate = new Date("Sept 28, 2023 23:59:59").getTime();
 
-  // Check if countdown elements exist
-  let daysElement = document.querySelector(".days");
-  let hoursElement = document.querySelector(".hours");
-  let minutesElement = document.querySelector(".minutes");
-  let secondsElement = document.querySelector(".seconds");
 
-  // Only set up the countdown if all required elements exist
-  if (daysElement && hoursElement && minutesElement && secondsElement) {
-    let counter = setInterval(() => {
-      // Get Time Now
-      let timeNow = new Date().getTime();
-      // Find The Date Difference Between Now And Countdown Date
-      let dateDiff = countdownDate - timeNow;
 
-      // Get TIme Units
-      let days = Math.floor(dateDiff / (1000 * 60 * 60 * 24));
-      let hours = Math.floor(
-        (dateDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      let minutes = Math.floor((dateDiff % (1000 * 60 * 60)) / (1000 * 60));
-      let seconds = Math.floor((dateDiff % (1000 * 60)) / 1000);
 
-      daysElement.innerHTML = days < 10 ? `0${days}` : days;
-      hoursElement.innerHTML = hours < 10 ? `0${hours}` : hours;
-      minutesElement.innerHTML = minutes < 10 ? `0${minutes}` : minutes;
-      secondsElement.innerHTML = seconds < 10 ? `0${seconds}` : seconds;
-
-      if (dateDiff <= 0) {
-        clearInterval(counter);
-      }
-    }, 1000);
-  }
-}
-
-// Skills Width
-function skillsWidth() {
-  // Find The Desired Section
-  let section = document.querySelector("#ourSkills");
-  let progressBar = document.querySelectorAll(".progress");
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY >= section.offsetTop - 150) {
-      progressBar.forEach((bar) => {
-        bar.style.width = bar.dataset.width;
-      });
-    }
-
-    if (window.scrollY < section.offsetTop - 200) {
-      progressBar.forEach((bar) => {
-        bar.style.width = 0;
-      });
-    }
-  });
-}
-
-// Stats Count
-function statsCount() {
-  let nums = document.querySelectorAll(".number");
-  let section = document.querySelector("#ourAwesomeStats");
-  let started = false; // is function started ? no
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY >= section.offsetTop - 200) {
-      if (!started) {
-        nums.forEach((number) => {
-          startCount(number);
-        });
-      }
-      started = true;
-    }
-  });
-
-  function startCount(element) {
-    let goal = element.dataset.goal;
-    let counter = setInterval(() => {
-      element.textContent++;
-      if (element.textContent === goal) {
-        clearInterval(counter);
-      }
-    }, 2000 / goal);
-  }
-}
-
-// Dots Entering
-function dotsEntering() {
-  let section1 = document.querySelector("#latestEvents");
-  let section2 = document.querySelector("#pricingPlans");
-  let dots1 = document.querySelectorAll(".dots-up");
-  let dots2 = document.querySelectorAll(".dots-down");
-
-  // First Section
-  window.addEventListener("scroll", () => {
-    if (window.scrollY >= section1.offsetTop - 300) {
-      dots1[0].style.right = 0;
-    }
-  });
-  window.addEventListener("scroll", () => {
-    if (window.scrollY >= section1.offsetTop - 200) {
-      dots2[0].style.left = 0;
-    }
-  });
-
-  // Second Section
-  window.addEventListener("scroll", () => {
-    if (window.scrollY >= section2.offsetTop - 300) {
-      dots1[1].style.right = 0;
-    }
-  });
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY >= section2.offsetTop - 200) {
-      dots2[1].style.left = 0;
-    }
-  });
-}
-
-// Dots Outing
-function dotsOuting() {
-  let section1 = document.querySelector("#latestEvents");
-  let section2 = document.querySelector("#pricingPlans");
-  let dots1 = document.querySelectorAll(".dots-up");
-  let dots2 = document.querySelectorAll(".dots-down");
-
-  // First Section
-  window.addEventListener("scroll", () => {
-    if (window.scrollY >= section1.offsetTop + 200) {
-      dots1[0].style.right = `-210px`;
-    }
-  });
-  window.addEventListener("scroll", () => {
-    if (window.scrollY >= section1.offsetTop + 300) {
-      dots2[0].style.left = `-210px`;
-    }
-  });
-
-  // Second Section
-  window.addEventListener("scroll", () => {
-    if (window.scrollY >= section2.offsetTop + 200) {
-      dots1[1].style.right = `-210px`;
-    }
-  });
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY >= section2.offsetTop + 300) {
-      dots2[1].style.left = `-210px`;
-    }
-  });
-}
 
 // Hide and Show Header: hides fully on scroll down, returns on scroll up
 function hidingShowingHeader() {
@@ -318,46 +142,10 @@ function hidingShowingHeader() {
   window.addEventListener("scroll", update, { passive: true });
 }
 
-// Other Links Button On Mobile Screens
-function buttonClick() {
-  let button = document.querySelector("button");
-  let megaMenu = document.querySelector(".megaMenu2");
-  let exit = document.querySelector(".up");
-
-  // Check if elements exist before adding event listeners
-  if (button && megaMenu) {
-    button.addEventListener("click", () => {
-      megaMenu.style.top = `100%`;
-      megaMenu.style.opacity = `1`;
-      megaMenu.style.zIndex = `100`;
-    });
-  }
-
-  if (exit) {
-    exit.addEventListener("click", () => {
-      if (megaMenu) {
-        megaMenu.style.top = `-1000px`;
-        megaMenu.style.opacity = `0`;
-        megaMenu.style.zIndex = `-1`;
-      }
-    });
-  }
-
-  let goOut = document.querySelectorAll(".linksMenu li");
-  if (goOut.length > 0 && megaMenu) {
-    goOut.forEach((li) => {
-      li.addEventListener("click", () => {
-        megaMenu.style.top = `-10000px`;
-        megaMenu.style.opacity = `0`;
-        megaMenu.style.zIndex = `-1`;
-      });
-    });
-  }
-}
 
 // Scroll To Top Button
 function showUpScrollToTopButton() {
-  let scrollToTopButton = document.querySelector(".scrollToTop");
+  const scrollToTopButton = document.querySelector(".scrollToTop");
 
   window.addEventListener("scroll", () => {
     if (this.scrollY >= 300) {
@@ -374,37 +162,6 @@ function showUpScrollToTopButton() {
   });
 }
 
-// Robust typing effect function
-async function typeText(element, text, speed) {
-  if (!element || !text) {
-    return;
-  }
-
-
-  // Clear any existing typing animation
-  if (element.typingTimeout) {
-    clearTimeout(element.typingTimeout);
-  }
-
-  // Clear the element
-  element.textContent = '';
-
-  // Create a span to hold the text
-  const textSpan = document.createElement('span');
-  element.appendChild(textSpan);
-
-  // Type each character
-  for (let i = 0; i < text.length; i++) {
-    textSpan.textContent = text.substring(0, i + 1);
-    await new Promise(resolve => {
-      element.typingTimeout = setTimeout(resolve, speed);
-    });
-  }
-
-
-  // Clean up
-  delete element.typingTimeout;
-}
 
 // Single Source of Truth Language System
 const LangSystem = {
@@ -428,7 +185,6 @@ const LangSystem = {
         const newLang = newToggle.checked ? 'ar' : 'en';
         this.changeLang(newLang);
       });
-    } else {
     }
 
     // Apply language immediately
@@ -499,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
   LangSystem.init();
 
   // Listen for language changes and update filters accordingly
-  document.addEventListener('languageChanged', (event) => {
+  document.addEventListener('languageChanged', () => {
     // Give some time for the translations to be applied to the DOM
     setTimeout(() => {
       // If you have custom dropdowns, refresh them here
@@ -573,54 +329,13 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-// Initialize all functions safely with a comprehensive check
-document.addEventListener('DOMContentLoaded', function () {
-  try {
-    // Apply theme state immediately before any other initialization
-    setupThemeToggle();
-    setupThemeObserver();
+// Page widgets that exist on every page, once the DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  setupThemeToggle();
+  setupThemeObserver();
 
-    // Check what page elements exist before calling functions
-    // Count down timer elements
-    if (document.querySelector(".days") || document.querySelector(".hours")) {
-      countDown();
-    }
-
-    // Skills section
-    if (document.querySelector("#ourSkills")) {
-      skillsWidth();
-    }
-
-    // Stats section
-    if (document.querySelector("#ourAwesomeStats")) {
-      statsCount();
-    }
-
-    // Dots elements
-    if (document.querySelector(".dots-up") || document.querySelector(".dots-down")) {
-      dotsEntering();
-      dotsOuting();
-    }
-
-    // Header element
-    if (document.querySelector("header")) {
-      hidingShowingHeader();
-    }
-
-    // Mobile menu button - check both elements
-    const button = document.querySelector("button");
-    const megaMenu = document.querySelector(".megaMenu2");
-    if (button && megaMenu) {
-      buttonClick();
-    }
-
-    // Scroll to top button
-    if (document.querySelector(".scrollToTop")) {
-      showUpScrollToTopButton();
-    }
-
-  } catch (error) {
-  }
+  if (document.querySelector('header')) hidingShowingHeader();
+  if (document.querySelector('.scrollToTop')) showUpScrollToTopButton();
 });
 
 // Add event listener for page load
@@ -791,8 +506,9 @@ function initializeImagePaths() {
   const thumbnails = document.querySelectorAll('.thumbnail');
   imagePaths = Array.from(thumbnails).map(thumb => thumb.src);
 
-  // Update total images display
-  document.getElementById('totalImages').textContent = imagePaths.length;
+  // Update total images display (only present on the details page)
+  const totalImages = document.getElementById('totalImages');
+  if (totalImages) totalImages.textContent = imagePaths.length;
 }
 
 // Initialize on document load
@@ -903,8 +619,6 @@ function closeFullscreenOverlay() {
 
 function changeOverlayImage(direction) {
   const overlayImage = document.getElementById('overlayImage');
-  const prevBtn = document.querySelector('.overlay-nav.prev-btn');
-  const nextBtn = document.querySelector('.overlay-nav.next-btn');
 
   // Remove loaded class
   overlayImage.classList.remove('loaded');
@@ -935,7 +649,6 @@ function changeOverlayImage(direction) {
 function updateOverlayNavVisibility() {
   const prevBtn = document.querySelector('.overlay-nav.prev-btn');
   const nextBtn = document.querySelector('.overlay-nav.next-btn');
-  const totalImages = imagePaths.length;
 
   if (!prevBtn || !nextBtn) return;
 
@@ -1424,7 +1137,6 @@ function initializeOverlay() {
       function scrollVideos(direction) {
         const isRtl = isRTLMode();
         // For RTL, we do NOT reverse the logical direction, but the visual transform will be opposite
-        const videoCards = videoTrack.querySelectorAll('.video-card');
         const containerWidth = videoTrack.parentElement.offsetWidth;
         const trackWidth = videoTrack.scrollWidth;
         const maxScroll = Math.max(0, trackWidth - containerWidth);
@@ -1448,7 +1160,6 @@ function initializeOverlay() {
       function updateButtonVisibility() {
         const containerWidth = videoTrack.parentElement.offsetWidth;
         const trackWidth = videoTrack.scrollWidth;
-        const isRtl = isRTLMode();
 
 
         // In RTL mode, we don't swap the buttons logically - we keep the same button references
