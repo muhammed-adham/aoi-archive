@@ -1073,6 +1073,9 @@ body #articles .container .box {
   isolation: isolate;
   background: var(--primary-active);
   border: 0;
+  width: 100%;
+  height: auto;
+  min-width: 0;
   aspect-ratio: 16 / 9;
   min-height: 260px;
   border-radius: 0;
@@ -1582,6 +1585,15 @@ body #articles .article-counter strong {
   body #articles .filter-container {
     grid-template-columns: 1fr;
     padding: 14px;
+  }
+}
+
+/*tablets and phones: the card grid fits the screen (the legacy fixed 750px box overflowed at 768px)*/
+@media (max-width: 991.98px) {
+  body #articles > .container {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 750px;
   }
 }
 
@@ -3136,7 +3148,8 @@ iframe {
   body .container:not(.navbar),
   body #articles > .container,
   body #articles .aoi-tools,
-  body .video-gallery-section .aoi-tools {
+  body .video-gallery-section .aoi-tools,
+  .show-more--page {
     box-sizing: border-box;
     width: 100%;
     max-width: 1170px;
@@ -3447,5 +3460,16 @@ iframe {
   header .darkModeButton .label,
   header .laguagesButton .labellang {
     transition: none;
+  }
+}
+
+/*tablets: filter bars fit the screen too (they come after the width steps above, so they live here)*/
+@media (max-width: 991.98px) {
+  body #articles .aoi-tools,
+  body .video-gallery-section .aoi-tools,
+  .show-more--page {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 750px;
   }
 }
