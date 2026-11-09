@@ -3209,7 +3209,7 @@ iframe {
 
   .sidebar-open body header .navbar-brand img,
   .sidebar-open body header .navbar-brand {
-    width: 80px;
+    width: 100%;
   }
 
   /*rail: the favicon stands in for the full logo*/
